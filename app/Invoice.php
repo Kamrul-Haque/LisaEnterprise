@@ -1,0 +1,42 @@
+<?php
+
+namespace App;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+
+class Invoice extends Model implements Searchable
+{
+    protected $guarded = [];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function invoiceProducts()
+    {
+        return $this->hasMany(InvoiceProduct::class);
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
+    public function getDateAttribute($value)
+    {
+        $carbon = new Carbon($value);
+        return $carbon->format('d/m/Y');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('invoices.show', $this->id);
+
+        // TODO: Implement getSearchResult() method.
+        return new SearchResult($this,$this->sl_no,$url);
+    }
+}
