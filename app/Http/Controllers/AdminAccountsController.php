@@ -46,7 +46,7 @@ class AdminAccountsController extends Controller
             'nid' => 'required|digits_between:10,14|unique:admins',
             'phone' => 'required|digits:10|unique:admins',
             'job' => 'required',
-            'dob' => 'nullable|before:today',
+            'dob' => 'nullable|after:31-12-1940|before:31-12-2005',
         ]);
 
         $admins = new Admin;
@@ -92,7 +92,7 @@ class AdminAccountsController extends Controller
             'nid' => 'required|digits_between:10,14|unique:admins,nid,'.$id,
             'phone' => 'required|digits:10|unique:admins,phone,'.$id,
             'job' => 'required',
-            'dob' => 'nullable|before:today',
+            'dob' => 'nullable||after:31-12-1940|before:31-12-2005',
         ]);
 
         $admin = Admin::find($id);

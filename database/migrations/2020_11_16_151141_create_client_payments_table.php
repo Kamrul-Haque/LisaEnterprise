@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentsTable extends Migration
+class CreateClientPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('client_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('sl_no')->nullable();
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('client_id');
             $table->string('type');
             $table->decimal('amount',11,2)->unsigned();
             $table->string('date_of_issue');
@@ -27,11 +27,11 @@ class CreatePaymentsTable extends Migration
             $table->string('card_no')->default('N/A');
             $table->string('validity')->default('N/A');
             $table->string('cvv')->default('N/A');
-            $table->string('paid_by')->nullable();
-            $table->boolean('product_buy')->default(false);
+            $table->string('received_by')->nullable();
+            $table->boolean('product_sell')->default(false);
             $table->timestamps();
 
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('client_id')->references('id')->on('clients');
         });
     }
 
@@ -42,6 +42,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('client_payments');
     }
 }

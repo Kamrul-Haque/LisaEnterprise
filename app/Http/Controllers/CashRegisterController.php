@@ -15,7 +15,7 @@ class CashRegisterController extends Controller
     public function index()
     {
         $cashs = CashRegister::latest()->paginate(11);
-        return view('cash-register', compact('cashs'));
+        return view('cash-register.index', compact('cashs'));
     }
 
     /**
@@ -26,12 +26,12 @@ class CashRegisterController extends Controller
     public function show(CashRegister $cashRegister)
     {
         $cashRegister = CashRegister::find($cashRegister->id);
-        return view('show-cash-register', compact('cashRegister'));
+        return view('cash-register.show', compact('cashRegister'));
     }
 
     public function depositForm()
     {
-        return view('deposit');
+        return view('cash-register.deposit');
     }
 
     /**
@@ -45,7 +45,7 @@ class CashRegisterController extends Controller
         $this->validate($request, [
            'amount' => 'required|numeric',
            'title' => 'required',
-           'date' => 'required',
+           'date' => 'required|after:31-12-2004|before_or_equal:today',
         ]);
 
         $cash = new CashRegister;
@@ -62,7 +62,7 @@ class CashRegisterController extends Controller
 
     public function withdrawForm()
     {
-        return view('withdraw');
+        return view('cash-register.withdraw');
     }
 
     public function balance()
@@ -84,7 +84,7 @@ class CashRegisterController extends Controller
         $this->validate($request, [
            'amount' => 'required|numeric',
            'title' => 'required',
-           'date' => 'required',
+           'date' => 'required|after:31-12-2004|before_or_equal:today',
         ]);
 
         $cash = new CashRegister;

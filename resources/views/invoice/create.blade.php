@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('style')
     <style>
         html, body {
@@ -36,24 +37,37 @@
     <script>var products = {!! $products !!}</script>
     <script>var inc = "{{asset('/icons/trash-2.svg')}}"</script>
 @endsection
+
 @section('content')
     <div class="container m-auto">
         <h3>Sell Product</h3>
         <hr>
-        <form class="form was-validated" action="{{route('invoices.store')}}" method="POST">
+        <form action="{{route('invoices.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="date">Selling Date</label>
-                <input type="date" id="date" name="date" class="form-control" required>
+                <input type="date" id="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date') }}" required>
+
+                @error('date')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="name">Client Name</label>
-                <select id="name" name="name" class="form-control" required>
+                <select id="name" name="name" class="form-control @error('name') is-invalid @enderror" required>
                     <option value="" selected disabled>Please Select...</option>
                     @foreach ($clients as $client)
-                        <option value="{{$client->id}}">{{$client->name}}</option>
+                        <option value="{{ $client->id }}" @if(old('name')==$client->id) selected @endif>{{ $client->name }}</option>
                     @endforeach
                 </select>
+
+                @error('name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="products">Products</label>
@@ -90,7 +104,7 @@
                                     <label class="form-check-label">Action</label>
                                 </div>
                             </div>
-                            <div id="formRow" name="formRow[]" class="form-group row">
+                            <div id="formRow" class="form-group row">
                                 <div class="col-sm-2">
                                     <select name="pname[]" class="form-control dynamic" data-dependent="godown" data-linked="unit" required>
                                         <option selected disabled>Please Select...</option>
@@ -133,11 +147,23 @@
             </div>
             <div class="form-group">
                 <label for="labour">Labour Cost</label>
-                <input type="number" step="any" id="labour" name="labour" class="form-control main-form-input" required>
+                <input type="number" step="any" id="labour" name="labour" class="form-control main-form-input @error('labour') is-invalid @enderror" value="{{ old('labour') }}" required>
+
+                @error('labour')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="transport">Transport Cost</label>
-                <input type="number" step="any" id="transport" name="transport" class="form-control main-form-input" required>
+                <input type="number" step="any" id="transport" name="transport" class="form-control main-form-input @error('transport') is-invalid @enderror" value="{{ old('transport') }}" required>
+
+                @error('transport')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label class="form-control-label">Subtotal:</label>
@@ -146,7 +172,13 @@
             </div>
             <div class="form-group">
                 <label for="discount">Discount:</label>
-                <input type="number" step="any" id="discount" name="discount" class="form-control main-form-input" required>
+                <input type="number" step="any" id="discount" name="discount" class="form-control main-form-input @error('discount') is-invalid @enderror" value="{{ old('discount') }}" required>
+
+                @error('discount')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label class="form-control-label">Grand Total:</label>
@@ -170,16 +202,28 @@
                             <div class="container-fluid m-auto">
                                 <div class="form-group">
                                     <label for="type">Type</label>
-                                    <select id="type" name="type" class="form-control" required>
+                                    <select id="type" name="type" class="form-control @error('type') is-invalid @enderror" required>
                                         <option value="" selected disabled>Please Select...</option>
-                                        <option value="Cash">Cash</option>
-                                        <option value="Cheque">Cheque</option>
-                                        <option value="Card">Card</option>
+                                        <option value="Cash" @if(old('type')=="Cash") selected @endif>Cash</option>
+                                        <option value="Cheque" @if(old('type')=="Cheque") selected @endif>Cheque</option>
+                                        <option value="Card" @if(old('type')=="Cheque") selected @endif>Card</option>
                                     </select>
+
+                                    @error('type')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="number" step="any" id="amount" name="amount" class="form-control" required>
+                                    <input type="number" step="any" id="amount" name="amount" class="form-control @error('amount') is-invalid @enderror" value="{{ old('amount') }}" required>
+
+                                    @error('amount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -199,6 +243,9 @@
             <a href="{{ url()->previous() }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
+@endsection
+
+@section('script')
     <script type="text/javascript">
         var count = 2;
 
@@ -277,7 +324,7 @@
 
         $('#add').click(function () {
 
-            var element = `<div id="formRow" name="formRow[]" class="form-group row">
+            var element = `<div id="formRow" class="form-group row">
                                 <div class="col-sm-2">
                                     <select name="pname[]" class="form-control dynamic" data-dependent="godown`+count+`" data-linked="unit`+count+`" required>
                                         <option selected disabled>Please Select...</option>

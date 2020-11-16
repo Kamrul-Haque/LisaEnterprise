@@ -20,20 +20,32 @@
     <div class="container m-auto">
         <h2>Create Product</h2>
         <hr>
-        <form class="form was-validated" id="form" action="{{route('products.store')}}" method="POST">
+        <form id="form" action="{{route('products.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Product Name</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+
+                @error('name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="unit">Unit</label>
-                <select name="unit" id="unit" class="form-control" required>
+                <select name="unit" id="unit" class="form-control @error('unit') is-invalid @enderror" required>
                     <option value="" disabled selected>Please Select...</option>
-                    <option value="TON">TON</option>
-                    <option value="KG">KG</option>
-                    <option value="BAG">BAG</option>
+                    <option value="TON" @if(old('unit')=='TON') selected @endif>TON</option>
+                    <option value="KG" @if(old('unit')=='KG') selected @endif>KG</option>
+                    <option value="BAG" @if(old('unit')=='BAG') selected @endif>BAG</option>
                 </select>
+
+                @error('unit')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
             <hr>
             <button type="submit" class="btn btn-success">Create</button>

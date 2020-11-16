@@ -22,7 +22,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::latest()->paginate(11);
-        return view('invoices', compact('invoices'));
+        return view('invoice.index', compact('invoices'));
     }
 
     /**
@@ -35,7 +35,7 @@ class InvoiceController extends Controller
         $clients = Client::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
 
-        return view('create-invoice', compact('products', 'clients'));
+        return view('invoice.create', compact('products', 'clients'));
     }
 
     public function getGodowns(Request $request)
@@ -62,21 +62,21 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'date' => 'required',
+            'date' => 'required|after:31-12-2004|before_or_equal:today',
             'name' => 'required',
-            'labour' => 'required|numeric',
-            'transport' => 'required|numeric',
-            'subtotal' => 'required|numeric',
-            'discount' => 'required|numeric',
-            'gtotal' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'due' => 'required|numeric',
+            'labour' => 'required|numeric|between:0,99999.99',
+            'transport' => 'required|numeric|between:0,99999.99',
+            'subtotal' => 'required|numeric|between:0,999999999.99',
+            'discount' => 'required|numeric|between:0,99999.99',
+            'gtotal' => 'required|numeric|between:0,999999999.99',
+            'amount' => 'required|numeric|between:0,999999999.99',
+            'due' => 'required|numeric|between:0,999999999.99',
             'pname.*' => 'required',
             'godown.*' => 'required',
-            'quantity.*' => 'required|numeric',
+            'quantity.*' => 'required|numeric|between:0,99999.99',
             'unit.*' => 'required',
-            'uprice.*' => 'required|numeric',
-            'price.*' => 'required|numeric',
+            'uprice.*' => 'required|numeric|between:0,99999.99',
+            'price.*' => 'required|numeric|between:0,99999.99',
         ]);
 
         $invoice = new Invoice;
@@ -201,7 +201,7 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($invoice->id);
         $products = $invoice->invoiceProducts()->paginate(7);
-        return view('show-invoice', compact('invoice', 'products'));
+        return view('invoice.show', compact('invoice', 'products'));
     }
 
     public function print(Invoice $invoice)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Entry;
 use App\Godown;
 use App\Product;
+use App\Supplier;
 use DB;
 use Illuminate\Http\Request;
 use Auth;
@@ -19,7 +20,7 @@ class EntryController extends Controller
     public function index()
     {
         $entries = Entry::latest()->paginate(10);
-        return view('entries', compact('entries'));
+        return view('entry.index', compact('entries'));
     }
 
     /**
@@ -31,7 +32,8 @@ class EntryController extends Controller
     {
         $products = Product::orderBy('name')->get();
         $godowns = Godown::all();
-        return view('create-entry', compact('products', 'godowns'));
+        $suppliers = Supplier::all();
+        return view('entry.create', compact('products', 'godowns', 'suppliers'));
     }
 
     /**
@@ -43,11 +45,12 @@ class EntryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'quantity' => 'required|numeric',
+            'name' => 'required|',
+            'quantity' => 'required|numeric|between:0,99999.99',
+            'price' => 'required|numeric|between:0,999999999.99',
             'godown' => 'required',
-            'price' => 'required|numeric',
-            'date' => 'required',
+            'supplier' => 'required',
+            'date' => 'required|after:31-12-2004|before_or_equal:today',
         ]);
 
         $entry = new Entry;
@@ -60,15 +63,12 @@ class EntryController extends Controller
         $entry->quantity = $quantity;
         $product = Product::find($pid);
         $entry->unit = $product->unit;
-        $entry->buying_price = $price;
+        $entry->total_buying_price = $price;
+        $entry->unit_buying_price = $price/$quantity;
         $entry->godown_id = $gid;
         $entry->date = $request->input('date');
-        $entry->bought_from = $request->input('company');
+        $entry->supplier_id = $request->input('supplier');
         $entry->entry_by = Auth::user()->name;
-
-        $entry->product->total_quantity += $quantity;
-        $entry->product->total_price += $price;
-        $entry->product->unit_buying_price = $entry->product->total_price / $entry->product->total_quantity;
 
         $godown = Godown::find($gid);
         if ($godown->products->contains($pid)){
@@ -99,7 +99,7 @@ class EntryController extends Controller
     public function show(Entry $entry)
     {
         $entry = Entry::find($entry->id);
-        return view('show-entry', compact('entry'));
+        return view('entry.show', compact('entry'));
     }
 
     /**

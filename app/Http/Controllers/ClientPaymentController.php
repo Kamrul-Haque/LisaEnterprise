@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Paycheck;
+use App\ClientPayment;
 use Illuminate\Http\Request;
 
-class PaycheckController extends Controller
+class ClientPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PaycheckController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paycheck  $paycheck
+     * @param  \App\ClientPayment  $clientPayment
      * @return \Illuminate\Http\Response
      */
-    public function show(Paycheck $paycheck)
+    public function show(ClientPayment $clientPayment)
     {
         //
     }
@@ -52,10 +52,10 @@ class PaycheckController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paycheck  $paycheck
+     * @param  \App\ClientPayment  $clientPayment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paycheck $paycheck)
+    public function edit(ClientPayment $clientPayment)
     {
         //
     }
@@ -64,10 +64,10 @@ class PaycheckController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Paycheck  $paycheck
+     * @param  \App\ClientPayment  $clientPayment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Paycheck $paycheck)
+    public function update(Request $request, ClientPayment $clientPayment)
     {
         //
     }
@@ -75,10 +75,10 @@ class PaycheckController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Paycheck  $paycheck
+     * @param  \App\ClientPayment  $clientPayment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Paycheck $paycheck)
+    public function destroy(ClientPayment $clientPayment)
     {
         //
     }

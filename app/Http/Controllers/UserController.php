@@ -44,7 +44,7 @@ class UserController extends Controller
             'nid' => 'required|digits_between:10,14|unique:users',
             'phone' => 'required|digits:10|unique:users',
             'job' => 'required',
-            'dob' => 'nullable|before:today',
+            'dob' => 'nullable|after:31-12-1940|before:31-12-2005',
         ]);
 
         $users = new User;
@@ -90,7 +90,7 @@ class UserController extends Controller
             'nid' => 'required|digits_between:10,14|unique:admins,nid,'.$id,
             'phone' => 'required|digits:10|unique:admins,phone,'.$id,
             'job' => 'required',
-            'dob' => 'nullable|before:today',
+            'dob' => 'nullable|after:31-12-1940|before:31-12-2005',
         ]);
 
         $user = User::find($id);

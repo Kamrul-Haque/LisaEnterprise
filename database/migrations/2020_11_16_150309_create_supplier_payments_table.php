@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaychecksTable extends Migration
+class CreateSupplierPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePaychecksTable extends Migration
      */
     public function up()
     {
-        Schema::create('paychecks', function (Blueprint $table) {
+        Schema::create('supplier_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('sl_no')->nullable();
-            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->string('type');
             $table->decimal('amount',11,2)->unsigned();
             $table->string('date_of_issue');
@@ -31,7 +31,7 @@ class CreatePaychecksTable extends Migration
             $table->boolean('product_sell')->default(false);
             $table->timestamps();
 
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
 
@@ -42,6 +42,6 @@ class CreatePaychecksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paychecks');
+        Schema::dropIfExists('supplier_payments');
     }
 }

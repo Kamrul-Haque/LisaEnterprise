@@ -18,8 +18,8 @@ class GodownController extends Controller
      */
     public function index()
     {
-        $godowns = Godown::paginate(10);
-        return view('godowns', compact('godowns'));
+        $godowns = Godown::orderBy('name')->paginate(10);
+        return view('godown.index', compact('godowns'));
     }
 
     /**
@@ -29,7 +29,7 @@ class GodownController extends Controller
      */
     public function create()
     {
-        return view('create-godown');
+        return view('godown.create');
     }
 
     /**
@@ -42,6 +42,8 @@ class GodownController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'location' => 'required',
+            'phone' => 'nullable|digits_between:8,10|unique:godown',
         ]);
 
         $godown = new Godown;
@@ -66,7 +68,7 @@ class GodownController extends Controller
         $products = $godown->products()->orderBy('name')->paginate(10);
         $entries = $godown->entries()->paginate(10);
 
-        return view('show-godown', compact('products', 'godown', 'entries'));
+        return view('godown.show', compact('products', 'godown', 'entries'));
     }
 
     /**
@@ -80,7 +82,7 @@ class GodownController extends Controller
         if (Auth::guard('admin')->check())
         {
             $godown = Godown::find($godown->id);
-            return view('edit-godown', compact('godown'));
+            return view('godown.edit', compact('godown'));
         }
         else
         {
@@ -100,7 +102,7 @@ class GodownController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'required|numeric'
+            'phone' => 'nullable|digits_between:8,10|unique:godowns,phone,'.$godown->id,
         ]);
 
         $godown = Godown::find($godown->id);
@@ -143,7 +145,7 @@ class GodownController extends Controller
         return redirect('/godowns');
     }
 
-    public function transferForm(Godown $godown, Product $product)
+    /*public function transferForm(Godown $godown, Product $product)
     {
         $godowns = Godown::all();
         return view('product-transfer', compact('product', 'godown', 'godowns'));
@@ -200,5 +202,5 @@ class GodownController extends Controller
 
         toastr()->success('Created Successfully!');
         return redirect('/admin/entries');
-    }
+    }*/
 }

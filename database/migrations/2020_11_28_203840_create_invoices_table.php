@@ -31,7 +31,7 @@ class CreateInvoicesTable extends Migration
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('payment_id')->references('id')->on('client_payments');
         });
     }
 

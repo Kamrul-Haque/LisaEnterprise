@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('name')->paginate(10);
-        return view('products', compact('products'));
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('create-product');
+        return view('product.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product = Product::find($product->id);
-        return view('show-product',compact('product'));
+        return view('product.show',compact('product'));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductController extends Controller
         if (Auth::guard('admin')->check())
         {
             $product = Product::find($product->id);
-            return view('edit-product')->with('product', $product);
+            return view('product.edit', compact('product'));
         }
         else
         {
