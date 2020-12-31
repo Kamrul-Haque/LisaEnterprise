@@ -31,8 +31,8 @@ class EntryController extends Controller
     public function create()
     {
         $products = Product::orderBy('name')->get();
-        $godowns = Godown::all();
-        $suppliers = Supplier::all();
+        $godowns = Godown::orderBy('name')->get();
+        $suppliers = Supplier::orderBy('name')->get();
         return view('entry.create', compact('products', 'godowns', 'suppliers'));
     }
 
@@ -134,22 +134,11 @@ class EntryController extends Controller
     public function destroy(Entry $entry)
     {
         $entry = Entry::find($entry->id);
-        $quantity = $entry->quantity;
-        $price = $entry->buying_price;
         $gid = $entry->godown_id;
         $pid = $entry->product_id;
 
-        $entry->product->total_quantity -= $quantity;
-        $entry->product->total_price -= $price;
-        if ($entry->product->total_quantity) {
-            $entry->product->unit_buying_price = $entry->product->total_price / $entry->product->total_quantity;
-        }
-        else{
-            $entry->product->unit_buying_price = 0;
-        }
-
         $godown = Godown::find($gid);
-        $gquantity = $godown->products->find($pid)->pivot->godown_quantity - $quantity;
+        $gquantity = $godown->products->find($pid)->pivot->godown_quantity - $entry->quantity;
         if ($gquantity && $gquantity>0){
             $godown->products()->updateExistingPivot($pid, ['godown_quantity'=>$gquantity]);
             $entry->delete();
@@ -170,10 +159,6 @@ class EntryController extends Controller
         $products = Product::all();
         foreach ($products as $product)
         {
-            $product->total_quantity = 0;
-            $product->total_price = 0;
-            $product->unit_buying_price = 0;
-            $product->save();
             $product->godowns()->detach();
         }
         $entries = Entry::all();

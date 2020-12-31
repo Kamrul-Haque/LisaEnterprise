@@ -98,7 +98,7 @@
                 @enderror
             </div>
             <div class="form-group pb-1">
-                <label for="date">Product Date</label>
+                <label for="date">Entry Date</label>
                 <input type="date" id="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date') }}" required>
 
                 @error('date')

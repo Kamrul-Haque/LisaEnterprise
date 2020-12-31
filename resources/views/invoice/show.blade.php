@@ -56,8 +56,8 @@
                             <td> {{$product->godown->name}} </td>
                             <td> {{$product->quantity}} </td>
                             <td> {{$product->unit}} </td>
-                            <td> {{number_format($product->unit_selling_price, 2)}} </td>
-                            <td> {{number_format($product->total_selling_price, 2)}} </td>
+                            <td> {{$product->unit_selling_price}} </td>
+                            <td> {{$product->total_selling_price}} </td>
                         </tr>
                     @endforeach
                     </tbody>

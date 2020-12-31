@@ -43,7 +43,7 @@ class GodownController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'nullable|digits_between:8,10|unique:godown',
+            'phone' => 'nullable|digits_between:8,10|unique:godowns',
         ]);
 
         $godown = new Godown;
@@ -144,63 +144,4 @@ class GodownController extends Controller
         toastr()->error('All Records Deleted!');
         return redirect('/godowns');
     }
-
-    /*public function transferForm(Godown $godown, Product $product)
-    {
-        $godowns = Godown::all();
-        return view('product-transfer', compact('product', 'godown', 'godowns'));
-    }
-
-    public function transfer(Request $request)
-    {
-        $this->validate($request,[
-            'quantity' => 'required|numeric',
-            'tgodown' => 'required',
-            'date' => 'required',
-        ]);
-
-        $gid = $request->godown;
-        $pid = $request->product;
-        $quantity = $request->quantity;
-
-        $product = Product::find($pid);
-        $godown = Godown::find($gid);
-        $gquantity = $godown->products->find($pid)->pivot->godown_quantity - $quantity;
-        if ($gquantity>0){
-            $godown->products()->updateExistingPivot($pid, ['godown_quantity'=>$gquantity]);
-        }
-        else{
-            $godown->products()->detach($pid);
-        }
-
-        $newEntry = new Entry;
-        $newEntry->product_id = $pid;
-        $newEntry->quantity = $quantity;
-        $newEntry->unit = $product->unit;
-        $newEntry->buying_price = $product->unit_buying_price * $quantity;
-        $newEntry->godown_id = $request->tgodown;
-        $newEntry->date = $request->date;
-        $newEntry->bought_from = $request->cgodown;
-        $newEntry->entry_by = Auth::user()->name;
-
-        $godown = Godown::find($request->tgodown);
-        if ($godown->products->contains($pid)){
-            $quantity += $godown->products->find($pid)->pivot->godown_quantity;
-            $godown->products()->updateExistingPivot($pid, ['godown_quantity'=>$quantity]);
-            $newEntry->save();
-        }
-        else{
-            $godown->products()->syncWithoutDetaching($pid, ['godown_quantity'=>$quantity]);
-            $newEntry->save();
-        }
-
-        $id = $newEntry->id;
-
-        $newEntry = Entry::find($id);
-        $newEntry->sl_no = 'ENT_'.$id;
-        $newEntry->save();
-
-        toastr()->success('Created Successfully!');
-        return redirect('/admin/entries');
-    }*/
 }

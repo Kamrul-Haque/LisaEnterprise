@@ -16,14 +16,11 @@ class CreateCashRegistersTable extends Migration
         Schema::create('cash_registers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type');
-            $table->unsignedBigInteger('bank_account_id')->nullable();
             $table->decimal('amount',11,2)->unsigned();
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('date');
             $table->timestamps();
-
-            $table->foreign('bank_account_id')->references('id')->on('bank_accounts');
         });
     }
 

@@ -66,7 +66,7 @@
             </div>
             <br>
             <div class="form-group">
-                <a class="btn btn-block btn-lg btn-aqua" href="{{route('payments.create')}}">
+                <a class="btn btn-block btn-lg btn-aqua" href="#">
                     <span data-feather="dollar-sign" style="height: 47px; width: auto; margin-right: 0; padding-right: 0"></span><span data-feather="plus-circle" style="height: 25px; width: auto; margin-left: 0; padding-left: 0; margin-right: 10px; vertical-align: text-top"></span>Add Payment
                 </a>
             </div>

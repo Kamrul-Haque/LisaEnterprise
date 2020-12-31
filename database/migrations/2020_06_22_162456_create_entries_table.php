@@ -27,9 +27,9 @@ class CreateEntriesTable extends Migration
             $table->string('entry_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('godown_id')->references('id')->on('godowns');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('godown_id')->references('id')->on('godowns')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
         });
     }
 

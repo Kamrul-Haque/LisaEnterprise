@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use Auth;
+use DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -137,7 +138,7 @@ class ClientController extends Controller
 
     public function destroyAll()
     {
-        Client::truncate();
+        DB::table('clients')->delete();
 
         toastr()->error('All Records Deleted');
         return redirect('/clients');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSupplierPaymentsTable extends Migration
+class CreateBankWithdrawsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,20 @@ class CreateSupplierPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_payments', function (Blueprint $table) {
+        Schema::create('bank_withdraws', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('sl_no')->nullable();
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('bank_account_id');
             $table->string('type');
-            $table->decimal('amount',11,2)->unsigned();
-            $table->string('date_of_issue');
-            $table->string('account_no')->default('N/A');
             $table->string('check_no')->default('N/A');
             $table->string('date_of_draw')->nullable();
             $table->string('status')->default('N/A');
             $table->string('card_no')->default('N/A');
             $table->string('validity')->default('N/A');
             $table->string('cvv')->default('N/A');
-            $table->string('received_by')->nullable();
-            $table->boolean('product_sell')->default(false);
+            $table->decimal('amount',11,2)->unsigned();
             $table->timestamps();
 
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('bank_account_id')->references('id')->on('bank_accounts')->onDelete('cascade');
         });
     }
 
@@ -42,6 +37,6 @@ class CreateSupplierPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier_payments');
+        Schema::dropIfExists('bank_withdraws');
     }
 }

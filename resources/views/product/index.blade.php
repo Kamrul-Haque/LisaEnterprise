@@ -37,17 +37,10 @@
         <h2 style="float: right">Products</h2>
         <hr>
         @if($products->count())
-        <form action="{{ route('admin.products.sell') }}" method="post">
-            @csrf
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
                     <table class="table table-striped table-hover pt-3" id="table">
                         <tr>
-                            <th>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="Select" value="{{ $products }}">
-                                </div>
-                            </th>
                             <th>#</th>
                             <th>NAME</th>
                             <th>Quantity</th>
@@ -61,28 +54,23 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="prodSelect[]" value="{{ $product->id }}">
-                                        </div>
-                                    </td>
                                     <td> {{$loop->iteration}} </td>
                                     <td> {{$product->name}} </td>
-                                    <td> {{$product->total_quantity}} </td>
+                                    <td> {{$product->totalQuantity()}} </td>
                                     <td> {{$product->unit}} </td>
                                     @if(Auth::guard('admin')->check())
-                                    <td> {{number_format($product->unit_buying_price, 2)}} </td>
-                                    <td> {{$product->total_price}} </td>
+                                    <td> {{$product->unitPrice()}} </td>
+                                    <td> {{$product->totalPrice()}} </td>
                                     @endif
                                     @if(Auth::guard('admin')->check())
                                     <td>
                                         <div class="row justify-content-center">
                                             <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                            {{--<form class="pl-1" action="{{route('products.destroy', $product)}}" method="POST">
+                                            <form class="pl-1" action="{{route('products.destroy', $product)}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                            </form>--}}
+                                            </form>
                                         </div>
                                     </td>
                                     @endif
@@ -92,7 +80,6 @@
                     </table>
                 </div>
             </div>
-
         @else
         <div class="card card-body bg-light text-center">
             <p class="display-4">No Records Found!</p>
@@ -102,8 +89,7 @@
         <div class="form-group row">
             <div class="col-md-6">
                 <a class="btn btn-success float-left" href=" {{route('products.create')}} ">Create New</a>
-                <button type="submit" class="btn btn-primary">Sell Product</button>
-                {{--<a class="btn btn-primary float-left" href=" {{route('invoices.create')}} ">Sell </a>--}}
+                <a class="btn btn-primary float-left" href=" {{route('invoices.create')}} ">Sell </a>
             </div>
 
             <div class="col-md-4">
@@ -117,7 +103,6 @@
                 @endif
             </div>
         </div>
-        </form>
     </div>
      <!-- The Modal -->
     @if($products->count())

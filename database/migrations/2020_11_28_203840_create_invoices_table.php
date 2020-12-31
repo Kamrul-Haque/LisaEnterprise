@@ -30,8 +30,8 @@ class CreateInvoicesTable extends Migration
             $table->string('sold_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('payment_id')->references('id')->on('client_payments');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('payment_id')->references('id')->on('client_payments')->onDelete('cascade');
         });
     }
 

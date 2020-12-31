@@ -26,7 +26,7 @@
     @endif
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <a class="btn btn-light" href=" {{route('admin.dashboard')}} ">Back</a>
         <h2 style="float: right">Product Entries</h2>
         <hr>
@@ -44,6 +44,7 @@
                         <th>Date</th>
                         <th>Bought From</th>
                         <th>Entry by</th>
+                        <th>Unit Price</th>
                         <th>Total Price</th>
                         <th><center>OPERATIONS</center></th>
                     </tr>
@@ -57,9 +58,10 @@
                                 <td> {{$entry->unit}} </td>
                                 <td> {{$entry->godown->name}} </td>
                                 <td> {{$entry->date}} </td>
-                                <td> {{$entry->bought_from}} </td>
+                                <td> {{$entry->supplier->name}} </td>
                                 <td> {{$entry->entry_by}} </td>
-                                <td> {{number_format($entry->buying_price, 2)}} </td>
+                                <td> {{number_format($entry->unit_buying_price, 2)}} </td>
+                                <td> {{number_format($entry->total_buying_price, 2)}} </td>
                                 <td>
                                     <div class="row justify-content-center">
                                         <form class="pl-1" action="{{route('admin.entries.destroy', $entry->id)}}" method="POST">

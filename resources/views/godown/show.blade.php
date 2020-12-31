@@ -63,7 +63,7 @@
                             <td> {{$product->name}} </td>
                             <td> {{$product->pivot->godown_quantity}} </td>
                             <td> {{$product->unit}} </td>
-                            <td> {{number_format($product->unit_buying_price, 2)}} </td>
+                            <td> {{$product->unit_buying_price}} </td>
                             <td>
                                 <a href="{{ route('admin.entries.transfer', ['godown'=>$godown,'product'=>$product]) }}" class="btn btn-primary btn-sm">
                                     <span data-feather="log-out" style="height: 15px; width: 15px; padding: 0"></span>

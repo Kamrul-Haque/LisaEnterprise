@@ -97,6 +97,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('supplier.index') }}">
+                                <span data-feather="truck"></span>
+                                Suppliers
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('clients.index') }}">
                                 <span data-feather="briefcase"></span>
                                 Clients
@@ -116,12 +122,12 @@
                                 Invoices
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{--<li class="nav-item">
                             <a class="nav-link" href="{{ route('payments.index') }}">
                                 <span data-feather="dollar-sign"></span>
                                 Payments
                             </a>
-                        </li>
+                        </li>--}}
                         @if(Auth::guard('admin')->check())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.users.index') }}">

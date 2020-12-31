@@ -51,9 +51,9 @@
                                 <a class="dropdown-item" href="{{route('admin.users.create')}}">
                                     Add Employee
                                 </a>
-                                <a class="dropdown-item" href="{{route('payments.create')}}">
+                                {{--<a class="dropdown-item" href="{{route('payments.create')}}">
                                     Add Payment
-                                </a>
+                                </a>--}}
                                 <a class="dropdown-item" href="{{route('quotation.print')}}">
                                     Print Quotation
                                 </a>

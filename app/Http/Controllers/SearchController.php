@@ -30,7 +30,7 @@ class SearchController extends Controller
                 ->registerModel(Godown::class, 'name','location')
                 ->registerModel(Entry::class, 'sl_no','date')
                 ->registerModel(Invoice::class, 'sl_no','date')
-                ->registerModel(Payment::class, 'sl_no','date_of_issue','date_of_draw')
+                /*->registerModel(Payment::class, 'sl_no','date_of_issue','date_of_draw')*/
                 ->registerModel(CashRegister::class, 'title','date')
                 ->search($string);
 

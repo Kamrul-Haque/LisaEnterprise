@@ -37,6 +37,6 @@ class Invoice extends Model implements Searchable
         $url = route('invoices.show', $this->id);
 
         // TODO: Implement getSearchResult() method.
-        return new SearchResult($this,$this->sl_no,$url);
+        return new SearchResult($this,$this->client->name,$url);
     }
 }

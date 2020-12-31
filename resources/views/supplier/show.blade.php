@@ -29,7 +29,7 @@
     <div class="container-fluid pl-5 pr-5">
         <div class="form-group row pb-0">
             <div class="col-md-4">
-                <a class="btn btn-light float-left" href=" {{route('clients.index')}} ">Back</a>
+                <a class="btn btn-light float-left" href=" {{route('supplier.index')}} ">Back</a>
             </div>
             <div class="col-md-4 justify-content-center" style="padding-left: 100px">
                 <h2>Client History</h2>
@@ -40,12 +40,12 @@
             </div>
         </div>
         <hr>
-        <h5>Name: {{ $client->name }}</h5>
-        <h5>Phone: {{ $client->phone }}</h5>
-        <h5>Address: {{ $client->address}}</h5>
-        <h5>Email: {{ $client->email}}</h5>
+        <h5>Name: {{ $supplier->name }}</h5>
+        <h5>Phone: {{ $supplier->phone }}</h5>
+        <h5>Address: {{ $supplier->address}}</h5>
+        <h5>Email: {{ $supplier->email}}</h5>
         <br>
-        <div class="card card-body bg-light">
+        {{--<div class="card card-body bg-light">
             <div class="table-responsive-lg">
                 <table class="table table-striped table-hover" id="invoiceTable">
                     <tr>
@@ -70,11 +70,11 @@
                             <td> <a href="{{route('invoices.show', $invoice)}}" title="products"><span data-feather="eye" style="width: 15px; height: 15px; padding: 0"></span></a> </td>
                             <td> {{$invoice->labour_cost}} </td>
                             <td> {{$invoice->transport_cost}} </td>
-                            <td> {{$invoice->subtotal}} </td>
-                            <td> {{$invoice->discount}} </td>
-                            <td> {{$invoice->grand_total}} </td>
-                            <td> {{$invoice->paid}} ({{$invoice->payment->status}}) </td>
-                            <td> {{$invoice->due}} </td>
+                            <td> {{number_format($invoice->subtotal, 2)}} </td>
+                            <td> {{number_format($invoice->discount, 2)}} </td>
+                            <td> {{number_format($invoice->grand_total, 2)}} </td>
+                            <td> {{number_format($invoice->paid, 2)}} ({{$invoice->payment->status}}) </td>
+                            <td> {{number_format($invoice->due, 2)}} </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -110,20 +110,20 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>--}}
         <br>
         <div class="col-sm row">
             <div>
-                <h5>Total Purchase: {{$client->total_purchase}} </h5>
-                <h5>Total Due: {{$client->total_due}} </h5>
+                <h5>Total Purchase: {{$supplier->total_purchase}} </h5>
+                <h5>Total Due: {{$supplier->total_due}} </h5>
             </div>
         </div>
-        <ul id="invLinks" class="pagination justify-content-center">
+        {{--<ul id="invLinks" class="pagination justify-content-center">
             {{ $invoices->links() }}
         </ul>
         <ul id="payLinks" class="pagination justify-content-center">
             {{ $paychecks->links() }}
-        </ul>
+        </ul>--}}
     </div>
     <script type="text/javascript">
         $(function () {

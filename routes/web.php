@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::resource('godowns', 'GodownController');
     Route::resource('clients', 'ClientController');
     Route::resource('invoices', 'InvoiceController');
-    Route::resource('payments','PaymentController');
+    Route::resource('supplier', 'SupplierController');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function()
 {
@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::post('/clients/delete', 'ClientController@destroyAll')->name('clients.deleteAll');
     Route::post('/invoices/delete', 'InvoiceController@destroyAll')->name('invoices.deleteAll');
     Route::post('/payments/delete','PaymentController@destroyAll')->name('payments.deleteAll');
+    Route::post('/supplier/delete','SupplierController@destroyAll')->name('supplier.deleteAll');
     Route::get('/cash-register', 'CashRegisterController@index')->name('cash-register.index');
     Route::delete('/cash-register/{cashRegister}', 'CashRegisterController@destroy')->name('cash-register.destroy');
     Route::post('/cash-register/delete', 'CashRegisterController@destroyAll')->name('cash-register.deleteAll');

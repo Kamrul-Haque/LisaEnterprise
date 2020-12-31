@@ -25,7 +25,6 @@ class AdminController extends Controller
      */
     public function adminDashboard()
     {
-        toastr()->info('welcome');
         return view('admin-dashboard');
     }
 

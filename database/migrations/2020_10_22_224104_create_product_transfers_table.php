@@ -24,9 +24,9 @@ class CreateProductTransfersTable extends Migration
             $table->string('entry_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('godown_from')->references('id')->on('godowns');
-            $table->foreign('godown_to')->references('id')->on('godowns');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('godown_from')->references('id')->on('godowns')->onDelete('cascade');
+            $table->foreign('godown_to')->references('id')->on('godowns')->onDelete('cascade');
         });
     }
 

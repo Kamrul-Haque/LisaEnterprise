@@ -31,7 +31,7 @@ class CreateClientPaymentsTable extends Migration
             $table->boolean('product_sell')->default(false);
             $table->timestamps();
 
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 

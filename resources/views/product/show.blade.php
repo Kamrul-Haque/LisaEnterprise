@@ -54,7 +54,7 @@
                             <td> {{$product->total_quantity}} </td>
                             <td> {{$product->unit}} </td>
                             @if(Auth::guard('admin')->check())
-                                <td> {{number_format($product->unit_buying_price, 2)}} </td>
+                                <td> {{$product->unit_buying_price}} </td>
                                 <td> {{$product->total_price}} </td>
                             @endif
                             @if(Auth::guard('admin')->check())

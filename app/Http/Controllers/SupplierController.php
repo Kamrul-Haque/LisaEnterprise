@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Supplier;
+use DB;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -14,7 +15,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::orderBy('name')->paginate(10);
+        return view('supplier.index', compact('suppliers'));
     }
 
     /**
@@ -24,7 +26,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('supplier.create');
     }
 
     /**
@@ -35,7 +37,25 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'name'=>'required|string|min:4',
+           'email'=>'nullable|email|unique:suppliers',
+           'phone'=>'required|digits_between:7,10|min:4|unique:suppliers',
+           'dues'=>'nullable|numeric|between:-999999999.99,999999999.99',
+           'paid'=>'nullable|numeric|between:0,999999999.99',
+        ]);
+
+        $supplier = new Supplier;
+        $supplier->name = $request->name;
+        $supplier->email = $request->email;
+        $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->total_due = $request->dues;
+        $supplier->total_paid = $request->paid;
+        $supplier->save();
+
+        toastr()->success('Created Successfully');
+        return redirect('/supplier');
     }
 
     /**
@@ -46,7 +66,8 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
+        $supplier = Supplier::find($supplier->id);
+        return view('supplier.show', compact('supplier'));
     }
 
     /**
@@ -57,7 +78,8 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        $supplier = Supplier::find($supplier->id);
+        return view('supplier.edit', compact('supplier'));
     }
 
     /**
@@ -69,7 +91,25 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $request->validate([
+            'name'=>'required|string|min:4',
+            'email'=>'nullable|email|unique:suppliers,email,'.$supplier->id,
+            'phone'=>'required|digits_between:7,10|min:4|unique:suppliers,phone,'.$supplier->id,
+            'dues'=>'nullable|numeric|between:-999999999.99,999999999.99',
+            'paid'=>'nullable|numeric|between:0,999999999.99',
+        ]);
+
+        $supplier = Supplier::find($supplier->id);
+        $supplier->name = $request->name;
+        $supplier->email = $request->email;
+        $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->total_due = $request->dues;
+        $supplier->total_paid = $request->paid;
+        $supplier->save();
+
+        toastr()->info('Updated Successfully');
+        return redirect('/supplier');
     }
 
     /**
@@ -80,6 +120,18 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier = Supplier::find($supplier->id);
+        $supplier->delete();
+
+        toastr()->warning('Entry Deleted');
+        return redirect('/supplier');
+    }
+
+    public function destroyAll()
+    {
+        DB::table('suppliers')->delete();
+
+        toastr()->error('All Records Deleted');
+        return redirect('/supplier');
     }
 }

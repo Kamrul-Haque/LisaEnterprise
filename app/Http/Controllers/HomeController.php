@@ -26,7 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        toastr()->info('welcome');
         return view('user-dashboard');
     }
 

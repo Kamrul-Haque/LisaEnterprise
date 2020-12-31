@@ -21,6 +21,11 @@ class Entry extends Model implements Searchable
         return $this->belongsTo(Godown::class);
     }
 
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
     public function getDateAttribute($value)
     {
         $carbon = new Carbon($value);
@@ -31,6 +36,6 @@ class Entry extends Model implements Searchable
     {
         $url = route('admin.entries.show',$this->id);
         // TODO: Implement getSearchResult() method.
-        return new SearchResult($this,$this->sl_no,$url);
+        return new SearchResult($this,$this->supplier->name,$url);
     }
 }
