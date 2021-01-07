@@ -28,44 +28,40 @@
 @section('content')
     <div class="container-fluid pl-5 pr-5">
         <a class="btn btn-light" href=" {{route('admin.dashboard')}} ">Back</a>
-        <h2 style="float: right">Clients</h2>
+        <h2 style="float: right">Bank Accounts</h2>
         <hr>
-        @if($clients->count())
-            <div class="card card-body bg-light ">
+        @if($bankAccounts->count())
+            <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
                     <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>PHONE</th>
-                            <th>ADDRESS</th>
-                            <th>Total Due</th>
-                            <th>Total Purchase</th>
-                            <th class="text-center">OPERATIONS</th>
-                        </tr>
+                       <tr>
+                           <th>#</th>
+                           <th>Account No.</th>
+                           <th>Bank Name</th>
+                           <th>Branch</th>
+                           <th>Balance</th>
+                           <th class="text-center">Operations</th>
+                       </tr>
                         <tbody>
-                        @foreach ($clients as $client)
+                        @foreach ($bankAccounts as $bankAccount)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td> {{$client->name}} </td>
-                                <td> {{$client->email}} </td>
-                                <td> {{$client->phone}} </td>
-                                <td> {{$client->address}} </td>
-                                <td> {{$client->total_due}} </td>
-                                <td> {{$client->total_purchase}} </td>
+                                <td> {{$loop->index + 1}} </td>
+                                <td> {{$bankAccount->account_no}} </td>
+                                <td> {{$bankAccount->bank_name}} </td>
+                                <td> {{$bankAccount->branch}} </td>
+                                <td> {{$bankAccount->balance}} </td>
                                 <td>
                                     <div class="row justify-content-center">
-                                        <a href="{{route('clients.show',$client)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
+                                        <a href="{{route('bank-account.show',$bankAccount)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         @if(Auth::guard('admin')->check())
-                                        <div class="pl-1">
-                                            <a href="{{route('clients.edit',$client)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        </div>
-                                        <form class="pl-1" action="{{route('clients.destroy',$client)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                            <div class="pl-1">
+                                                <a href="{{route('bank-account.edit',$bankAccount)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
+                                            </div>
+                                            <form class="pl-1" action="{{route('bank-account.destroy',$bankAccount)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                            </form>
                                         @endif
                                     </div>
                                 </td>
@@ -76,29 +72,31 @@
                 </div>
             </div>
         @else
-            <div class="card card-body bg-light  justify-content-center">
+            <div class="card card-body bg-light text-center">
                 <p class="display-4">No Records Found!</p>
             </div>
         @endif
         <hr>
         <div class="form-group row">
-            <div class="col-md-2">
-                <a class="btn btn-success float-left" href=" {{route('clients.create')}} ">Add Client</a>
+            <div class="col-md-3">
+                <a class="btn btn-success float-left" href=" {{route('bank-account.create')}} ">Add New</a>
+                <a class="btn btn-outline-success float-left ml-1" href=" {{route('bank-deposit.create')}} ">Deposit</a>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <ul class="pagination justify-content-center">
-                    {{ $clients->links() }}
+                    {{ $bankAccounts->links() }}
                 </ul>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 @if(Auth::guard('admin')->check())
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
                 @endif
+                <a class="btn btn-outline-danger float-right mr-1" href=" {{route('bank-withdraw.create')}} ">Withdraw</a>
             </div>
         </div>
     </div>
     <!-- The Modal -->
-    @if($clients->count())
+    @if($bankAccounts->count())
         <div class="modal fade" id="deleteAllModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -112,7 +110,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <form action="{{route('admin.clients.deleteAll')}}" method="post">
+                        <form action="{{ route('admin.bank-account.deleteAll') }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
                         </form>

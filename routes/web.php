@@ -33,6 +33,13 @@ Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::resource('clients', 'ClientController');
     Route::resource('invoices', 'InvoiceController');
     Route::resource('supplier', 'SupplierController');
+    Route::resource('bank-account','BankAccountController');
+    Route::resource('bank-deposit','BankDepositController')->only('create','store','destroy');
+    Route::get('/bank-deposit/{bankDeposit}/editStatus','BankDepositController@editStatus')->name('bank-deposit.status.edit');
+    Route::post('/bank-deposit/{bankDeposit}/updateStatus','BankDepositController@updateStatus')->name('bank-deposit.status.update');
+    Route::resource('bank-withdraw','BankWithdrawController')->only('create','store','destroy');
+    Route::get('/bank-withdraw/{bankWithdraw}/editStatus','BankWithdrawController@editStatus')->name('bank-withdraw.status.edit');
+    Route::post('/bank-withdraw/{bankWithdraw}/updateStatus','BankWithdrawController@updateStatus')->name('bank-withdraw.status.update');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function()
 {
@@ -52,8 +59,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::post('/entries/transfer', 'GodownController@transfer')->name('entries.transfer.store');
     Route::post('/clients/delete', 'ClientController@destroyAll')->name('clients.deleteAll');
     Route::post('/invoices/delete', 'InvoiceController@destroyAll')->name('invoices.deleteAll');
-    Route::post('/payments/delete','PaymentController@destroyAll')->name('payments.deleteAll');
     Route::post('/supplier/delete','SupplierController@destroyAll')->name('supplier.deleteAll');
+    Route::post('/bank-account/delete','BankAccountController@destroyAll')->name('bank-account.deleteAll');
     Route::get('/cash-register', 'CashRegisterController@index')->name('cash-register.index');
     Route::delete('/cash-register/{cashRegister}', 'CashRegisterController@destroy')->name('cash-register.destroy');
     Route::post('/cash-register/delete', 'CashRegisterController@destroyAll')->name('cash-register.deleteAll');

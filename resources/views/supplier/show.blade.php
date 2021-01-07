@@ -32,7 +32,7 @@
                 <a class="btn btn-light float-left" href=" {{route('supplier.index')}} ">Back</a>
             </div>
             <div class="col-md-4 justify-content-center" style="padding-left: 100px">
-                <h2>Client History</h2>
+                <h2>Supplier History</h2>
             </div>
             <div class="col-sm-4">
                 <button id="payment" type="button" class="btn btn-light float-right">Payments</button>

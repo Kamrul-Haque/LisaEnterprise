@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class BankWithdraw extends Model
@@ -10,6 +11,24 @@ class BankWithdraw extends Model
 
     public function bankAccount()
     {
-        $this->belongsTo(BankAccount::class);
+        return $this->belongsTo(BankAccount::class);
+    }
+
+    public function getDateOfIssueAttribute($value)
+    {
+        if ($value)
+        {
+            $carbon = new Carbon($value);
+            return $carbon->format('d/m/Y');
+        }
+    }
+
+    public function getDateOfDrawAttribute($value)
+    {
+        if ($value)
+        {
+            $carbon = new Carbon($value);
+            return $carbon->format('d/m/Y');
+        }
     }
 }

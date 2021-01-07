@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BankAccount;
+use DB;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
@@ -14,7 +15,8 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        //
+        $bankAccounts = BankAccount::latest()->paginate(10);
+        return view('bank-accounts.index', compact('bankAccounts'));
     }
 
     /**
@@ -24,7 +26,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('bank-accounts.create');
     }
 
     /**
@@ -35,7 +37,22 @@ class BankAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'bank'=>'required|string|min:4',
+           'branch'=>'required|string|min:4',
+           'account_no'=>'required|string|min:4|unique:bank_accounts',
+           'balance'=>'nullable|numeric',
+        ]);
+
+        $bankAccount = new BankAccount;
+        $bankAccount->bank_name = $request->bank;
+        $bankAccount->branch = $request->branch;
+        $bankAccount->account_no = $request->account_no;
+        $bankAccount->balance = $request->balance ?? 0;
+        $bankAccount->save();
+
+        toastr()->success('Created Successfully');
+        return redirect('/bank-account');
     }
 
     /**
@@ -46,7 +63,8 @@ class BankAccountController extends Controller
      */
     public function show(BankAccount $bankAccount)
     {
-        //
+        $bankAccount = BankAccount::find($bankAccount->id);
+        return view('bank-accounts.show', compact('bankAccount'));
     }
 
     /**
@@ -57,7 +75,8 @@ class BankAccountController extends Controller
      */
     public function edit(BankAccount $bankAccount)
     {
-        //
+        $bankAccount = BankAccount::find($bankAccount->id);
+        return view('bank-accounts.edit', compact('bankAccount'));
     }
 
     /**
@@ -69,7 +88,22 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, BankAccount $bankAccount)
     {
-        //
+        $request->validate([
+            'bank'=>'required|string|min:4',
+            'branch'=>'required|string|min:4',
+            'account_no'=>'required|string|min:4|unique:bank_accounts,account_no,'.$bankAccount->id,
+            'balance'=>'nullable|numeric',
+        ]);
+
+        $bankAccount = BankAccount::find($bankAccount->id);
+        $bankAccount->bank_name = $request->bank;
+        $bankAccount->branch = $request->branch;
+        $bankAccount->account_no = $request->account_no;
+        $bankAccount->balance = $request->balance;
+        $bankAccount->save();
+
+        toastr()->info('Updated Successfully');
+        return redirect('/bank-account');
     }
 
     /**
@@ -80,6 +114,18 @@ class BankAccountController extends Controller
      */
     public function destroy(BankAccount $bankAccount)
     {
-        //
+        $bankAccount = BankAccount::find($bankAccount->id);
+        $bankAccount->delete();
+
+        toastr()->warning('Record Deleted');
+        return redirect('/bank-account');
+    }
+
+    public function destroyAll()
+    {
+        DB::table('bank_accounts')->delete();
+
+        toastr()->error('All Records Deleted');
+        return redirect('/bank-account');
     }
 }

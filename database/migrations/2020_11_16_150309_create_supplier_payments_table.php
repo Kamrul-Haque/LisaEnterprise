@@ -21,7 +21,7 @@ class CreateSupplierPaymentsTable extends Migration
             $table->decimal('amount',11,2)->unsigned();
             $table->string('date_of_issue');
             $table->string('account_no')->default('N/A');
-            $table->string('check_no')->default('N/A');
+            $table->string('cheque_no')->default('N/A');
             $table->string('date_of_draw')->nullable();
             $table->string('status')->default('N/A');
             $table->string('card_no')->default('N/A');

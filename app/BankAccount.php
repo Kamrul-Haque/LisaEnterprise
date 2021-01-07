@@ -10,11 +10,11 @@ class BankAccount extends Model
 
     public function bankDeposits()
     {
-        $this->hasMany(BankDeposit::class);
+        return $this->hasMany(BankDeposit::class);
     }
 
     public function bankWithdraws()
     {
-        $this->hasMany(BankWithdraw::class);
+        return $this->hasMany(BankWithdraw::class);
     }
 }

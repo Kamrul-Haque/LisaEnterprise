@@ -17,13 +17,15 @@ class CreateBankWithdrawsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('bank_account_id');
             $table->string('type');
-            $table->string('check_no')->default('N/A');
-            $table->string('date_of_draw')->nullable();
+            $table->string('cheque_no')->default('N/A');
+            $table->string('date_of_issue');
             $table->string('status')->default('N/A');
+            $table->string('date_of_draw')->nullable();
             $table->string('card_no')->default('N/A');
             $table->string('validity')->default('N/A');
             $table->string('cvv')->default('N/A');
             $table->decimal('amount',11,2)->unsigned();
+            $table->string('entry_by');
             $table->timestamps();
 
             $table->foreign('bank_account_id')->references('id')->on('bank_accounts')->onDelete('cascade');
