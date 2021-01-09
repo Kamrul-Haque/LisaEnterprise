@@ -23,7 +23,7 @@
     @toastr_css
     <style>
         .content-wrapper{
-            padding-left: 200px;
+            padding-left: 230px;
             padding-top: 55px;
             /* Space for fixed navbar */
         }
@@ -33,7 +33,7 @@
             width: 100%;
             background-color:  transparent;
             text-align: center;
-            padding-left: 200px;
+            padding-left: 230px;
         }
         .table-responsive-lg{
             overflow-x: scroll;

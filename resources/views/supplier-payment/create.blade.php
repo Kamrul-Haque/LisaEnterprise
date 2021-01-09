@@ -28,20 +28,20 @@
 @endsection
 @section('content')
     <div class="container m-auto">
-        <h2>Bank Withdraw</h2>
+        <h2>Add Payment</h2>
         <hr>
-        <form id="form" action="{{route('bank-withdraw.store')}}" method="POST">
+        <form action="{{route('supplier-payment.store')}}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="account">Account</label>
-                <select id="account" name="account" class="form-control @error('account') is-invalid @enderror" required>
+                <label for="supplier">Supplier Name</label>
+                <select id="supplier" name="supplier" class="form-control @error('supplier') is-invalid @enderror" required>
                     <option value="" selected disabled>Please Select...</option>
-                    @foreach ($bankAccounts as $bankAccount)
-                        <option value="{{ $bankAccount->id }}" @if(old('account')==$bankAccount->id) selected @endif>{{ $bankAccount->bank_name }}, {{ $bankAccount->branch }} - {{ $bankAccount->account_no }}</option>
+                    @foreach ($suppliers as $supplier)
+                        <option value="{{$supplier->id}}" @if(old('supplier') == $supplier->id) selected @endif>{{$supplier->name}}</option>
                     @endforeach
                 </select>
 
-                @error('account')
+                @error('supplier')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -57,7 +57,7 @@
                 </select>
 
                 @error('type')
-                <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -67,7 +67,7 @@
                 <input type="number" id="cheque_no" name="cheque_no" class="form-control @error('cheque_no') is-invalid @enderror" value="{{ old('cheque_no') }}">
 
                 @error('cheque_no')
-                <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -77,7 +77,7 @@
                 <input type="number" id="card" name="card" class="form-control @error('card') is-invalid @enderror" value="{{ old('card') }}">
 
                 @error('card')
-                <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -109,7 +109,7 @@
                 <input type="number" step="any" id="amount" name="amount" class="form-control @error('amount') is-invalid @enderror" value="{{ old('amount') }}" required>
 
                 @error('amount')
-                <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -119,14 +119,14 @@
                 <input type="date" id="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date') }}" required>
 
                 @error('date')
-                <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
             </div>
             <hr>
             <button type="submit" class="btn btn-success">Create</button>
-            <a href="{{ route('bank-account.index') }}" class="btn btn-warning float-right">Cancel</a>
+            <a href="{{ route('supplier-payment.index') }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
 @endsection

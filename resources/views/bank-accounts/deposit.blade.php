@@ -129,6 +129,8 @@
             <a href="{{ route('bank-account.index') }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
+@endsection
+@section('script')
     <script type="text/javascript">
         $(document).ready(function (){
             var type = $('#type').val();

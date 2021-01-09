@@ -30,7 +30,7 @@
         <a class="btn btn-light" href=" {{route('admin.dashboard')}} ">Back</a>
         <h2 style="float: right">Payments</h2>
         <hr>
-        @if($payments->count())
+        @if($clientPayments->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
                     <table class="table table-striped table-hover pt-3" id="table">
@@ -51,7 +51,7 @@
                            <th>OPERATIONS</th>
                        </tr>
                         <tbody>
-                        @foreach ($payments as $payment)
+                        @foreach ($clientPayments as $payment)
                             <tr>
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$payment->sl_no}} </td>
@@ -67,12 +67,12 @@
                                 <td> {{$payment->cvv}} </td>
                                 <td> {{$payment->received_by}} </td>
                                 <td>
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         @if($payment->status == 'Pending')
-                                        <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{route('payments.edit', $payment)}}">Change Status</a>
+                                        <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{ route('client-payment.edit', $payment) }}">Change Status</a>
                                         @endif
                                         @if(Auth::guard('admin')->check())
-                                        <form class="pl-1" action="{{route('payments.destroy', $payment)}}" method="POST">
+                                        <form class="pl-1" action="{{route('client-payment.destroy', $payment)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
@@ -94,11 +94,11 @@
         <hr>
         <div class="form-group row">
             <div class="col-md-3">
-                <a class="btn btn-success float-left" href=" {{route('payments.create')}} ">Add New</a>
+                <a class="btn btn-success float-left" href=" {{route('client-payment.create')}} ">Add New</a>
             </div>
             <div class="col-md-6">
                 <ul class="pagination justify-content-center">
-                    {{ $payments->links() }}
+                    {{ $clientPayments->links() }}
                 </ul>
             </div>
             <div class="col-md-3">
@@ -109,7 +109,7 @@
         </div>
     </div>
     <!-- The Modal -->
-    @if($payments->count())
+    @if($clientPayments->count())
         <div class="modal fade" id="deleteAllModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -123,7 +123,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <form action="{{route('admin.payments.deleteAll')}}" method="post">
+                        <form action="#" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
                         </form>

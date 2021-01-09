@@ -4,7 +4,7 @@
         top: 55px;
         bottom: 0;
         left: 0;
-        width: 200px;
+        width: 230px;
         z-index: 50; /* Behind the navbar */
         padding: 0px 0 0; /* Height of navbar */
         box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
@@ -92,7 +92,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('godowns.index') }}">
-                                <span data-feather="home"></span>
+                                <span data-feather="archive"></span>
                                 Godowns
                             </a>
                         </li>
@@ -103,9 +103,21 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('supplier-payment.index') }}">
+                                <span data-feather="minus-square"></span>
+                                Supplier Payments
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('clients.index') }}">
                                 <span data-feather="briefcase"></span>
                                 Clients
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('client-payment.index') }}">
+                                <span data-feather="plus-square"></span>
+                                Client Payments
                             </a>
                         </li>
                         @if(Auth::guard('admin')->check())
@@ -122,28 +134,6 @@
                                 Invoices
                             </a>
                         </li>
-                        {{--<li class="nav-item">
-                            <a class="nav-link" href="{{ route('payments.index') }}">
-                                <span data-feather="dollar-sign"></span>
-                                Payments
-                            </a>
-                        </li>--}}
-                        @if(Auth::guard('admin')->check())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.users.index') }}">
-                                <span data-feather="users"></span>
-                                Employees
-                            </a>
-                        </li>
-                        @endif
-                        @if(Auth::guard('admin')->check())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.accounts.index') }}">
-                                <span data-feather="user"></span>
-                                Admins
-                            </a>
-                        </li>
-                        @endif
                         @if(Auth::guard('admin')->check())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.cash-register.index') }}">
@@ -151,6 +141,28 @@
                                 Cash Register
                             </a>
                         </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('bank-account.index') }}">
+                                <span data-feather="home"></span>
+                                Bank Accounts
+                            </a>
+                        </li>
+                        @if(Auth::guard('admin')->check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users.index') }}">
+                                    <span data-feather="users"></span>
+                                    Employees
+                                </a>
+                            </li>
+                        @endif
+                        @if(Auth::guard('admin')->check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.accounts.index') }}">
+                                    <span data-feather="user"></span>
+                                    Admins
+                                </a>
+                            </li>
                         @endif
                     </ul>
                     <hr class="line">

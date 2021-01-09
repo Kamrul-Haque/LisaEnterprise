@@ -94,7 +94,7 @@ class BankWithdrawController extends Controller
     {
         $request->validate([
             'status'=>'required',
-            'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$bankWithdraw->date_of_issue,
+            'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$bankWithdraw->getOriginal('date_of_issue'),
         ]);
 
         $bankWithdraw = BankWithdraw::find($bankWithdraw->id);

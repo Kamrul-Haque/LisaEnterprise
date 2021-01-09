@@ -31,8 +31,10 @@ Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::resource('products', 'ProductController');
     Route::resource('godowns', 'GodownController');
     Route::resource('clients', 'ClientController');
+    Route::resource('client-payment', 'ClientPaymentController');
     Route::resource('invoices', 'InvoiceController');
     Route::resource('supplier', 'SupplierController');
+    Route::resource('supplier-payment', 'SupplierPaymentController');
     Route::resource('bank-account','BankAccountController');
     Route::resource('bank-deposit','BankDepositController')->only('create','store','destroy');
     Route::get('/bank-deposit/{bankDeposit}/editStatus','BankDepositController@editStatus')->name('bank-deposit.status.edit');

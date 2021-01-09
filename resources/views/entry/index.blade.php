@@ -26,7 +26,7 @@
     @endif
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid pl-5 pr-5">
         <a class="btn btn-light" href=" {{route('admin.dashboard')}} ">Back</a>
         <h2 style="float: right">Product Entries</h2>
         <hr>

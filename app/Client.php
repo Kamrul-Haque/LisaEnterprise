@@ -15,9 +15,9 @@ class Client extends Model implements Searchable
         return $this->hasMany(Invoice::class);
     }
 
-    public function paychecks()
+    public function clientPayments()
     {
-        return $this->hasMany(Paycheck::class);
+        return $this->hasMany(ClientPayment::class);
     }
 
     public function getSearchResult(): SearchResult
