@@ -36,7 +36,7 @@ class SupplierPayment extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('clients.show',$this->id);
+        $url = route('supplier-payment.show',$this->id);
 
         // TODO: Implement getSearchResult() method.
         return new SearchResult($this,$this->supplier->name,$url);

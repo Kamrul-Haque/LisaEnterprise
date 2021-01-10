@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\CashRegister;
 use App\Client;
+use App\ClientPayment;
 use App\Invoice;
 use App\InvoiceProduct;
-use App\Payment;
 use App\Product;
 use DB;
 use Illuminate\Http\Request;
@@ -144,7 +144,7 @@ class InvoiceController extends Controller
         $type = $request->input('type');
         $amount = $request->input('amount');
 
-        $payment = new Payment;
+        $payment = new ClientPayment;
         $payment->client_id = $request->input('name');
         $payment->type = $type;
         $payment->amount = $amount;
@@ -174,7 +174,7 @@ class InvoiceController extends Controller
             $payment->save();
         }
         $id = $payment->id;
-        $payment = Payment::find($id);
+        $payment = ClientPayment::find($id);
         $payment->sl_no = "PYT_".$id;
         $payment->save();
 

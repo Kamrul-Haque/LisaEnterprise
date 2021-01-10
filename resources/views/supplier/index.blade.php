@@ -40,8 +40,8 @@
                             <th>EMAIL</th>
                             <th>PHONE</th>
                             <th>ADDRESS</th>
-                            <th>Total Due</th>
-                            <th>Total Purchase</th>
+                            <th>TOTAL DUE</th>
+                            <th>TOTAL PAID</th>
                             <th><center>OPERATIONS</center></th>
                         </tr>
                         <tbody>
@@ -53,7 +53,7 @@
                                 <td> {{$supplier->phone}} </td>
                                 <td> {{$supplier->address}} </td>
                                 <td> {{$supplier->total_due}} </td>
-                                <td> {{$supplier->total_purchase}} </td>
+                                <td> {{$supplier->total_paid}} </td>
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('supplier.show',$supplier)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>

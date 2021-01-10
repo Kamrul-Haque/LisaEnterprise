@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\CashRegister;
 use App\Entry;
 use App\Godown;
 use App\Product;
 use App\Supplier;
+use App\SupplierPayment;
 use DB;
 use Illuminate\Http\Request;
 use Auth;
@@ -51,6 +53,12 @@ class EntryController extends Controller
             'godown' => 'required',
             'supplier' => 'required',
             'date' => 'required|after:31-12-2004|before_or_equal:today',
+            'type'=>'required',
+            'cheque_no'=>'nullable|required_if:type,Cheque',
+            'card'=>'nullable|required_if:type,Card',
+            'validity'=>'nullable|required_if:type,Card',
+            'cvv'=>'nullable|required_if:type,Card',
+            'amount'=>'required|numeric|gt:0|lte:price',
         ]);
 
         $entry = new Entry;
@@ -70,6 +78,9 @@ class EntryController extends Controller
         $entry->supplier_id = $request->input('supplier');
         $entry->entry_by = Auth::user()->name;
 
+        if ($request->amount > 0)
+            $this->savePayment($request);
+
         $godown = Godown::find($gid);
         if ($godown->products->contains($pid)){
             $quantity += $godown->products->find($pid)->pivot->godown_quantity;
@@ -88,6 +99,48 @@ class EntryController extends Controller
 
         toastr()->success('Created Successfully!');
         return redirect('/admin/entries');
+    }
+
+    public function savePayment(Request $request)
+    {
+        $supplierPayment = new SupplierPayment;
+        $supplierPayment->supplier_id = $request->supplier;
+        $supplierPayment->type = $request->type;
+
+        if ($request->type == 'Cheque')
+        {
+            $supplierPayment->cheque_no = $request->cheque_no;
+            $supplierPayment->status = 'Pending';
+        }
+        else if ($request->type == 'Card')
+        {
+            $supplierPayment->card_no = $request->card;
+            $supplierPayment->validity = $request->validity;
+            $supplierPayment->cvv = $request->cvv;
+            $supplierPayment->supplier->total_due += $request->due;
+            $supplierPayment->supplier->total_paid += $request->amount;
+        }
+        else
+        {
+            $supplierPayment->supplier->total_due += $request->due;
+            $supplierPayment->supplier->total_paid += $request->amount;
+        }
+
+        $supplierPayment->amount = $request->amount;
+        $supplierPayment->date_of_issue = $request->date;
+        $supplierPayment->received_by = Auth::user()->name;
+        $supplierPayment->push();
+        $this->saveWithdraw($request->amount, $request->date);
+    }
+
+    public function saveWithdraw($amount, $date)
+    {
+        $cash = new CashRegister;
+        $cash->type = "Withdraw";
+        $cash->amount = $amount;
+        $cash->title = "Supplier Payment";
+        $cash->date = $date;
+        $cash->save();
     }
 
     /**

@@ -21,6 +21,15 @@ Route::get('/admin/login','Auth\LoginController@showAdminLoginForm')->name('admi
 Route::post('/admin/login','Auth\LoginController@adminLogin')->name('admin.login.submit');
 Route::get('/users/change-password','HomeController@passwordChangeForm')->name('users.password.change');
 Route::post('/users/change-password','HomeController@passwordChange')->name('users.password.change.store');
+
+//admin password reset routes
+Route::prefix('admin')->group(function() {
+    Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
+    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+});
+
 Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::get('/invoices/print/{invoice}', 'InvoiceController@print')->name('invoices.print');
     Route::get('/quotation/print','InvoiceController@quotationPrint')->name('quotation.print');

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\CashRegister;
 use App\Client;
+use App\ClientPayment;
 use App\Entry;
 use App\Godown;
 use App\Invoice;
 use App\Payment;
 use App\Product;
+use App\Supplier;
+use App\SupplierPayment;
 use Auth;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
@@ -30,7 +33,9 @@ class SearchController extends Controller
                 ->registerModel(Godown::class, 'name','location')
                 ->registerModel(Entry::class, 'sl_no','date')
                 ->registerModel(Invoice::class, 'sl_no','date')
-                /*->registerModel(Payment::class, 'sl_no','date_of_issue','date_of_draw')*/
+                ->registerModel(ClientPayment::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(SupplierPayment::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(Supplier::class, 'sl_no','date_of_issue','date_of_draw')
                 ->registerModel(CashRegister::class, 'title','date')
                 ->search($string);
 
@@ -48,7 +53,9 @@ class SearchController extends Controller
                 ->registerModel(Client::class, 'name','phone')
                 ->registerModel(Godown::class, 'name','location')
                 ->registerModel(Invoice::class, 'sl_no','date')
-                ->registerModel(Payment::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(ClientPayment::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(SupplierPayment::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(Supplier::class, 'sl_no','date_of_issue','date_of_draw')
                 ->search($string);
 
             return view('search-results', compact('searchResults','string'));

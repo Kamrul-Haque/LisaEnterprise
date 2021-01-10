@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\BankAccount;
+use App\BankDeposit;
+use App\BankWithdraw;
 use App\CashRegister;
+use Auth;
 use Illuminate\Http\Request;
 
 class CashRegisterController extends Controller
@@ -113,6 +117,84 @@ class CashRegisterController extends Controller
         CashRegister::truncate();
 
         toastr()->error('All Records deleted');
+        return redirect('/admin/cash-register');
+    }
+
+    public function withdrawToBankForm()
+    {
+        $bankAccounts = BankAccount::all();
+        return view('cash-register.withdraw-to-bank', compact('bankAccounts'));
+    }
+
+    public function withdrawToBank(Request $request)
+    {
+        $request->validate([
+            'account'=>'required',
+            'type'=>'required',
+            'cheque_no'=>'nullable|required_if:type,Cheque',
+            'card'=>'nullable|required_if:type,Card',
+            'validity'=>'nullable|required_if:type,Card',
+            'cvv'=>'nullable|required_if:type,Card',
+            'amount'=>'required|numeric|gt:0|lte:'.$this->balance(),
+            'date'=>'required|before_or_equal:today',
+        ]);
+
+        $cash = new CashRegister;
+        $cash->type = "Withdraw";
+        $cash->amount = $request->amount;
+        $cash->title = "Withdrawn to Bank";
+        $cash->date = $request->date;
+        $cash->save();
+
+        $bankDeposit = new BankDeposit;
+        $bankDeposit->bank_account_id = $request->account;
+        $bankDeposit->type = $request->type;
+        $bankDeposit->bankAccount->balance += $request->amount;
+        $bankDeposit->amount = $request->amount;
+        $bankDeposit->date_of_issue = $request->date;
+        $bankDeposit->entry_by = Auth::user()->name;
+        $bankDeposit->push();
+
+        toastr()->success('Withdrawn Successfully');
+        return redirect('/admin/cash-register');
+    }
+
+    public function depositFromBankForm()
+    {
+        $bankAccounts = BankAccount::all();
+        return view('cash-register.deposit-from-bank', compact('bankAccounts'));
+    }
+
+    public function depositFromBank(Request $request)
+    {
+        $request->validate([
+            'account'=>'required',
+            'type'=>'required',
+            'cheque_no'=>'nullable|required_if:type,Cheque',
+            'card'=>'nullable|required_if:type,Card',
+            'validity'=>'nullable|required_if:type,Card',
+            'cvv'=>'nullable|required_if:type,Card',
+            'amount'=>'required|numeric|gt:0|lte:'.$request->account->balance,
+            'date'=>'required|before_or_equal:today',
+        ]);
+
+        $cash = new CashRegister;
+        $cash->type = "Deposit";
+        $cash->amount = $request->amount;
+        $cash->title = "Deposited from Bank";
+        $cash->date = $request->date;
+        $cash->save();
+
+        $bankWithdraw = new BankWithdraw;
+        $bankWithdraw->bank_account_id = $request->account;
+        $bankWithdraw->type = $request->type;
+        $bankWithdraw->bankAccount->balance -= $request->amount;
+        $bankWithdraw->amount = $request->amount;
+        $bankWithdraw->date_of_issue = $request->date;
+        $bankWithdraw->entry_by = Auth::user()->name;
+        $bankWithdraw->push();
+
+        toastr()->success('Deposited Successfully');
         return redirect('/admin/cash-register');
     }
 }

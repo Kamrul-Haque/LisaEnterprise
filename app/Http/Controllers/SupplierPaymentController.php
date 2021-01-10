@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CashRegister;
 use App\Supplier;
 use App\SupplierPayment;
 use Auth;
@@ -73,9 +74,20 @@ class SupplierPaymentController extends Controller
         $supplierPayment->date_of_issue = $request->date;
         $supplierPayment->received_by = Auth::user()->name;
         $supplierPayment->push();
+        $this->saveWithdraw($request->amount, $request->date);
 
         toastr()->success('Created Successfully');
         return redirect('/supplier-payment');
+    }
+
+    public function saveWithdraw($amount, $date)
+    {
+        $cash = new CashRegister;
+        $cash->type = "Withdraw";
+        $cash->amount = $amount;
+        $cash->title = "Supplier Payment";
+        $cash->date = $date;
+        $cash->save();
     }
 
     /**
@@ -86,7 +98,8 @@ class SupplierPaymentController extends Controller
      */
     public function show(SupplierPayment $supplierPayment)
     {
-        //
+        $supplierPayment = SupplierPayment::find($supplierPayment->id);
+        return view('supplier-payment.show', compact('supplierPayment'));
     }
 
     /**

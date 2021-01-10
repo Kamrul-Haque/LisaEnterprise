@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,5 +49,10 @@ class Admin extends Authenticatable
             $carbon = new Carbon($value);
             return $carbon->format('d/m/Y');
         }
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminResetPasswordNotification($token));
     }
 }

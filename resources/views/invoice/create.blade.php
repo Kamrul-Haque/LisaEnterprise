@@ -120,6 +120,12 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <input id="quantity" name="quantity[]" class="form-control calculable" data-dependent="price" data-linked="uprice" required>
+
+                                    @error('quantity.*')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="col-sm-1">
                                     <label id="unitLabel" class="form-check-label text-black-50"></label>
@@ -127,6 +133,12 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <input id="unitp" name="uprice[]" class="form-control calculable-alt" data-dependent="price" data-linked="quantity" required>
+
+                                    @error('uprice.*')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="col-sm-2">
                                     <label id="priceLabel" class="form-check-label text-black-50">0</label>

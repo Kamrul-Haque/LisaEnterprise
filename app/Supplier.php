@@ -22,7 +22,7 @@ class Supplier extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('clients.show',$this->id);
+        $url = route('supplier.show',$this->id);
 
         // TODO: Implement getSearchResult() method.
         return new SearchResult($this,$this->name,$url);

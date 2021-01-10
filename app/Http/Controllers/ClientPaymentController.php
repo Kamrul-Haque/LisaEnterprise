@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CashRegister;
 use App\Client;
 use App\ClientPayment;
 use Auth;
@@ -73,9 +74,20 @@ class ClientPaymentController extends Controller
         $clientPayment->date_of_issue = $request->date;
         $clientPayment->received_by = Auth::user()->name;
         $clientPayment->push();
+        $this->saveDeposit($request->amount, $request->date);
 
         toastr()->success('Created Successfully');
         return redirect('/client-payment');
+    }
+
+    public function saveDeposit($amount, $date)
+    {
+        $cash = new CashRegister;
+        $cash->type = "Deposit";
+        $cash->amount = $amount;
+        $cash->title = "Client Payment";
+        $cash->date = $date;
+        $cash->save();
     }
 
     /**
@@ -86,7 +98,8 @@ class ClientPaymentController extends Controller
      */
     public function show(ClientPayment $clientPayment)
     {
-        //
+        $clientPayment = ClientPayment::find($clientPayment->id);
+        return view('client-payment.show', compact('clientPayment'));
     }
 
     /**
