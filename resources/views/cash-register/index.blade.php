@@ -54,21 +54,20 @@
                                 <td> {{$cash->title}} </td>
                                 <td> {{$cash->description}} </td>
                                 <td>
-                                    <form action="{{ route('admin.cash-register.destroy', $cash) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning btn-sm"><span data-feather="trash-2" style="width: 15px; height: auto; padding: 0"></span></button>
-                                    </form>
+                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('admin.cash-register.destroy', $cash)}}"
+                            @endcomponent
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         @else
-            <div class="card card-body bg-light  justify-content-center">
-                <center><p class="display-4">No Records Found!</p></center>
+            <div class="card card-body bg-light text-center">
+                <p class="display-4">No Records Found!</p>
             </div>
         @endif
         <hr>

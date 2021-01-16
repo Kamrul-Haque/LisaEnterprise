@@ -32,7 +32,7 @@
                             <th>PHONE</th>
                             <th>DATE OF BIRTH</th>
                             <th>ADDRESS</th>
-                            <th><center>OPERATIONS</center></th>
+                            <th class="text-center">OPERATIONS</th>
                         </tr>
                     <tbody>
                         @foreach ($admins as $admin)
@@ -48,14 +48,13 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('admin.accounts.edit',$admin->id)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <form class="pl-1" action="{{route('admin.accounts.destroy',$admin->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                     </div>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('admin.accounts.destroy', $admin)}}"
+                            @endcomponent
                         @endforeach
                     </tbody>
                 </table>

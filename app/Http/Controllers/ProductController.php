@@ -64,6 +64,12 @@ class ProductController extends Controller
         return view('product.show',compact('product'));
     }
 
+    public function salesIndex()
+    {
+        $products = Product::orderBy('name')->paginate(10);
+        return view('product.sales', compact('products'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

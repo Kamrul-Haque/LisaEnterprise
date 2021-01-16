@@ -34,6 +34,11 @@ class ClientPayment extends Model implements Searchable
         return $this->belongsTo(Client::class);
     }
 
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class,'payment_id');
+    }
+
     public function getSearchResult(): SearchResult
     {
         $url = route('client-payment.show',$this->id);

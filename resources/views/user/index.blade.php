@@ -32,7 +32,7 @@
                             <th>PHONE</th>
                             <th>DATE OF BIRTH</th>
                             <th>ADDRESS</th>
-                            <th><center>OPERATIONS</center></th>
+                            <th class="text-center">OPERATIONS</th>
                         </tr>
                     <tbody>
                         @foreach ($users as $user)
@@ -48,13 +48,12 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('admin.users.edit',$user->id)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <form class="pl-1" action="{{route('admin.users.destroy',$user->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                     </div>
                                 </td>
+                                @component('layouts.components.delete-modal')
+                                    action="{{route('admin.users.destroy', $user)}}"
+                                @endcomponent
                             </tr>
                         @endforeach
                     </tbody>
@@ -62,8 +61,8 @@
             </div>
         </div>
         @else
-        <div class="card card-body bg-light  justify-content-center">
-            <center><p class="display-4">No Records Found!</p></center>
+        <div class="card card-body bg-light text-center">
+            <p class="display-4">No Records Found!</p>
         </div>
         @endif
         <hr>

@@ -43,7 +43,7 @@ class GodownController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'nullable|digits_between:8,10|unique:godowns',
+            'phone' => 'nullable|digits_between:7,10|unique:godowns',
         ]);
 
         $godown = new Godown;
@@ -102,7 +102,7 @@ class GodownController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'nullable|digits_between:8,10|unique:godowns,phone,'.$godown->id,
+            'phone' => 'nullable|digits_between:7,10|unique:godowns,phone,'.$godown->id,
         ]);
 
         $godown = Godown::find($godown->id);

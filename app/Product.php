@@ -12,19 +12,19 @@ class Product extends Model implements Searchable
 
     public function totalPrice()
     {
-        return $this->entries->sum('total_buying_price');
+        return $this->unitPrice() * $this->totalQuantity();
     }
 
     public function totalQuantity()
     {
-        return $this->entries->sum('quantity');
+        return $this->godowns()->sum('quantity');
     }
 
     public function unitPrice()
     {
         if ($this->totalQuantity())
         {
-            return $this->totalPrice() / $this->totalQuantity();
+            return $this->entries->sum('buying_price') / $this->entries->sum('quantity');
         }
     }
 
@@ -35,7 +35,7 @@ class Product extends Model implements Searchable
 
     public function godowns()
     {
-        return $this->belongsToMany(Godown::class, 'godown_product')->withPivot('godown_quantity');
+        return $this->belongsToMany(Godown::class, 'godown_product')->withPivot('quantity');
     }
 
     public function invoiceProducts()

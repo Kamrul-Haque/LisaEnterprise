@@ -21,9 +21,9 @@ class Invoice extends Model implements Searchable
         return $this->hasMany(InvoiceProduct::class);
     }
 
-    public function payment()
+    public function clientPayment()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(ClientPayment::class,'payment_id');
     }
 
     public function getDateAttribute($value)

@@ -97,27 +97,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('supplier.index') }}">
-                                <span data-feather="truck"></span>
-                                Suppliers
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('supplier-payment.index') }}">
-                                <span data-feather="minus-square"></span>
-                                Supplier Payments
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('clients.index') }}">
                                 <span data-feather="briefcase"></span>
                                 Clients
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('client-payment.index') }}">
-                                <span data-feather="plus-square"></span>
-                                Client Payments
+                            <a class="nav-link" href="{{ route('supplier.index') }}">
+                                <span data-feather="truck"></span>
+                                Suppliers
                             </a>
                         </li>
                         @if(Auth::guard('admin')->check())
@@ -129,9 +117,27 @@
                         </li>
                         @endif
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('product.sales') }}">
+                                <span data-feather="dollar-sign"></span>
+                                Sales
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('invoices.index') }}">
                                 <span data-feather="file-text"></span>
                                 Invoices
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('client-payment.index') }}">
+                                <span data-feather="plus-square"></span>
+                                Client Payments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('supplier-payment.index') }}">
+                                <span data-feather="minus-square"></span>
+                                Supplier Payments
                             </a>
                         </li>
                         @if(Auth::guard('admin')->check())

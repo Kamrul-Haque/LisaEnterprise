@@ -47,8 +47,8 @@
                 <select name="tgodown" id="tgodown" class="form-control" required>
                     <option value="" selected disabled>Please Select...</option>
                     @foreach ($godowns as $godownz)
-                        @if($godownz->name != $godown->name)
-                        <option value="{{$godownz->id}}">{{$godownz->name}}</option>
+                        @if($godown_new->name != $godown->name)
+                        <option value="{{$godown_new->id}}">{{$godown_new->name}}</option>
                         @endif
                     @endforeach
                 </select>

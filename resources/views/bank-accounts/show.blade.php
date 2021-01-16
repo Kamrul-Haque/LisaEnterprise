@@ -80,13 +80,12 @@
                                 <a href="{{ route('bank-deposit.status.edit', $deposit) }}" class="btn btn-outline-primary btn-sm">Change Status</a>
                                 @endif
                                 @if(Auth::guard('admin')->check())
-                                    <form class="d-inline-block" action="{{route('bank-deposit.destroy', $deposit)}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning btn-sm ml-1" title="delete"><span data-feather="trash-2" style="width: 15px; height: 15px; padding: 0"></span></button>
-                                    </form>
+                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                 @endif
                             </td>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('bank-deposit.destroy', $deposit)}}"
+                            @endcomponent
                         </tr>
                     @endforeach
                     </tbody>
@@ -123,13 +122,12 @@
                                     <a href="{{ route('bank-withdraw.status.edit', $withdraw) }}" class="btn btn-outline-primary btn-sm">Change Status</a>
                                 @endif
                                 @if(Auth::guard('admin')->check())
-                                    <form class="d-inline-block" action="{{ route('bank-withdraw.destroy', $withdraw) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning btn-sm" title="delete"><span data-feather="trash-2" style="width: 15px; height: 15px; padding: 0"></span></button>
-                                    </form>
+                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                 @endif
                             </td>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('bank-withdraw.destroy', $withdraw)}}"
+                            @endcomponent
                         </tr>
                     @endforeach
                     </tbody>

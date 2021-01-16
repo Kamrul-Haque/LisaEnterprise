@@ -59,22 +59,21 @@
                                     <td> {{$product->totalQuantity()}} </td>
                                     <td> {{$product->unit}} </td>
                                     @if(Auth::guard('admin')->check())
-                                    <td> {{$product->unitPrice()}} </td>
+                                    <td> {{number_format($product->unitPrice(),2)}} </td>
                                     <td> {{$product->totalPrice()}} </td>
                                     @endif
                                     @if(Auth::guard('admin')->check())
                                     <td>
                                         <div class="row justify-content-center">
                                             <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                            <form class="pl-1" action="{{route('products.destroy', $product)}}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                            </form>
+                                            <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                         </div>
                                     </td>
                                     @endif
                                 </tr>
+                                @component('layouts.components.delete-modal')
+                                    action="{{route('products.destroy', $product)}}"
+                                @endcomponent
                             @endforeach
                         </tbody>
                     </table>

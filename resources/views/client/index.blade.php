@@ -61,22 +61,21 @@
                                         <div class="pl-1">
                                             <a href="{{route('clients.edit',$client)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         </div>
-                                        <form class="pl-1" action="{{route('clients.destroy',$client)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('clients.destroy', $client)}}"
+                            @endcomponent
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         @else
-            <div class="card card-body bg-light  justify-content-center">
+            <div class="card card-body bg-light text-center">
                 <p class="display-4">No Records Found!</p>
             </div>
         @endif

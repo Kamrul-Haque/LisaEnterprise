@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
                 <label for="name">Client Name</label>
-                <select id="name" name="name" class="form-control @error('name') is-invalid @enderror" required>
+                <select id="name" name="client" class="form-control @error('name') is-invalid @enderror" required>
                     <option value="" selected disabled>Please Select...</option>
                     @foreach ($clients as $client)
                         <option value="{{ $client->id }}" @if(old('name')==$client->id) selected @endif>{{ $client->name }}</option>
@@ -429,7 +429,7 @@
                     data:{id:p_id, _token:_token},
                     success:function (response) {
                         $.each(response, function (index, godown) {
-                            $('#'+dependent).append('<option value="'+godown.id+'">'+godown.name+' - '+godown.pivot.godown_quantity+'</option>');
+                            $('#'+dependent).append('<option value="'+godown.id+'">'+godown.name+' - '+godown.pivot.quantity+'</option>');
                         });
                     }
                 });

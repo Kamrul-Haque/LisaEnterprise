@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::resource('bank-withdraw','BankWithdrawController')->only('create','store','destroy');
     Route::get('/bank-withdraw/{bankWithdraw}/editStatus','BankWithdrawController@editStatus')->name('bank-withdraw.status.edit');
     Route::post('/bank-withdraw/{bankWithdraw}/updateStatus','BankWithdrawController@updateStatus')->name('bank-withdraw.status.update');
+    Route::get('/sales','ProductController@salesIndex')->name('product.sales');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function()
 {

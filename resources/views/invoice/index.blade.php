@@ -50,7 +50,7 @@
                             <th>Paid</th>
                             <th>Due</th>
                             <th>Sold By</th>
-                            <th><center>OPERATIONS</center></th>
+                            <th class="text-center">OPERATIONS</th>
                         </tr>
                         <tbody>
                         @foreach ($invoices as $invoice)
@@ -64,8 +64,8 @@
                                 <td> {{$invoice->subtotal}} </td>
                                 <td> {{$invoice->discount}}</td>
                                 <td> {{$invoice->grand_total}} </td>
-                                @if($invoice->payment->status != 'N/A')
-                                <td> {{$invoice->paid}}({{$invoice->payment->status}}) </td>
+                                @if($invoice->clientPayment->status != 'N/A')
+                                <td> {{$invoice->paid}}({{$invoice->clientPayment->status}}) </td>
                                 @else
                                 <td>{{$invoice->paid}}</td>
                                 @endif
@@ -74,24 +74,21 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('invoices.show',$invoice)}}" class="btn d-block btn-dark btn-sm" title="details"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        @if(Auth::guard('admin')->check())
-                                        <form class="pl-1" action="{{route('invoices.destroy',$invoice)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
-                                        @endif
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                     </div>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('invoices.destroy', $invoice)}}"
+                            @endcomponent
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         @else
-            <div class="card card-body bg-light  justify-content-center">
-                <center><p class="display-4">No Records Found!</p></center>
+            <div class="card card-body bg-light text-center">
+               <p class="display-4">No Records Found!</p>
             </div>
         @endif
         <hr>

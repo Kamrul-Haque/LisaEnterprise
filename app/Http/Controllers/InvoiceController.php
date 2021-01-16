@@ -63,7 +63,7 @@ class InvoiceController extends Controller
     {
         $this->validate($request, [
             'date' => 'required|after:31-12-2004|before_or_equal:today',
-            'name' => 'required',
+            'client' => 'required',
             'labour' => 'required|numeric|between:0,99999.99',
             'transport' => 'required|numeric|between:0,99999.99',
             'subtotal' => 'required|numeric|between:0,999999999.99',
@@ -77,11 +77,12 @@ class InvoiceController extends Controller
             'unit.*' => 'required',
             'uprice.*' => 'required|numeric|between:0,99999.99',
             'price.*' => 'required|numeric|between:0,99999.99',
+            'type'=>'required',
         ]);
 
         $invoice = new Invoice;
         $invoice->date = $request->input('date');
-        $invoice->client_id = $request->input('name');
+        $invoice->client_id = $request->input('client');
         $invoice->labour_cost = $request->input('labour');
         $invoice->transport_cost = $request->input('transport');
         $invoice->subtotal = $request->input('subtotal');
@@ -115,11 +116,10 @@ class InvoiceController extends Controller
                 'total_selling_price' => $inputs['price'][$index]
             ];
             $product = Product::find($input);
-            $product->total_quantity -= $inputs['quantity'][$index];
-            $gquantity = $product->godowns->find($inputs['godown'][$index])->pivot->godown_quantity - $inputs['quantity'][$index];
+            $gquantity = $product->godowns->find($inputs['godown'][$index])->pivot->quantity - $inputs['quantity'][$index];
             if ($gquantity)
             {
-                $product->godowns()->updateExistingPivot($inputs['godown'][$index], ['godown_quantity'=>$gquantity]);
+                $product->godowns()->updateExistingPivot($inputs['godown'][$index], ['quantity'=>$gquantity]);
                 $product->save();
             }
             else
@@ -139,46 +139,33 @@ class InvoiceController extends Controller
         return $this->print($invoice);
     }
 
-    public function savePayment($request)
+    public function savePayment(Request $request)
     {
-        $type = $request->input('type');
-        $amount = $request->input('amount');
+        $clientPayment = new ClientPayment;
+        $clientPayment->client_id = $request->client;
+        $clientPayment->type = $request->type;
 
-        $payment = new ClientPayment;
-        $payment->client_id = $request->input('name');
-        $payment->type = $type;
-        $payment->amount = $amount;
-        $payment->received_by = Auth::user()->name;
-        $payment->date_of_issue = $request->input('date');
-        $payment->product_sell = true;
-
-        if ($type == 'Cheque')
+        if ($request->type == 'Cheque')
         {
-            $payment->acc_no = $request->input('account');
-            $payment->status = "Pending";
-
-            $payment->save();
+            $clientPayment->cheque_no = $request->cheque_no;
+            $clientPayment->status = 'Pending';
         }
-        elseif ($type == 'Card')
+        else if ($request->type == 'Card')
         {
-            $payment->card_no = $request->input('card');
-            $payment->validity = $request->input('validity');
-            $payment->cvv = $request->input('cvv');
-            $this->saveDeposit($request->input('amount'), $request->input('date'));
-
-            $payment->save();
+            $clientPayment->card_no = $request->card;
+            $clientPayment->validity = $request->validity;
+            $clientPayment->cvv = $request->cvv;
+            $this->saveDeposit($request->amount, $request->date);
         }
         else
-        {
-            $this->saveDeposit($request->input('amount'), $request->input('date'));
-            $payment->save();
-        }
-        $id = $payment->id;
-        $payment = ClientPayment::find($id);
-        $payment->sl_no = "PYT_".$id;
-        $payment->save();
+            $this->saveDeposit($request->amount, $request->date);
 
-        return $payment->id;
+        $clientPayment->amount = $request->amount;
+        $clientPayment->date_of_issue = $request->date;
+        $clientPayment->received_by = Auth::user()->name;
+        $clientPayment->push();
+
+        return $clientPayment->id;
     }
 
     public function saveDeposit($amount, $date)
@@ -222,16 +209,15 @@ class InvoiceController extends Controller
         foreach ($invoice->invoiceProducts as $invoiceProduct)
         {
             $product = Product::find($invoiceProduct->product_id);
-            $product->total_quantity += $invoiceProduct->quantity;
             if ($product->godowns->contains($invoiceProduct->godown_id))
             {
-                $gquantity = $product->godowns->find($invoiceProduct->godown_id)->pivot->godown_quantity + $invoiceProduct->quantity;
-                $product->godowns()->updateExistingPivot($invoiceProduct->godown_id, ['godown_quantity'=>$gquantity]);
+                $gquantity = $product->godowns->find($invoiceProduct->godown_id)->pivot->quantity + $invoiceProduct->quantity;
+                $product->godowns()->updateExistingPivot($invoiceProduct->godown_id, ['quantity'=>$gquantity]);
                 $product->save();
             }
             else
             {
-                $product->godowns()->syncWithoutDetaching($invoiceProduct->godown_id, ['godown_quantity'=>$invoiceProduct->quantity]);
+                $product->godowns()->syncWithoutDetaching($invoiceProduct->godown_id, ['quantity'=>$invoiceProduct->quantity]);
                 $product->save();
             }
         }

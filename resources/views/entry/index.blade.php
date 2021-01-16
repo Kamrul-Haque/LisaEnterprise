@@ -44,7 +44,6 @@
                         <th>Date</th>
                         <th>Bought From</th>
                         <th>Entry by</th>
-                        <th>Unit Price</th>
                         <th>Total Price</th>
                         <th><center>OPERATIONS</center></th>
                     </tr>
@@ -60,18 +59,16 @@
                                 <td> {{$entry->date}} </td>
                                 <td> {{$entry->supplier->name}} </td>
                                 <td> {{$entry->entry_by}} </td>
-                                <td> {{number_format($entry->unit_buying_price, 2)}} </td>
-                                <td> {{number_format($entry->total_buying_price, 2)}} </td>
+                                <td> {{$entry->buying_price}} </td>
                                 <td>
                                     <div class="row justify-content-center">
-                                        <form class="pl-1" action="{{route('admin.entries.destroy', $entry->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-warning btn-sm" name="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                     </div>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('admin.entries.destroy', $entry)}}"
+                            @endcomponent
                         @endforeach
                     </tbody>
                 </table>

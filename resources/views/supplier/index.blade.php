@@ -61,15 +61,14 @@
                                         <div class="pl-1">
                                             <a href="{{route('supplier.edit',$supplier)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         </div>
-                                        <form class="pl-1" action="{{route('supplier.destroy',$supplier)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
+                            @component('layouts.components.delete-modal')
+                                action="{{route('supplier.destroy', $supplier)}}"
+                            @endcomponent
                         @endforeach
                         </tbody>
                     </table>

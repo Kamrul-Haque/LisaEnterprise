@@ -17,7 +17,7 @@ class Godown extends Model implements Searchable
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'godown_product')->withPivot('godown_quantity');
+        return $this->belongsToMany(Product::class, 'godown_product')->withPivot('quantity');
     }
 
     public function invoiceProducts()

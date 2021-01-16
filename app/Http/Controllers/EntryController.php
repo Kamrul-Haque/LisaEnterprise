@@ -58,7 +58,7 @@ class EntryController extends Controller
             'card'=>'nullable|required_if:type,Card',
             'validity'=>'nullable|required_if:type,Card',
             'cvv'=>'nullable|required_if:type,Card',
-            'amount'=>'required|numeric|gt:0|lte:price',
+            'amount'=>'required|numeric|gte:0|lte:price',
         ]);
 
         $entry = new Entry;
@@ -71,8 +71,7 @@ class EntryController extends Controller
         $entry->quantity = $quantity;
         $product = Product::find($pid);
         $entry->unit = $product->unit;
-        $entry->total_buying_price = $price;
-        $entry->unit_buying_price = $price/$quantity;
+        $entry->buying_price = $price;
         $entry->godown_id = $gid;
         $entry->date = $request->input('date');
         $entry->supplier_id = $request->input('supplier');
@@ -83,12 +82,12 @@ class EntryController extends Controller
 
         $godown = Godown::find($gid);
         if ($godown->products->contains($pid)){
-            $quantity += $godown->products->find($pid)->pivot->godown_quantity;
-            $godown->products()->syncWithoutDetaching([$pid => ['godown_quantity'=>$quantity]]);
+            $quantity += $godown->products->find($pid)->pivot->quantity;
+            $godown->products()->syncWithoutDetaching([$pid => ['quantity'=>$quantity]]);
             $entry->push();
         }
         else{
-            $godown->products()->syncWithoutDetaching([$pid => ['godown_quantity'=>$quantity]]);
+            $godown->products()->syncWithoutDetaching([$pid => ['quantity'=>$quantity]]);
             $entry->push();
         }
         $id = $entry->id;
@@ -191,9 +190,9 @@ class EntryController extends Controller
         $pid = $entry->product_id;
 
         $godown = Godown::find($gid);
-        $gquantity = $godown->products->find($pid)->pivot->godown_quantity - $entry->quantity;
+        $gquantity = $godown->products->find($pid)->pivot->quantity - $entry->quantity;
         if ($gquantity && $gquantity>0){
-            $godown->products()->updateExistingPivot($pid, ['godown_quantity'=>$gquantity]);
+            $godown->products()->updateExistingPivot($pid, ['quantity'=>$gquantity]);
             $entry->delete();
             $entry->product->save();
         }
