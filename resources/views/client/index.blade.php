@@ -57,17 +57,17 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('clients.show',$client)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        @if(Auth::guard('admin')->check())
                                         <div class="pl-1">
                                             <a href="{{route('clients.edit',$client)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         </div>
+                                        @auth('admin')
                                         <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        @endif
+                                        @endauth
                                     </div>
                                 </td>
                             </tr>
                             @component('layouts.components.delete-modal')
-                                action="{{route('clients.destroy', $client)}}"
+                                action="{{route('admin.clients.destroy', $client)}}"
                             @endcomponent
                         @endforeach
                         </tbody>
@@ -90,7 +90,7 @@
                 </ul>
             </div>
             <div class="col-md-2">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
                 @endif
             </div>

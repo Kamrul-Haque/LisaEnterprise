@@ -28,6 +28,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('due',11,2)->unsigned();
             $table->unsignedBigInteger('payment_id');
             $table->string('sold_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');

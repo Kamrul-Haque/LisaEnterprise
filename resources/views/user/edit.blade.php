@@ -110,7 +110,7 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ url()->previous() }}" class="btn btn-warning float-right">Cancel</a>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
 @endsection

@@ -76,6 +76,10 @@ class SupplierPaymentController extends Controller
         $supplierPayment->push();
         $this->saveWithdraw($request->amount, $request->date);
 
+        $id = $supplierPayment->id;
+        $supplierPayment = SupplierPayment::find($id);
+        $supplierPayment->sl_no = 'SPYT_'.$id;
+
         toastr()->success('Created Successfully');
         return redirect('/supplier-payment');
     }

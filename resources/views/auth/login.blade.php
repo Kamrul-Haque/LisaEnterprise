@@ -29,7 +29,7 @@
                     @isset($url)
                     <form method="POST" action="{{ route('admin.login.submit') }}" aria-label="{{ __('Login') }}">
                     @else
-                    <form method="POST" class="was-validated" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                    <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                     @endisset
                         @csrf
 

@@ -29,6 +29,7 @@ class CreateClientPaymentsTable extends Migration
             $table->string('cvv')->default('N/A');
             $table->string('received_by')->nullable();
             $table->boolean('product_sell')->default(false);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');

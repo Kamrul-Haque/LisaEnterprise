@@ -18,6 +18,7 @@ class CreateGodownProductTable extends Migration
             $table->unsignedBigInteger('godown_id');
             $table->unsignedBigInteger('product_id');
             $table->decimal('quantity',11,2)->unsigned();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

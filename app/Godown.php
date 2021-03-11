@@ -25,6 +25,11 @@ class Godown extends Model implements Searchable
         return $this->hasMany(InvoiceProduct::class);
     }
 
+    public function productTransfers()
+    {
+        return $this->hasMany(ProductTransfer::class);
+    }
+
     public function getSearchResult(): SearchResult
     {
         $url = route('godowns.show',$this->id);

@@ -18,7 +18,7 @@ class CashRegisterController extends Controller
      */
     public function index()
     {
-        $cashs = CashRegister::latest()->paginate(11);
+        $cashs = CashRegister::latest()->paginate(10);
         return view('cash-register.index', compact('cashs'));
     }
 
@@ -68,15 +68,6 @@ class CashRegisterController extends Controller
     {
         return view('cash-register.withdraw');
     }
-
-    public function balance()
-    {
-        $deposit = CashRegister::where('type', 'deposit')->sum('amount');
-        $withdraw = CashRegister::where('type', 'withdraw')->sum('amount');
-        $balance = $deposit - $withdraw;
-
-        return response()->json($balance);
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -106,6 +97,18 @@ class CashRegisterController extends Controller
     public function destroy(CashRegister $cashRegister)
     {
         $cash = CashRegister::find($cashRegister->id);
+
+        if ($cash->bank_account_id)
+        {
+            if ($cash->type == "Withdraw")
+            {
+                $cash->bankAccount->balance -= $cash->amount;
+            }
+            else
+                $cash->bankAccount->balance += $cash->amount;
+        }
+
+        $cash->push();
         $cash->delete();
 
         toastr()->warning('Entry Deleted');
@@ -130,12 +133,7 @@ class CashRegisterController extends Controller
     {
         $request->validate([
             'account'=>'required',
-            'type'=>'required',
-            'cheque_no'=>'nullable|required_if:type,Cheque',
-            'card'=>'nullable|required_if:type,Card',
-            'validity'=>'nullable|required_if:type,Card',
-            'cvv'=>'nullable|required_if:type,Card',
-            'amount'=>'required|numeric|gt:0|lte:'.$this->balance(),
+            'amount'=>'required|numeric|gt:0|lte:'.CashRegister::balance(),
             'date'=>'required|before_or_equal:today',
         ]);
 
@@ -144,11 +142,12 @@ class CashRegisterController extends Controller
         $cash->amount = $request->amount;
         $cash->title = "Withdrawn to Bank";
         $cash->date = $request->date;
+        $cash->bank_account_id = $request->account;
         $cash->save();
 
         $bankDeposit = new BankDeposit;
         $bankDeposit->bank_account_id = $request->account;
-        $bankDeposit->type = $request->type;
+        $bankDeposit->type = "Cash";
         $bankDeposit->bankAccount->balance += $request->amount;
         $bankDeposit->amount = $request->amount;
         $bankDeposit->date_of_issue = $request->date;
@@ -167,14 +166,12 @@ class CashRegisterController extends Controller
 
     public function depositFromBank(Request $request)
     {
+        $account = BankAccount::find($request->account);
+        $balance = $account->balance;
+
         $request->validate([
             'account'=>'required',
-            'type'=>'required',
-            'cheque_no'=>'nullable|required_if:type,Cheque',
-            'card'=>'nullable|required_if:type,Card',
-            'validity'=>'nullable|required_if:type,Card',
-            'cvv'=>'nullable|required_if:type,Card',
-            'amount'=>'required|numeric|gt:0|lte:'.$request->account->balance,
+            'amount'=>'required|numeric|gt:0|lte:'.$balance,
             'date'=>'required|before_or_equal:today',
         ]);
 
@@ -183,11 +180,12 @@ class CashRegisterController extends Controller
         $cash->amount = $request->amount;
         $cash->title = "Deposited from Bank";
         $cash->date = $request->date;
+        $cash->bank_account_id = $request->account;
         $cash->save();
 
         $bankWithdraw = new BankWithdraw;
         $bankWithdraw->bank_account_id = $request->account;
-        $bankWithdraw->type = $request->type;
+        $bankWithdraw->type = "Cash";
         $bankWithdraw->bankAccount->balance -= $request->amount;
         $bankWithdraw->amount = $request->amount;
         $bankWithdraw->date_of_issue = $request->date;

@@ -45,11 +45,7 @@
                             <th>NAME</th>
                             <th>Quantity</th>
                             <th>Unit</th>
-                            @if(Auth::guard('admin')->check())
-                            <th>Unit Price</th>
-                            <th>Price</th>
                             <th class="text-center">OPERATIONS</th>
-                            @endif
                         </tr>
                         <tbody>
                             @foreach ($products as $product)
@@ -58,21 +54,19 @@
                                     <td> {{$product->name}} </td>
                                     <td> {{$product->totalQuantity()}} </td>
                                     <td> {{$product->unit}} </td>
-                                    @if(Auth::guard('admin')->check())
-                                    <td> {{number_format($product->unitPrice(),2)}} </td>
-                                    <td> {{$product->totalPrice()}} </td>
-                                    @endif
-                                    @if(Auth::guard('admin')->check())
                                     <td>
                                         <div class="row justify-content-center">
                                             <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                            @auth('admin')
+                                            <button class="btn btn-warning btn-sm ml-1" name="delete" title="delete" data-toggle="modal" data-target="#delete">
+                                                <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                            </button>
+                                            @endauth
                                         </div>
                                     </td>
-                                    @endif
                                 </tr>
                                 @component('layouts.components.delete-modal')
-                                    action="{{route('products.destroy', $product)}}"
+                                    action="{{route('admin.products.destroy', $product)}}"
                                 @endcomponent
                             @endforeach
                         </tbody>
@@ -97,9 +91,9 @@
                 </ul>
             </div>
             <div class="col-md-2">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
-                @endif
+                @endauth
             </div>
         </div>
     </div>

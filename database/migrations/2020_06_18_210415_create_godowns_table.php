@@ -19,6 +19,7 @@ class CreateGodownsTable extends Migration
             $table->string('name');
             $table->string('location')->nullable();
             $table->unsignedBigInteger('phone')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

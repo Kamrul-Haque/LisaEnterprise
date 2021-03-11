@@ -1,17 +1,26 @@
 <style>
     nav.navbar{
-        background-color:  #23272b;
+        background-color: #1f1e1e;
         position: fixed;
-        width: 100%;
+        width: 100vw;
         z-index: 100;
+        filter: drop-shadow(0px 0px 3px black);
     }
+
     .navbar-collapse a{
         text-align: right;
+    }
+
+    .navbar .brand{
+        font-size: large;
+        font-weight: bold;
+        color: deepskyblue;
+        padding-right: 65px;
     }
 </style>
 <nav class="navbar navbar-expand-md navbar-dark shadow-md">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+        <a class="nav-link brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,64 +29,16 @@
             <!-- Left Side Of Navbar -->
             @auth
                 <ul class="navbar-nav mr-auto">
-                    @if(Auth::guard('admin')->check())
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dashboard
-                                <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
-                                    Cash Withdrawal
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Cash Deposit
-                                </a>
-                                <a class="dropdown-item" href="{{route('invoices.create')}}">
-                                    Sell Product
-                                </a>
-                                <a class="dropdown-item" href="{{route('admin.entries.create')}}">
-                                    Entry Product
-                                </a>
-                                <a class="dropdown-item" href="{{route('clients.create')}}">
-                                    Add Client
-                                </a>
-                                <a class="dropdown-item" href=" {{route('godowns.create')}}">
-                                    Add Godown
-                                </a>
-                                <a class="dropdown-item" href="{{route('admin.accounts.create')}}">
-                                    Create Admin
-                                </a>
-                                <a class="dropdown-item" href="{{route('admin.users.create')}}">
-                                    Add Employee
-                                </a>
-                                <a class="dropdown-item" href="{{route('quotation.print')}}">
-                                    Print Quotation
-                                </a>
-                            </div>
-                        </li>
-                    @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                Dashboard
-                                <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('invoices.create')}}">
-                                    Sell Product
-                                </a>
-                                <a class="dropdown-item" href="{{route('quotation.print')}}">
-                                    Print Quotation
-                                </a>
-                                <a class="dropdown-item" href="{{route('payments.create')}}">
-                                    Add Payment
-                                </a>
-                                <a class="dropdown-item" href="{{route('clients.create')}}">
-                                    Add Client
-                                </a>
-                            </div>
-                        </li>
-                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{route('invoices.create')}}">
+                            Sell Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{route('admin.entries.create')}}">
+                            Entry Product
+                        </a>
+                    </li>
                 </ul>
             @endauth
             <!-- Right Side Of Navbar -->
@@ -104,7 +65,7 @@
                         </div>
                     </form>
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 

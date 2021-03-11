@@ -69,8 +69,8 @@ class ClientController extends Controller
     {
         $client = Client::find($client->id);
         $invoices = $client->invoices()->paginate(7);
-        $paychecks = $client->paychecks()->paginate(7);
-        return view('client.show', compact('client','invoices', 'paychecks'));
+        $payments = $client->clientPayments()->paginate(7);
+        return view('client.show', compact('client','invoices', 'payments'));
     }
 
     /**

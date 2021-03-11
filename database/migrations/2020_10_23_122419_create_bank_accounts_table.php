@@ -15,10 +15,11 @@ class CreateBankAccountsTable extends Migration
     {
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('account_no')->unique();
+            $table->unsignedBigInteger('account_no')->unique();
             $table->string('bank_name');
             $table->string('branch');
             $table->decimal('balance',12,2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

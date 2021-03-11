@@ -62,10 +62,10 @@ class EntryController extends Controller
         ]);
 
         $entry = new Entry;
-        $pid = $request->input('name');
-        $gid = $request->input('godown');
-        $quantity = $request->input('quantity');
-        $price = $request->input('price');
+        $pid = $request->name;
+        $gid = $request->godown;
+        $quantity = $request->quantity;
+        $price = $request->price;
 
         $entry->product_id = $pid;
         $entry->quantity = $quantity;
@@ -73,8 +73,10 @@ class EntryController extends Controller
         $entry->unit = $product->unit;
         $entry->buying_price = $price;
         $entry->godown_id = $gid;
-        $entry->date = $request->input('date');
-        $entry->supplier_id = $request->input('supplier');
+        $entry->date = $request->date;
+        $entry->supplier_id = $request->supplier;
+        $entry->paid = $request->amount;
+        $entry->due = $request->due;
         $entry->entry_by = Auth::user()->name;
 
         if ($request->amount > 0)

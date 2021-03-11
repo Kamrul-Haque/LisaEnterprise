@@ -26,6 +26,7 @@ class CreateBankWithdrawsTable extends Migration
             $table->string('cvv')->default('N/A');
             $table->decimal('amount',11,2)->unsigned();
             $table->string('entry_by');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('bank_account_id')->references('id')->on('bank_accounts')->onDelete('cascade');

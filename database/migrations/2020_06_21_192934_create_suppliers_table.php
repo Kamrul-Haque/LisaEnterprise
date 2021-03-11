@@ -21,6 +21,7 @@ class CreateSuppliersTable extends Migration
             $table->string('address');
             $table->decimal('total_due',11,2)->nullable();
             $table->decimal('total_paid',11,2)->unsigned()->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

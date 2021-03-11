@@ -99,7 +99,7 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-success">Create</button>
-            <a href="{{  route('admin.dashboard')  }}" class="btn btn-warning float-right">Cancel</a>
+            <a href="{{  route('clients.index')  }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
 @endsection

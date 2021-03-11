@@ -28,9 +28,9 @@
 @endsection
 @section('content')
     <div class="container m-auto">
-        <h2>Bank Withdraw</h2>
+        <h2>Withdraw To Bank</h2>
         <hr>
-        <form id="form" action="{{route('bank-withdraw.store')}}" method="POST">
+        <form id="form" action="{{route('cash-register.withdraw.bank.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="account">Account</label>

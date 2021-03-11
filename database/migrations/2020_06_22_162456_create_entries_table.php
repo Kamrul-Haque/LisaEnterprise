@@ -22,6 +22,8 @@ class CreateEntriesTable extends Migration
             $table->decimal('quantity',7,2)->unsigned();
             $table->string('unit');
             $table->decimal('buying_price',11,2)->unsigned();
+            $table->decimal('paid',11,2)->unsigned();
+            $table->decimal('due',11,2)->unsigned();
             $table->string('date');
             $table->string('entry_by')->nullable();
             $table->timestamps();

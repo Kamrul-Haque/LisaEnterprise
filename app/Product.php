@@ -10,7 +10,7 @@ class Product extends Model implements Searchable
 {
     protected $guarded = [];
 
-    public function totalPrice()
+    /*public function totalPrice()
     {
         return $this->unitPrice() * $this->totalQuantity();
     }
@@ -22,11 +22,13 @@ class Product extends Model implements Searchable
 
     public function unitPrice()
     {
-        if ($this->totalQuantity())
+        $quantity = $this->entries->sum('quantity');
+
+        if ($quantity)
         {
-            return $this->entries->sum('buying_price') / $this->entries->sum('quantity');
+            return $this->entries->sum('buying_price') / $quantity;
         }
-    }
+    }*/
 
     public function entries()
     {
@@ -41,6 +43,11 @@ class Product extends Model implements Searchable
     public function invoiceProducts()
     {
         return $this->hasMany(InvoiceProduct::class);
+    }
+
+    public function productTransfers()
+    {
+        return $this->hasMany(ProductTransfer::class);
     }
 
     public function getSearchResult(): SearchResult

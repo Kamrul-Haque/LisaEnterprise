@@ -61,11 +61,11 @@
                         <tr>
                             <td> {{$loop->iteration}} </td>
                             <td> {{$product->name}} </td>
-                            <td> {{$product->pivot->godown_quantity}} </td>
+                            <td> {{$product->pivot->quantity}} </td>
                             <td> {{$product->unit}} </td>
-                            <td> {{$product->unit_buying_price}} </td>
+                            <td> {{$product->unitPrice()}} </td>
                             <td>
-                                <a href="{{ route('admin.entries.transfer', ['godown'=>$godown,'product'=>$product]) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('product-transfer.create', ['godown'=>$godown,'product'=>$product]) }}" class="btn btn-primary btn-sm">
                                     <span data-feather="log-out" style="height: 15px; width: 15px; padding: 0"></span>
                                 </a>
                             </td>
@@ -93,8 +93,8 @@
                             <td> {{$entry->product->name}} </td>
                             <td> {{$entry->quantity}} </td>
                             <td> {{$entry->unit}} </td>
-                            <td> {{$entry->entry_date}} </td>
-                            <td> {{$entry->bought_from}} </td>
+                            <td> {{$entry->date}} </td>
+                            <td> {{$entry->supplier->name}} </td>
                             <td> {{$entry->buying_price}} </td>
                         </tr>
                     @endforeach
@@ -106,9 +106,7 @@
         <hr>
         <div class="form-group row">
             <div class="col-md-2">
-                @if(Auth::guard('admin')->check())
                 <a class="btn btn-primary float-left" href=" {{route('godowns.edit', $godown)}} ">Edit</a>
-                @endif
             </div>
             <div class="col-md-8">
                 <ul class="pagination justify-content-center" id="prodLinks">
@@ -119,9 +117,9 @@
                 </ul>
             </div>
             <div class="col-md-2">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete</button>
-                @endif
+                @endauth
             </div>
         </div>
     </div>
@@ -139,7 +137,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <form action="{{route('godowns.destroy', $godown)}}" method="post">
+                    <form action="{{route('admin.godowns.destroy', $godown)}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Confirm</button>

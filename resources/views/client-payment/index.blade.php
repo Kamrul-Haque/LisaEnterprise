@@ -71,12 +71,16 @@
                                         @if($payment->status == 'Pending')
                                         <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{ route('client-payment.edit', $payment) }}">Change Status</a>
                                         @endif
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                        @auth('admin')
+                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
+                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                        </button>
+                                        @endauth
                                     </div>
                                 </td>
                             </tr>
                             @component('layouts.components.delete-modal')
-                                action="{{route('client-payment.destroy', $payment)}}"
+                                action="{{route('admin.client-payment.destroy', $payment)}}"
                             @endcomponent
                         @endforeach
                         </tbody>
@@ -99,9 +103,9 @@
                 </ul>
             </div>
             <div class="col-md-3">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
-                @endif
+                @endauth
             </div>
         </div>
     </div>

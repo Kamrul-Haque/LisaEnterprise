@@ -53,12 +53,12 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('bank-account.show',$bankAccount)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        @if(Auth::guard('admin')->check())
-                                            <div class="pl-1">
-                                                <a href="{{route('bank-account.edit',$bankAccount)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                            </div>
+                                        <div class="pl-1">
+                                            <a href="{{route('bank-account.edit',$bankAccount)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
+                                        </div>
+                                        @auth('admin')
                                             <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        @endif
+                                        @endauth
                                     </div>
                                 </td>
                                 @component('layouts.components.delete-modal')
@@ -87,9 +87,9 @@
                 </ul>
             </div>
             <div class="col-md-3">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
-                @endif
+                @endauth
                 <a class="btn btn-outline-danger float-right mr-1" href=" {{route('bank-withdraw.create')}} ">Withdraw</a>
             </div>
         </div>

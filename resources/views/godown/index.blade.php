@@ -29,8 +29,8 @@
             </div>
             @endforeach
         @else
-        <div class="card card-body bg-light  justify-content-center">
-            <center><p class="display-4">No Records Found!</p></center>
+        <div class="card card-body bg-light text-center">
+            <p class="display-4">No Records Found!</p>
         </div>
         @endif
         <hr>
@@ -44,9 +44,9 @@
                 </ul>
             </div>
             <div class="col-md-4">
-                @if(Auth::guard('admin')->check())
-                <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
-                @endif
+                @auth('admin')
+                    <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
+                @endauth
             </div>
         </div>
     </div>

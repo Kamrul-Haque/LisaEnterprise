@@ -35,7 +35,7 @@ class SearchController extends Controller
                 ->registerModel(Invoice::class, 'sl_no','date')
                 ->registerModel(ClientPayment::class, 'sl_no','date_of_issue','date_of_draw')
                 ->registerModel(SupplierPayment::class, 'sl_no','date_of_issue','date_of_draw')
-                ->registerModel(Supplier::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(Supplier::class, 'name')
                 ->registerModel(CashRegister::class, 'title','date')
                 ->search($string);
 
@@ -55,7 +55,7 @@ class SearchController extends Controller
                 ->registerModel(Invoice::class, 'sl_no','date')
                 ->registerModel(ClientPayment::class, 'sl_no','date_of_issue','date_of_draw')
                 ->registerModel(SupplierPayment::class, 'sl_no','date_of_issue','date_of_draw')
-                ->registerModel(Supplier::class, 'sl_no','date_of_issue','date_of_draw')
+                ->registerModel(Supplier::class, 'name')
                 ->search($string);
 
             return view('search-results', compact('searchResults','string'));

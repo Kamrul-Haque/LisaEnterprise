@@ -24,7 +24,7 @@
     <style>
         .content-wrapper{
             padding-left: 230px;
-            padding-top: 55px;
+            padding-top: 60px;
             /* Space for fixed navbar */
         }
         .footer {

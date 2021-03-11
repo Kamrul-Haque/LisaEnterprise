@@ -52,11 +52,13 @@
                             <td> {{$cashRegister->title}} </td>
                             <td> {{$cashRegister->description}} </td>
                             <td>
+                                @auth('admin')
                                 <form action="{{ route('admin.cash-register.destroy', $cashRegister) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-warning btn-sm"><span data-feather="trash-2" style="width: 15px; height: auto; padding: 0"></span></button>
                                 </form>
+                                @endauth
                             </td>
                         </tr>
                     </tbody>

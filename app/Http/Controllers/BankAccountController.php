@@ -40,7 +40,7 @@ class BankAccountController extends Controller
         $request->validate([
            'bank'=>'required|string|min:4',
            'branch'=>'required|string|min:4',
-           'account_no'=>'required|string|min:4|unique:bank_accounts',
+           'account_no'=>'required|integer|min:5|unique:bank_accounts',
            'balance'=>'nullable|numeric',
         ]);
 
@@ -91,7 +91,7 @@ class BankAccountController extends Controller
         $request->validate([
             'bank'=>'required|string|min:4',
             'branch'=>'required|string|min:4',
-            'account_no'=>'required|string|min:4|unique:bank_accounts,account_no,'.$bankAccount->id,
+            'account_no'=>'required|integer|min:5|unique:bank_accounts,account_no,'.$bankAccount->id,
             'balance'=>'nullable|numeric',
         ]);
 

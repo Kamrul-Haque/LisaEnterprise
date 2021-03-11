@@ -41,11 +41,9 @@
                         <th>NAME</th>
                         <th>Quantity</th>
                         <th>Unit</th>
-                        @if(Auth::guard('admin')->check())
-                            <th>Unit Price</th>
-                            <th>Price</th>
-                            <th><center>OPERATIONS</center></th>
-                        @endif
+                        @auth('admin')
+                            <th class="text-center">OPERATIONS</th>
+                        @endauth
                     </tr>
                     <tbody>
                         <tr>
@@ -57,18 +55,18 @@
                                 <td> {{$product->unit_buying_price}} </td>
                                 <td> {{$product->total_price}} </td>
                             @endif
-                            @if(Auth::guard('admin')->check())
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <form class="pl-1" action="{{route('products.destroy', $product)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
-                                    </div>
-                                </td>
-                            @endif
+                            <td>
+                                <div class="row justify-content-center">
+                                    <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
+                                    @auth('admin')
+                                    <form class="pl-1" action="{{route('admin.products.destroy', $product)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                    </form>
+                                    @endauth
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

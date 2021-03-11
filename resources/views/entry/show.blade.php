@@ -44,7 +44,9 @@
                         <th>BOUGHT FROM</th>
                         <th>ENTRY BY</th>
                         <th>PRICE</th>
-                        <th><center>OPERATIONS</center></th>
+                        @auth('admin')
+                        <th class="text-center">OPERATIONS</th>
+                        @endauth
                     </tr>
                     <tbody>
                         <tr>
@@ -58,6 +60,7 @@
                             <td> {{$entry->bought_from}} </td>
                             <td> {{$entry->entry_by}} </td>
                             <td> {{$entry->buying_price}} </td>
+                            @auth('admin')
                             <td>
                                 <div class="row justify-content-center">
                                     <form class="pl-1" action="{{route('admin.entries.destroy', $entry->id)}}" method="POST">
@@ -67,6 +70,7 @@
                                     </form>
                                 </div>
                             </td>
+                            @endauth
                         </tr>
                     </tbody>
                 </table>

@@ -18,10 +18,11 @@ class CreateInvoiceProductsTable extends Migration
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('godown_id');
-            $table->double('quantity')->unsigned();
+            $table->decimal('quantity',7,2)->unsigned();
             $table->string('unit');
-            $table->double('unit_selling_price')->unsigned();
-            $table->double('total_selling_price')->unsigned();
+            $table->decimal('Unit_selling_price',11,2)->unsigned();
+            $table->decimal('selling_price',11,2)->unsigned();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');

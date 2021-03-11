@@ -36,11 +36,12 @@
         @if($cashs->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table" name="table">
+                    <table class="table table-striped table-hover pt-3" id="table">
                         <tr>
                             <th>#</th>
                             <th>Type</th>
                             <th>Amount</th>
+                            <th>Date</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>OPERATIONS</th>
@@ -51,10 +52,15 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$cash->type}} </td>
                                 <td> {{number_format($cash->amount, 2)}} </td>
+                                <td> {{$cash->date}} </td>
                                 <td> {{$cash->title}} </td>
                                 <td> {{$cash->description}} </td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                    @auth('admin')
+                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
+                                        <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                    </button>
+                                    @endauth
                                 </td>
                             </tr>
                             @component('layouts.components.delete-modal')
@@ -72,17 +78,21 @@
         @endif
         <hr>
         <div class="form-group row">
-            <div class="col-md-4">
-                <a class="btn btn-success float-left d-inline-block mr-1" href="{{ route('admin.cash-register.withdraw') }}">Withdraw</a>
-                <a class="btn btn-success float-left d-inline-block" href="{{ route('admin.cash-register.deposit') }}">Deposit</a>
+            <div class="col-md-6">
+                <a class="btn btn-success mr-1" href="{{ route('admin.cash-register.withdraw') }}">Withdraw</a>
+                <a class="btn btn-success mr-1" href="{{ route('admin.cash-register.deposit') }}">Deposit</a>
+                <a class="btn btn-outline-success mr-1" href="{{ route('cash-register.withdraw.bank') }}">Withdraw To Bank</a>
+                <a class="btn btn-outline-success" href="{{ route('cash-register.deposit.bank') }}">Deposit From Bank</a>
             </div>
             <div class="col-md-4">
                 <ul class="pagination justify-content-center">
                     {{ $cashs->links() }}
                 </ul>
             </div>
-            <div class="col-md-4">
-                <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
+            <div class="col-md-2">
+                @auth('admin')
+                <button type="button" id="rightbutton" class="btn btn-danger float-right ml-1" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
+                @endauth
             </div>
         </div>
     </div>

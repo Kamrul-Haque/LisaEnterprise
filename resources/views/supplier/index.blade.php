@@ -42,7 +42,7 @@
                             <th>ADDRESS</th>
                             <th>TOTAL DUE</th>
                             <th>TOTAL PAID</th>
-                            <th><center>OPERATIONS</center></th>
+                            <th class="text-center">OPERATIONS</th>
                         </tr>
                         <tbody>
                         @foreach ($suppliers as $supplier)
@@ -56,18 +56,20 @@
                                 <td> {{$supplier->total_paid}} </td>
                                 <td>
                                     <div class="row justify-content-center">
-                                        <a href="{{route('supplier.show',$supplier)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        @if(Auth::guard('admin')->check())
+                                        <a href="{{route('suppliers.show',$supplier)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         <div class="pl-1">
-                                            <a href="{{route('supplier.edit',$supplier)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
+                                            <a href="{{route('suppliers.edit',$supplier)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         </div>
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        @endif
+                                        @auth('admin')
+                                            <button class="btn btn-warning btn-sm ml-1" name="delete" title="delete" data-toggle="modal" data-target="#delete">
+                                                <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                            </button>
+                                        @endauth
                                     </div>
                                 </td>
                             </tr>
                             @component('layouts.components.delete-modal')
-                                action="{{route('supplier.destroy', $supplier)}}"
+                                action="{{route('admin.suppliers.destroy', $supplier)}}"
                             @endcomponent
                         @endforeach
                         </tbody>
@@ -75,14 +77,14 @@
                 </div>
             </div>
         @else
-            <div class="card card-body bg-light  justify-content-center">
-                <center><p class="display-4">No Records Found!</p></center>
+            <div class="card card-body bg-light text-center">
+                <p class="display-4">No Records Found!</p>
             </div>
         @endif
         <hr>
         <div class="form-group row">
             <div class="col-md-2">
-                <a class="btn btn-success float-left" href=" {{route('supplier.create')}} ">Add Supplier</a>
+                <a class="btn btn-success float-left" href=" {{route('suppliers.create')}} ">Add Supplier</a>
             </div>
             <div class="col-md-8">
                 <ul class="pagination justify-content-center">
@@ -90,9 +92,9 @@
                 </ul>
             </div>
             <div class="col-md-2">
-                @if(Auth::guard('admin')->check())
+                @auth('admin')
                 <button type="button" id="rightbutton" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteAllModal">Delete All</button>
-                @endif
+                @endauth
             </div>
         </div>
     </div>

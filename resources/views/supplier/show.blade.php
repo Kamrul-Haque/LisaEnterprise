@@ -9,7 +9,7 @@
             margin: 0;
         }
     </style>
-    @if(Auth::guard('admin')->check())
+    @auth('admin')
         <style>
             th{
                 background-color: #23272b;
@@ -23,13 +23,13 @@
                 color: whitesmoke;
             }
         </style>
-    @endif
+    @endauth
 @endsection
 @section('content')
     <div class="container-fluid pl-5 pr-5">
         <div class="form-group row pb-0">
             <div class="col-md-4">
-                <a class="btn btn-light float-left" href=" {{route('supplier.index')}} ">Back</a>
+                <a class="btn btn-light float-left" href=" {{route('suppliers.index')}} ">Back</a>
             </div>
             <div class="col-md-4 justify-content-center" style="padding-left: 100px">
                 <h2>Supplier History</h2>
@@ -45,36 +45,34 @@
         <h5>Address: {{ $supplier->address}}</h5>
         <h5>Email: {{ $supplier->email}}</h5>
         <br>
-        {{--<div class="card card-body bg-light">
+        <div class="card card-body bg-light">
             <div class="table-responsive-lg">
                 <table class="table table-striped table-hover" id="invoiceTable">
                     <tr>
                         <th>#</th>
-                        <th>Serial No.</th>
+                        <th>Sl No.</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Godown</th>
                         <th>Date</th>
-                        <th>Products</th>
-                        <th>Labour Cost</th>
-                        <th>Transport Cost</th>
-                        <th>Subtotal</th>
-                        <th>Discount</th>
-                        <th>Grand Total</th>
-                        <th>Paid</th>
-                        <th>Due</th>
+                        <th>Bought From</th>
+                        <th>Entry by</th>
+                        <th>Total Price</th>
                     </tr>
                     <tbody>
-                    @foreach ($invoices as $invoice)
+                    @foreach ($supplier->entries as $entry)
                         <tr>
                             <td> {{$loop->iteration}} </td>
-                            <td> {{$invoice->sl_no}} </td>
-                            <td> {{$invoice->date}} </td>
-                            <td> <a href="{{route('invoices.show', $invoice)}}" title="products"><span data-feather="eye" style="width: 15px; height: 15px; padding: 0"></span></a> </td>
-                            <td> {{$invoice->labour_cost}} </td>
-                            <td> {{$invoice->transport_cost}} </td>
-                            <td> {{number_format($invoice->subtotal, 2)}} </td>
-                            <td> {{number_format($invoice->discount, 2)}} </td>
-                            <td> {{number_format($invoice->grand_total, 2)}} </td>
-                            <td> {{number_format($invoice->paid, 2)}} ({{$invoice->payment->status}}) </td>
-                            <td> {{number_format($invoice->due, 2)}} </td>
+                            <td> {{$entry->sl_no}} </td>
+                            <td> {{$entry->product->name}} </td>
+                            <td> {{$entry->quantity}} </td>
+                            <td> {{$entry->unit}} </td>
+                            <td> {{$entry->godown->name}} </td>
+                            <td> {{$entry->date}} </td>
+                            <td> {{$entry->supplier->name}} </td>
+                            <td> {{$entry->entry_by}} </td>
+                            <td> {{$entry->buying_price}} </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -85,32 +83,20 @@
                         <th>Serial No.</th>
                         <th>Date</th>
                         <th>Amount</th>
-                        <th class="text-center">OPERATION</th>
                     </tr>
                     <tbody>
-                    @foreach ($paychecks as $paycheck)
+                    @foreach ($supplier->supplierPayments as $payment)
                         <tr>
                             <td> {{$loop->iteration}} </td>
-                            <td> {{$paycheck->sl_no}} </td>
-                            <td> {{$paycheck->date_of_issue}} </td>
-                            <td> {{number_format($paycheck->amount, 2)}} </td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-dark btn-sm d-inline-block pr-2" title="products"><span data-feather="eye" style="width: 15px; height: 15px; padding: 0"></span></a>
-                                <a href="{{route('payments.edit', $paycheck)}}" class="btn btn-primary btn-sm d-inline-block pr-2" title="products"><span data-feather="edit" style="width: 15px; height: 15px; padding: 0"></span></a>
-                                @if(Auth::guard('admin')->check())
-                                <form class="d-inline-block" action="{{route('payments.destroy', $paycheck)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning btn-sm" title="delete"><span data-feather="trash-2" style="width: 15px; height: 15px; padding: 0"></span></button>
-                                </form>
-                                @endif
-                            </td>
+                            <td> {{$payment->sl_no}} </td>
+                            <td> {{$payment->date_of_issue}} </td>
+                            <td> {{number_format($payment->amount, 2)}} </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-        </div>--}}
+        </div>
         <br>
         <div class="col-sm row">
             <div>
@@ -122,7 +108,7 @@
             {{ $invoices->links() }}
         </ul>
         <ul id="payLinks" class="pagination justify-content-center">
-            {{ $paychecks->links() }}
+            {{ $payments->links() }}
         </ul>--}}
     </div>
     <script type="text/javascript">

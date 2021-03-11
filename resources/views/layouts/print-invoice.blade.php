@@ -80,7 +80,7 @@
                         <td class="print"> {{$product->quantity}} </td>
                         <td class="print"> {{$product->unit}} </td>
                         <td class="print"> {{number_format($product->unit_selling_price, 2)}} </td>
-                        <td class="print" style="text-align: right"> {{number_format($product->total_selling_price, 2)}} </td>
+                        <td class="print" style="text-align: right"> {{number_format($product->selling_price, 2)}} </td>
                     </tr>
                 @endforeach
                     <tr>

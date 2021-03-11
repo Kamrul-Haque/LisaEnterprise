@@ -79,7 +79,7 @@
                                 @if($deposit->status == 'Pending')
                                 <a href="{{ route('bank-deposit.status.edit', $deposit) }}" class="btn btn-outline-primary btn-sm">Change Status</a>
                                 @endif
-                                @if(Auth::guard('admin')->check())
+                                @auth('admin')
                                     <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                 @endif
                             </td>
@@ -121,7 +121,7 @@
                                 @if($withdraw->status == 'Pending')
                                     <a href="{{ route('bank-withdraw.status.edit', $withdraw) }}" class="btn btn-outline-primary btn-sm">Change Status</a>
                                 @endif
-                                @if(Auth::guard('admin')->check())
+                                @auth('admin')
                                     <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
                                 @endif
                             </td>

@@ -73,7 +73,7 @@
                             <td> {{$invoice->subtotal}} </td>
                             <td> {{$invoice->discount}} </td>
                             <td> {{$invoice->grand_total}} </td>
-                            <td> {{$invoice->paid}} ({{$invoice->payment->status}}) </td>
+                            <td> {{$invoice->paid}} ({{$invoice->clientPayment->status}}) </td>
                             <td> {{$invoice->due}} </td>
                         </tr>
                     @endforeach
@@ -85,26 +85,14 @@
                         <th>Serial No.</th>
                         <th>Date</th>
                         <th>Amount</th>
-                        <th class="text-center">OPERATION</th>
                     </tr>
                     <tbody>
-                    @foreach ($paychecks as $paycheck)
+                    @foreach ($payments as $payment)
                         <tr>
                             <td> {{$loop->iteration}} </td>
-                            <td> {{$paycheck->sl_no}} </td>
-                            <td> {{$paycheck->date_of_issue}} </td>
-                            <td> {{number_format($paycheck->amount, 2)}} </td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-dark btn-sm d-inline-block pr-2" title="products"><span data-feather="eye" style="width: 15px; height: 15px; padding: 0"></span></a>
-                                <a href="{{route('payments.edit', $paycheck)}}" class="btn btn-primary btn-sm d-inline-block pr-2" title="products"><span data-feather="edit" style="width: 15px; height: 15px; padding: 0"></span></a>
-                                @if(Auth::guard('admin')->check())
-                                <form class="d-inline-block" action="{{route('payments.destroy', $paycheck)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning btn-sm" title="delete"><span data-feather="trash-2" style="width: 15px; height: 15px; padding: 0"></span></button>
-                                </form>
-                                @endif
-                            </td>
+                            <td> {{$payment->sl_no}} </td>
+                            <td> {{$payment->date_of_issue}} </td>
+                            <td> {{number_format($payment->amount, 2)}} </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -122,7 +110,7 @@
             {{ $invoices->links() }}
         </ul>
         <ul id="payLinks" class="pagination justify-content-center">
-            {{ $paychecks->links() }}
+            {{ $payments->links() }}
         </ul>
     </div>
     <script type="text/javascript">

@@ -30,7 +30,7 @@
     <div class="container m-auto">
         <h2>Edit Supplier - {{$supplier->name}}</h2>
         <hr>
-        <form action="{{route('supplier.update', $supplier)}}" method="POST">
+        <form action="{{route('suppliers.update', $supplier)}}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -100,7 +100,7 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ url()->previous() }}" class="btn btn-warning float-right">Cancel</a>
+            <a href="{{ route('suppliers.index') }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
 @endsection

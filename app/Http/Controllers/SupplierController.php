@@ -55,7 +55,7 @@ class SupplierController extends Controller
         $supplier->save();
 
         toastr()->success('Created Successfully');
-        return redirect('/supplier');
+        return redirect('/suppliers');
     }
 
     /**
@@ -109,7 +109,7 @@ class SupplierController extends Controller
         $supplier->save();
 
         toastr()->info('Updated Successfully');
-        return redirect('/supplier');
+        return redirect('/suppliers');
     }
 
     /**
@@ -124,7 +124,7 @@ class SupplierController extends Controller
         $supplier->delete();
 
         toastr()->warning('Entry Deleted');
-        return redirect('/supplier');
+        return redirect('/suppliers');
     }
 
     public function destroyAll()
@@ -132,6 +132,6 @@ class SupplierController extends Controller
         DB::table('suppliers')->delete();
 
         toastr()->error('All Records Deleted');
-        return redirect('/supplier');
+        return redirect('/suppliers');
     }
 }

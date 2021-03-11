@@ -76,6 +76,10 @@ class ClientPaymentController extends Controller
         $clientPayment->push();
         $this->saveDeposit($request->amount, $request->date);
 
+        $id = $clientPayment->id;
+        $clientPayment = ClientPayment::find($id);
+        $clientPayment->sl_no = 'CPYT_'.$id;
+
         toastr()->success('Created Successfully');
         return redirect('/client-payment');
     }

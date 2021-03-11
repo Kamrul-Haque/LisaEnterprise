@@ -11,6 +11,13 @@ class CashRegister extends Model implements Searchable
 {
     protected $guarded = [];
 
+    public static function balance()
+    {
+        $deposit = CashRegister::where('type', 'deposit')->sum('amount');
+        $withdraw = CashRegister::where('type', 'withdraw')->sum('amount');
+        return $deposit - $withdraw;
+    }
+
     public function getDateAttribute($value)
     {
         $carbon = new Carbon($value);
@@ -22,5 +29,10 @@ class CashRegister extends Model implements Searchable
         $url = route('admin.cash-register.show', $this->id);
         // TODO: Implement getSearchResult() method.
         return new SearchResult($this,$this->title,$url);
+    }
+
+    public function bankAccount()
+    {
+        return $this->belongsTo(BankAccount::class);
     }
 }

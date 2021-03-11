@@ -113,7 +113,7 @@ class InvoiceController extends Controller
                 'quantity' => $inputs['quantity'][$index],
                 'unit' => $inputs['unit'][$index],
                 'unit_selling_price' => $inputs['uprice'][$index],
-                'total_selling_price' => $inputs['price'][$index]
+                'selling_price' => $inputs['price'][$index]
             ];
             $product = Product::find($input);
             $gquantity = $product->godowns->find($inputs['godown'][$index])->pivot->quantity - $inputs['quantity'][$index];

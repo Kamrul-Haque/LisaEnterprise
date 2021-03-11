@@ -28,7 +28,8 @@ class CreateSupplierPaymentsTable extends Migration
             $table->string('validity')->default('N/A');
             $table->string('cvv')->default('N/A');
             $table->string('received_by')->nullable();
-            $table->boolean('product_sell')->default(false);
+            $table->boolean('product_purchase')->default(false);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');

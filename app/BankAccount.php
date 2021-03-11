@@ -17,4 +17,9 @@ class BankAccount extends Model
     {
         return $this->hasMany(BankWithdraw::class);
     }
+
+    public function cashResister()
+    {
+        return $this->hasOne(CashRegister::class);
+    }
 }
