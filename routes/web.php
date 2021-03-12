@@ -74,15 +74,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::resource('accounts','AdminAccountsController');
     Route::post('/accounts/delete', 'AdminAccountsController@destroyAll')->name('accounts.deleteAll');
 
+    Route::resource('users','UserController');
     Route::post('/users/delete', 'UserController@destroyAll')->name('users.deleteAll');
+    Route::delete('/entries/{entry}','EntryController@destroy')->name('entries.destroy');
     Route::post('/entries/delete', 'EntryController@destroyAll')->name('entries.deleteAll');
+    Route::post('/products/{product}','ProductController@destroy')->name('products.destroy');
     Route::post('/products/delete','ProductController@destroyAll')->name('products.deleteAll');
+    Route::post('/godowns/{godown}', 'GodownController@destroy')->name('godowns.destroy');
     Route::post('/godowns/delete', 'GodownController@destroyAll')->name('godowns.deleteAll');
+    Route::post('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
     Route::post('/clients/delete', 'ClientController@destroyAll')->name('clients.deleteAll');
+    Route::post('/invoices/{invoice}', 'InvoiceController@destroy')->name('invoices.destroy');
     Route::post('/invoices/delete', 'InvoiceController@destroyAll')->name('invoices.deleteAll');
+    Route::post('/supplier/{destroy}','SupplierController@destroy')->name('supplier.destroy');
     Route::post('/supplier/delete','SupplierController@destroyAll')->name('supplier.deleteAll');
     Route::delete('/cash-register/{cashRegister}', 'CashRegisterController@destroy')->name('cash-register.destroy');
     Route::post('/cash-register/delete', 'CashRegisterController@destroyAll')->name('cash-register.deleteAll');
+    Route::post('/bank-account/{bankWithdraw}','BankAccountController@destroy')->name('bank-account.destroy');
     Route::post('/bank-account/delete','BankAccountController@destroyAll')->name('bank-account.deleteAll');
 });
 Route::post('ajax-request', 'InvoiceController@getGodowns')->name('invoices.getGodowns');
