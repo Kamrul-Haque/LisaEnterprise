@@ -32,7 +32,7 @@
     <div class="container m-auto">
         <h2>Entry Product</h2>
         <hr>
-        <form action="{{route('admin.entries.store')}}" method="POST">
+        <form action="{{route('entries.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Product Name</label>
@@ -183,7 +183,7 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-success">Create</button>
-            <a href="{{ route('admin.entries.index') }}" class="btn btn-warning float-right">Cancel</a>
+            <a href="{{ route('entries.index') }}" class="btn btn-warning float-right">Cancel</a>
         </form>
     </div>
 @endsection

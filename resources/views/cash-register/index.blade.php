@@ -79,8 +79,8 @@
         <hr>
         <div class="form-group row">
             <div class="col-md-6">
-                <a class="btn btn-success mr-1" href="{{ route('admin.cash-register.withdraw') }}">Withdraw</a>
-                <a class="btn btn-success mr-1" href="{{ route('admin.cash-register.deposit') }}">Deposit</a>
+                <a class="btn btn-success mr-1" href="{{ route('cash-register.withdraw') }}">Withdraw</a>
+                <a class="btn btn-success mr-1" href="{{ route('cash-register.deposit') }}">Deposit</a>
                 <a class="btn btn-outline-success mr-1" href="{{ route('cash-register.withdraw.bank') }}">Withdraw To Bank</a>
                 <a class="btn btn-outline-success" href="{{ route('cash-register.deposit.bank') }}">Deposit From Bank</a>
             </div>

@@ -53,7 +53,6 @@
                         <th>NAME</th>
                         <th>Quantity</th>
                         <th>Unit</th>
-                        <th>Unit Price</th>
                         <th>Transfer</th>
                     </tr>
                     <tbody>
@@ -63,9 +62,8 @@
                             <td> {{$product->name}} </td>
                             <td> {{$product->pivot->quantity}} </td>
                             <td> {{$product->unit}} </td>
-                            <td> {{$product->unitPrice()}} </td>
                             <td>
-                                <a href="{{ route('product-transfer.create', ['godown'=>$godown,'product'=>$product]) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('product-transfers.create', ['godown'=>$godown,'product'=>$product]) }}" class="btn btn-primary btn-sm">
                                     <span data-feather="log-out" style="height: 15px; width: 15px; padding: 0"></span>
                                 </a>
                             </td>

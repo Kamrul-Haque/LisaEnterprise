@@ -4,11 +4,14 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class SupplierPayment extends Model implements Searchable
 {
+    use SoftDeletes;
+
     protected $guarded = [];
 
     public function getDateOfIssueAttribute($value)

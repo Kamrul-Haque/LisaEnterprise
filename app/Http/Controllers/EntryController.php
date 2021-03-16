@@ -99,7 +99,7 @@ class EntryController extends Controller
         $entry->save();
 
         toastr()->success('Created Successfully!');
-        return redirect('/admin/entries');
+        return redirect('/entries');
     }
 
     public function savePayment(Request $request)
@@ -205,7 +205,7 @@ class EntryController extends Controller
         }
 
         toastr()->warning('Entry Deleted');
-        return redirect('/admin/entries');
+        return redirect('/entries');
     }
 
     public function destroyAll()
@@ -225,6 +225,6 @@ class EntryController extends Controller
         DB::statement('ALTER TABLE godown_product AUTO_INCREMENT = 0');
 
         toastr()->error('All Records Deleted!');
-        return redirect('/admin/entries');
+        return redirect('/entries');
     }
 }

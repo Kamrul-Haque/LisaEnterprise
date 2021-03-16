@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="{{route('admin.entries.create')}}">
+                        <a class="nav-link text-light" href="{{route('entries.create')}}">
                             Entry Product
                         </a>
                     </li>

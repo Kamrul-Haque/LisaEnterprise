@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <form action="{{route('admin.supplier.deleteAll')}}" method="post">
+                        <form action="{{route('admin.suppliers.deleteAll')}}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
                         </form>

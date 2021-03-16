@@ -84,7 +84,7 @@
                                 @endif
                             </td>
                             @component('layouts.components.delete-modal')
-                                action="{{route('bank-deposit.destroy', $deposit)}}"
+                                action="{{route('admin.bank-deposit.destroy', $deposit)}}"
                             @endcomponent
                         </tr>
                     @endforeach
@@ -126,7 +126,7 @@
                                 @endif
                             </td>
                             @component('layouts.components.delete-modal')
-                                action="{{route('bank-withdraw.destroy', $withdraw)}}"
+                                action="{{route('admin.bank-withdraw.destroy', $withdraw)}}"
                             @endcomponent
                         </tr>
                     @endforeach

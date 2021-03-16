@@ -77,6 +77,6 @@
             </div>
         </div>
         <hr>
-        <a href="{{ route('admin.entries.create') }}" class="btn btn-success btn-block">Add New</a>
+        <a href="{{ route('entries.create') }}" class="btn btn-success btn-block">Add New</a>
     </div>
 @endsection

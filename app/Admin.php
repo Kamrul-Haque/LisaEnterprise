@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 class Admin extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     //create 'admin' guard
     protected $guard = 'admin';

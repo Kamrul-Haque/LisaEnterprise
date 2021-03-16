@@ -61,7 +61,7 @@ class CashRegisterController extends Controller
         $cash->save();
 
         toastr()->success('Deposited Successfully!');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 
     public function withdrawForm()
@@ -91,7 +91,7 @@ class CashRegisterController extends Controller
         $cash->save();
 
         toastr()->success('Deposited Successfully!');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 
     public function destroy(CashRegister $cashRegister)
@@ -112,7 +112,7 @@ class CashRegisterController extends Controller
         $cash->delete();
 
         toastr()->warning('Entry Deleted');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 
     public function destroyAll()
@@ -120,7 +120,7 @@ class CashRegisterController extends Controller
         CashRegister::truncate();
 
         toastr()->error('All Records deleted');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 
     public function withdrawToBankForm()
@@ -155,7 +155,7 @@ class CashRegisterController extends Controller
         $bankDeposit->push();
 
         toastr()->success('Withdrawn Successfully');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 
     public function depositFromBankForm()
@@ -193,6 +193,6 @@ class CashRegisterController extends Controller
         $bankWithdraw->push();
 
         toastr()->success('Deposited Successfully');
-        return redirect('/admin/cash-register');
+        return redirect('/cash-register');
     }
 }

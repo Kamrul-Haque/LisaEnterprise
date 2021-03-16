@@ -90,7 +90,7 @@
         <hr>
         <div class="form-group row">
             <div class="col-md-2">
-                <a class="btn btn-success float-left" href=" {{route('admin.entries.create')}} ">Entry New</a>
+                <a class="btn btn-success float-left" href=" {{route('entries.create')}} ">Entry New</a>
             </div>
             <div class="col-md-8">
                 <ul class="pagination justify-content-center">

@@ -26,6 +26,7 @@ class CreateEntriesTable extends Migration
             $table->decimal('due',11,2)->unsigned();
             $table->string('date');
             $table->string('entry_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

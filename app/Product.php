@@ -3,21 +3,24 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class Product extends Model implements Searchable
 {
-    protected $guarded = [];
+    use SoftDeletes;
 
-    /*public function totalPrice()
-    {
-        return $this->unitPrice() * $this->totalQuantity();
-    }
+    protected $guarded = [];
 
     public function totalQuantity()
     {
         return $this->godowns()->sum('quantity');
+    }
+
+    /*public function totalPrice()
+    {
+        return $this->unitPrice() * $this->totalQuantity();
     }
 
     public function unitPrice()

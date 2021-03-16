@@ -30,7 +30,7 @@
     <div class="container m-auto">
         <h2>Withdraw</h2>
         <hr>
-        <form id="form" action="{{route('admin.cash-register.withdraw.store')}}" method="POST">
+        <form id="form" action="{{route('cash-register.withdraw.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="amount">Amount</label>

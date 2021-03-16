@@ -114,7 +114,7 @@
                         </li>
                         @if(Auth::guard('admin')->check())
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin/entries*') ? 'active' : '' }}" href="{{ route('admin.entries.index') }}">
+                            <a class="nav-link {{ Request::is('admin/entries*') ? 'active' : '' }}" href="{{ route('entries.index') }}">
                                 <span data-feather="file-plus"></span>
                                 Entries
                             </a>
@@ -146,7 +146,7 @@
                         </li>
                         @if(Auth::guard('admin')->check())
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin/cash-register*') ? 'active' : '' }}" href="{{ route('admin.cash-register.index') }}">
+                            <a class="nav-link {{ Request::is('admin/cash-register*') ? 'active' : '' }}" href="{{ route('cash-register.index') }}">
                                 <span data-feather="inbox"></span>
                                 Cash Register
                             </a>

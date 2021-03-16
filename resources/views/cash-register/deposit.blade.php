@@ -30,7 +30,7 @@
     <div class="container m-auto">
         <h2>Deposit</h2>
         <hr>
-        <form id="form" action="{{route('admin.cash-register.deposit.store')}}" method="POST">
+        <form id="form" action="{{route('cash-register.deposit.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="amount">Amount</label>

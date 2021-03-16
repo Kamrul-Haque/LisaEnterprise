@@ -62,7 +62,7 @@
                                     </div>
                                 </td>
                                 @component('layouts.components.delete-modal')
-                                    action="{{route('bank-account.destroy', $bankAccount)}}"
+                                    action="{{route('admin.bank-account.destroy', $bankAccount)}}"
                                 @endcomponent
                             </tr>
                         @endforeach

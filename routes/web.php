@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth:web,admin'], function (){
     Route::post('/cash-register/withdraw', 'CashRegisterController@withdraw')->name('cash-register.withdraw.store');
     Route::get('/cash-register/{cashRegister}','CashRegisterController@show')->name('cash-register.show');
     Route::resource('product-transfers','ProductTransferController')->only('index','store');
+    Route::get('/product-transfers/create/{product}/{godown}','ProductTransferController@create')->name('product-transfers.create');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function()
 {
@@ -78,20 +79,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::post('/users/delete', 'UserController@destroyAll')->name('users.deleteAll');
     Route::delete('/entries/{entry}','EntryController@destroy')->name('entries.destroy');
     Route::post('/entries/delete', 'EntryController@destroyAll')->name('entries.deleteAll');
-    Route::post('/products/{product}','ProductController@destroy')->name('products.destroy');
+    Route::delete('/products/{product}','ProductController@destroy')->name('products.destroy');
     Route::post('/products/delete','ProductController@destroyAll')->name('products.deleteAll');
-    Route::post('/godowns/{godown}', 'GodownController@destroy')->name('godowns.destroy');
+    Route::delete('/godowns/{godown}', 'GodownController@destroy')->name('godowns.destroy');
     Route::post('/godowns/delete', 'GodownController@destroyAll')->name('godowns.deleteAll');
-    Route::post('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
+    Route::delete('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
     Route::post('/clients/delete', 'ClientController@destroyAll')->name('clients.deleteAll');
-    Route::post('/invoices/{invoice}', 'InvoiceController@destroy')->name('invoices.destroy');
+    Route::delete('/invoices/{invoice}', 'InvoiceController@destroy')->name('invoices.destroy');
     Route::post('/invoices/delete', 'InvoiceController@destroyAll')->name('invoices.deleteAll');
-    Route::post('/supplier/{destroy}','SupplierController@destroy')->name('supplier.destroy');
-    Route::post('/supplier/delete','SupplierController@destroyAll')->name('supplier.deleteAll');
+    Route::delete('/suppliers/{supplier}','SupplierController@destroy')->name('suppliers.destroy');
+    Route::post('/suppliers/delete','SupplierController@destroyAll')->name('suppliers.deleteAll');
     Route::delete('/cash-register/{cashRegister}', 'CashRegisterController@destroy')->name('cash-register.destroy');
     Route::post('/cash-register/delete', 'CashRegisterController@destroyAll')->name('cash-register.deleteAll');
-    Route::post('/bank-account/{bankWithdraw}','BankAccountController@destroy')->name('bank-account.destroy');
+    Route::delete('/bank-account/{bankWithdraw}','BankAccountController@destroy')->name('bank-account.destroy');
     Route::post('/bank-account/delete','BankAccountController@destroyAll')->name('bank-account.deleteAll');
+    Route::delete('/client-payment/{clientPayment}','ClientPaymentController@destroy')->name('client-payment.destroy');
+    Route::delete('/supplier-payment/{supplierPayment}','SupplierPaymentController@destroy')->name('supplier-payment.destroy');
+    Route::delete('/product-transfers/{id}','ProductTransferController@destroy')->name('product-transfers.destroy');
 });
 Route::post('ajax-request', 'InvoiceController@getGodowns')->name('invoices.getGodowns');
 Route::post('ajax-request-unit', 'InvoiceController@getUnit')->name('invoices.getUnit');
