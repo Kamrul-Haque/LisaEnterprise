@@ -91,7 +91,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::post('/suppliers/delete','SupplierController@destroyAll')->name('suppliers.deleteAll');
     Route::delete('/cash-register/{cashRegister}', 'CashRegisterController@destroy')->name('cash-register.destroy');
     Route::post('/cash-register/delete', 'CashRegisterController@destroyAll')->name('cash-register.deleteAll');
-    Route::delete('/bank-account/{bankWithdraw}','BankAccountController@destroy')->name('bank-account.destroy');
+    Route::delete('/bank-account/{bankAccount}','BankAccountController@destroy')->name('bank-account.destroy');
     Route::post('/bank-account/delete','BankAccountController@destroyAll')->name('bank-account.deleteAll');
     Route::delete('/client-payment/{clientPayment}','ClientPaymentController@destroy')->name('client-payment.destroy');
     Route::delete('/supplier-payment/{supplierPayment}','SupplierPaymentController@destroy')->name('supplier-payment.destroy');

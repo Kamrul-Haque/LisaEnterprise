@@ -34,14 +34,16 @@
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
                     <table class="table table-striped table-hover pt-3" id="table">
-                       <tr>
-                           <th>#</th>
-                           <th>Account No.</th>
-                           <th>Bank Name</th>
-                           <th>Branch</th>
-                           <th>Balance</th>
-                           <th class="text-center">Operations</th>
-                       </tr>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Account No.</th>
+                                <th>Bank Name</th>
+                                <th>Branch</th>
+                                <th>Balance</th>
+                                <th class="text-center">Operations</th>
+                            </tr>
+                        </thead>
                         <tbody>
                         @foreach ($bankAccounts as $bankAccount)
                             <tr>
@@ -56,14 +58,15 @@
                                         <div class="pl-1">
                                             <a href="{{route('bank-account.edit',$bankAccount)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                         </div>
-                                        @auth('admin')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        @endauth
+
+                                            <form action="{{ route('admin.bank-account.destroy', $bankAccount) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-warning btn-sm ml-1" ><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                            </form>
+
                                     </div>
                                 </td>
-                                @component('layouts.components.delete-modal')
-                                    action="{{route('admin.bank-account.destroy', $bankAccount)}}"
-                                @endcomponent
                             </tr>
                         @endforeach
                         </tbody>

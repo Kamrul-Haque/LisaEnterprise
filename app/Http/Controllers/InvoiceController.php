@@ -147,7 +147,7 @@ class InvoiceController extends Controller
 
         if ($request->type == 'Cheque')
         {
-            $clientPayment->cheque_no = $request->cheque_no;
+            $clientPayment->cheque_no = $request->account;
             $clientPayment->status = 'Pending';
         }
         else if ($request->type == 'Card')

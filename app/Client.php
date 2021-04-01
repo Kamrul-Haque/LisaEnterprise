@@ -13,9 +13,38 @@ class Client extends Model implements Searchable
 
     protected $guarded = [];
 
+    // for cascading soft deletes
+    protected static $relations_to_cascade = ['invoices','invoiceProducts','clientPayments'];
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->delete();
+                }
+            }
+        });
+
+        static::restoring(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->withTrashed()->restore();
+                }
+            }
+        });
+    }
+    //
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function invoiceProducts()
+    {
+        return $this->hasManyThrough(InvoiceProduct::class, Invoice::class);
     }
 
     public function clientPayments()

@@ -102,8 +102,8 @@ class ClientPaymentController extends Controller
      */
     public function show(ClientPayment $clientPayment)
     {
-        $clientPayment = ClientPayment::find($clientPayment->id);
-        return view('client-payment.show', compact('clientPayment'));
+        $payment = ClientPayment::find($clientPayment->id);
+        return view('client-payment.show', compact('payment'));
     }
 
     /**

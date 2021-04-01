@@ -14,6 +14,12 @@ class Entry extends Model implements Searchable
 
     protected $guarded = [];
 
+    public function getDateAttribute($value)
+    {
+        $carbon = new Carbon($value);
+        return $carbon->format('d/m/Y');
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -27,12 +33,6 @@ class Entry extends Model implements Searchable
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
-    }
-
-    public function getDateAttribute($value)
-    {
-        $carbon = new Carbon($value);
-        return $carbon->format('d/m/Y');
     }
 
     public function getSearchResult(): SearchResult

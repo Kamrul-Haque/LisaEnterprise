@@ -47,7 +47,7 @@
                         <th>Validity</th>
                         <th>CVV</th>
                         <th>Received By</th>
-                        <th><center>OPERATIONS</center></th>
+                        <th class="text-center">OPERATIONS</th>
                     </tr>
                     <tbody>
                         <tr>
@@ -67,10 +67,10 @@
                             <td>
                                 <div class="row justify-content-center">
                                     @if($payment->status == 'Pending')
-                                        <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{route('payments.edit', $payment)}}">Change Status</a>
+                                        <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{route('supplier-payment.edit', $payment)}}">Change Status</a>
                                     @endif
                                     @auth('admin')
-                                        <form class="pl-1" action="{{route('payments.destroy', $payment)}}" method="POST">
+                                        <form class="pl-1" action="{{route('admin.supplier-payment.destroy', $payment)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
@@ -84,6 +84,6 @@
             </div>
         </div>
         <hr>
-        <a href="{{route('payments.create')}}" class="btn btn-block btn-success d-block">Add New</a>
+        <a href="{{route('supplier-payment.create')}}" class="btn btn-block btn-success d-block">Add New</a>
     </div>
 @endsection

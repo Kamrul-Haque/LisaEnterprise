@@ -42,6 +42,16 @@
     <div class="container m-auto">
         <h3>Sell Product</h3>
         <hr>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong class="text-danger">{{ $error }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endforeach
+        @endif
         <form action="{{route('invoices.store')}}" method="POST">
             @csrf
             <div class="form-group">

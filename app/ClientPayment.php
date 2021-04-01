@@ -14,6 +14,30 @@ class ClientPayment extends Model implements Searchable
 
     protected $guarded = [];
 
+    // for cascading soft deletes
+    protected static $relations_to_cascade = ['invoice'];
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->delete();
+                }
+            }
+        });
+
+        static::restoring(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->withTrashed()->restore();
+                }
+            }
+        });
+    }
+    //
+
     public function getDateOfIssueAttribute($value)
     {
         if ($value)

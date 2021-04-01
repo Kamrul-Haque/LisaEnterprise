@@ -41,13 +41,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($product->invoiceProducts as $invoiceProduct)
+                                @foreach($product->invoiceProducts as $sold)
                                     <tr>
-                                        <td>{{ $invoiceProduct->invoice->clientName() }}</td>
-                                        <td>{{ $invoiceProduct->quantity }} {{ $invoiceProduct->unit }}</td>
-                                        <td>{{ $invoiceProduct->invoice->date }}</td>
-                                        <td>{{ $invoiceProduct->unit_selling_price }}</td>
-                                        <td>{{ $invoiceProduct->selling_price }}</td>
+                                        <td>{{ $sold->quantity }} {{ $sold->unit }}</td>
+                                        <td>{{ $sold->invoice->date }}</td>
+                                        <td>{{ $sold->unit_selling_price }}</td>
+                                        <td>{{ $sold->total_selling_price }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Invoice;
+use App\InvoiceProduct;
 use App\Product;
 use Auth;
 use Illuminate\Http\Request;
@@ -66,7 +68,7 @@ class ProductController extends Controller
 
     public function salesIndex()
     {
-        $products = Product::orderBy('name')->paginate(10);
+        $products = Product::with('invoiceProducts.invoice.client')->orderBy('name')->paginate(10);
         return view('product.sales', compact('products'));
     }
 

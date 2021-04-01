@@ -13,6 +13,30 @@ class Supplier extends Model implements Searchable
 
     protected $guarded = [];
 
+    // for cascading soft deletes
+    protected static $relations_to_cascade = ['entries','supplierPayments'];
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->delete();
+                }
+            }
+        });
+
+        static::restoring(function($resource) {
+            foreach (static::$relations_to_cascade as $relation) {
+                foreach ($resource->{$relation}()->get() as $item) {
+                    $item->withTrashed()->restore();
+                }
+            }
+        });
+    }
+    //
+
     public function entries()
     {
         return $this->hasMany(Entry::class);
@@ -25,7 +49,7 @@ class Supplier extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('supplier.show',$this->id);
+        $url = route('suppliers.show',$this->id);
 
         // TODO: Implement getSearchResult() method.
         return new SearchResult($this,$this->name,$url);
