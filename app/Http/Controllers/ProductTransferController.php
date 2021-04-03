@@ -83,51 +83,33 @@ class ProductTransferController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProductTransfer  $productTransfer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProductTransfer $productTransfer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ProductTransfer  $productTransfer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProductTransfer $productTransfer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProductTransfer  $productTransfer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ProductTransfer $productTransfer)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\ProductTransfer  $productTransfer
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($productTransfer)
     {
-        $productTransfer = ProductTransfer::find($id);
+        $productTransfer = ProductTransfer::find($productTransfer);
         $productTransfer->delete();
 
-        toastr()->error('Record Deleted');
+        toastr()->warning('Record Deleted');
         return redirect('/product-transfers');
+    }
+
+    public function restore($productTransfer)
+    {
+        ProductTransfer::onlyTrashed()->find($productTransfer)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($productTransfer)
+    {
+        ProductTransfer::onlyTrashed()->find($productTransfer)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

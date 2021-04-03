@@ -33,53 +33,9 @@
         @if($entries->count())
         <div class="card card-body bg-light">
             <div class="table-responsive-lg">
-                <table class="table table-striped table-hover pt-3" id="table">
-                    <tr>
-                        <th>#</th>
-                        <th>Sl No.</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Godown</th>
-                        <th>Date</th>
-                        <th>Bought From</th>
-                        <th>Entry by</th>
-                        <th>Total Price</th>
-                        <th>Paid</th>
-                        <th>Due</th>
-                        @auth('admin')
-                        <th class="text-center">OPERATIONS</th>
-                        @endauth
-                    </tr>
-                    <tbody>
-                        @foreach ($entries as $entry)
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$entry->sl_no}} </td>
-                                <td> {{$entry->product->name}} </td>
-                                <td> {{$entry->quantity}} {{$entry->unit}}</td>
-                                <td> {{$entry->godown->name}} </td>
-                                <td> {{$entry->date}} </td>
-                                <td> {{$entry->supplier->name}} </td>
-                                <td> {{$entry->entry_by}} </td>
-                                <td> {{$entry->buying_price}} </td>
-                                <td> {{$entry->paid}} </td>
-                                <td> {{$entry->due}} </td>
-                                @auth('admin')
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                        </button>
-                                    </div>
-                                </td>
-                                @endauth
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.entries.destroy', $entry)}}"
-                            @endcomponent
-                        @endforeach
-                    </tbody>
-                </table>
+                @component('layouts.components.entries-table', ['entries'=>$entries])
+                    entries
+                @endcomponent
             </div>
         </div>
         @else

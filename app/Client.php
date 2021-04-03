@@ -39,17 +39,17 @@ class Client extends Model implements Searchable
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->hasMany(Invoice::class)->withTrashed();
     }
 
     public function invoiceProducts()
     {
-        return $this->hasManyThrough(InvoiceProduct::class, Invoice::class);
+        return $this->hasManyThrough(InvoiceProduct::class, Invoice::class)->withTrashed();
     }
 
     public function clientPayments()
     {
-        return $this->hasMany(ClientPayment::class);
+        return $this->hasMany(ClientPayment::class)->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

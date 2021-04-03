@@ -53,23 +53,41 @@ class BankDepositController extends Controller
         $bankDeposit->push();
 
         toastr()->success('Created Successfully');
-        return redirect('/bank-account');
+        return redirect()->route('bank-account.show', $bankDeposit->bankAccount);
     }
 
     public function destroy(BankDeposit $bankDeposit)
     {
-        $bankDeposit = BankDeposit::find($bankDeposit->id);
         $bankDeposit->bankAccount->balance -= $bankDeposit->amount;
         $bankDeposit->push();
         $bankDeposit->delete();
 
         toastr()->warning('Record Deleted');
-        return redirect('/bank-account');
+        return redirect()->route('bank-account.show', $bankDeposit->bankAccount);
+    }
+
+    public function restore($bankDeposit)
+    {
+        BankDeposit::onlyTrashed()->find($bankDeposit)->restore();
+
+        $bankDeposit = BankDeposit::find($bankDeposit);
+        $bankDeposit->bankAccount->balance += $bankDeposit->amount;
+        $bankDeposit->push();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($bankDeposit)
+    {
+        BankDeposit::onlyTrashed()->find($bankDeposit)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 
     public function editStatus(BankDeposit $bankDeposit)
     {
-        $bankDeposit = BankDeposit::find($bankDeposit->id);
         return view('bank-accounts.change-deposit-status', compact('bankDeposit'));
     }
 
@@ -80,7 +98,6 @@ class BankDepositController extends Controller
             'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$bankDeposit->getOriginal('date_of_issue'),
         ]);
 
-        $bankDeposit = BankDeposit::find($bankDeposit->id);
         $bankDeposit->status = $request->status;
         if ($request->status == 'Drawn')
         {

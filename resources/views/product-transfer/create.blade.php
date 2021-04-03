@@ -60,7 +60,7 @@
             <hr>
             <div class="form-group">
                 <button type="submit" class="btn btn-success mr-1">Transfer</button>
-                <a href="#" class="btn btn-warning">Cancel</a>
+                <a href="{{ route('godowns.show', $godown) }}" class="btn btn-warning">Cancel</a>
             </div>
         </form>
     </div>

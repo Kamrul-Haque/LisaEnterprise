@@ -29,7 +29,6 @@ class CashRegisterController extends Controller
      */
     public function show(CashRegister $cashRegister)
     {
-        $cashRegister = CashRegister::find($cashRegister->id);
         return view('cash-register.show', compact('cashRegister'));
     }
 
@@ -96,20 +95,18 @@ class CashRegisterController extends Controller
 
     public function destroy(CashRegister $cashRegister)
     {
-        $cash = CashRegister::find($cashRegister->id);
-
-        if ($cash->bank_account_id)
+        if ($cashRegister->bank_account_id)
         {
-            if ($cash->type == "Withdraw")
+            if ($cashRegister->type == "Withdraw")
             {
-                $cash->bankAccount->balance -= $cash->amount;
+                $cashRegister->bankAccount->balance -= $cashRegister->amount;
             }
             else
-                $cash->bankAccount->balance += $cash->amount;
+                $cashRegister->bankAccount->balance += $cashRegister->amount;
         }
 
-        $cash->push();
-        $cash->delete();
+        $cashRegister->push();
+        $cashRegister->delete();
 
         toastr()->warning('Entry Deleted');
         return redirect('/cash-register');
@@ -121,6 +118,34 @@ class CashRegisterController extends Controller
 
         toastr()->error('All Records deleted');
         return redirect('/cash-register');
+    }
+
+    public function restore($cashRegister)
+    {
+        CashRegister::onlyTrashed()->find($cashRegister)->restore();
+
+        $cashRegister = CashRegister::find($cashRegister);
+        if ($cashRegister->bank_account_id)
+        {
+            if ($cashRegister->type == "Withdraw")
+            {
+                $cashRegister->bankAccount->balance += $cashRegister->amount;
+            }
+            else
+                $cashRegister->bankAccount->balance -= $cashRegister->amount;
+        }
+        $cashRegister->push();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($client)
+    {
+        CashRegister::onlyTrashed()->find($client)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 
     public function withdrawToBankForm()

@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete">
+<div class="modal fade" id="delete{{$loop}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

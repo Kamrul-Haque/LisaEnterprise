@@ -30,21 +30,16 @@
 @endsection
 @section('content')
     <div class="container">
-        <div class="form-group row pb-0">
-            <div class="col-md-4">
+        <div class="pb-0">
+            <div>
                 <a class="btn btn-light float-left" href=" {{route('godowns.index')}} ">Back</a>
             </div>
-            <div class="col-md-4 justify-content-center">
+            <div class="text-center">
                 <h2>{{$godown->name}} - Stock</h2>
-            </div>
-            <div class="col-md-4">
-                @if(Auth::guard('admin')->check())
-                <button id="entriesBtn" type="button" class="btn btn-light float-right">Entries</button>
-                @endif
-                <button id="productsBtn" type="button" class="btn btn-light float-right">Products</button>
             </div>
         </div>
         <hr>
+        <h4>Products</h4>
         <div class="card card-body bg-light">
             <div class="table-responsive-lg">
                 <table class="table table-striped table-hover pt-3" id="products">
@@ -71,7 +66,12 @@
                     @endforeach
                     </tbody>
                 </table>
-                @if(Auth::guard('admin')->check())
+            </div>
+        </div>
+        <br>
+        <h4>Entries</h4>
+        <div class="card card-body bg-light">
+            <div class="table-responsive-lg">
                 <table class="table table-striped table-hover pt-3" id="entries">
                     <tr>
                         <th>#</th>
@@ -98,9 +98,9 @@
                     @endforeach
                     </tbody>
                 </table>
-                @endif
             </div>
         </div>
+        <br>
         <hr>
         <div class="form-group row">
             <div class="col-md-2">
@@ -145,24 +145,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(function () {
-            $('#entries').hide();
-            $('#entLinks').hide();
-        });
-        $(document).on('click', '#productsBtn', function () {
-            $('#entries').hide();
-            $('#entLinks').hide();
-            $('#products').show();
-            $('#prodLinks').show();
-        });
-        $(document).on('click', '#entriesBtn', function () {
-            $('#products').hide();
-            $('#prodLinks').hide();
-            $('#entries').show();
-            $('#entLinks').show();
-        });
-    </script>
 @endsection
 
 

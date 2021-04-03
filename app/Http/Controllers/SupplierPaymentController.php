@@ -79,6 +79,7 @@ class SupplierPaymentController extends Controller
         $id = $supplierPayment->id;
         $supplierPayment = SupplierPayment::find($id);
         $supplierPayment->sl_no = 'SPYT_'.$id;
+        $supplierPayment->save();
 
         toastr()->success('Created Successfully');
         return redirect('/supplier-payment');
@@ -101,8 +102,7 @@ class SupplierPaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(SupplierPayment $supplierPayment)
-    {
-        $supplierPayment = SupplierPayment::find($supplierPayment->id);
+    {;
         return view('supplier-payment.show', compact('supplierPayment'));
     }
 
@@ -114,7 +114,6 @@ class SupplierPaymentController extends Controller
      */
     public function edit(SupplierPayment $supplierPayment)
     {
-        $supplierPayment = SupplierPayment::find($supplierPayment->id);
         return view('supplier-payment.edit', compact('supplierPayment'));
     }
 
@@ -132,7 +131,6 @@ class SupplierPaymentController extends Controller
             'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$supplierPayment->getOriginal('date_of_issue'),
         ]);
 
-        $supplierPayment = SupplierPayment::find($supplierPayment->id);
         $supplierPayment->status = $request->status;
         if ($request->status == 'Drawn')
         {
@@ -153,12 +151,30 @@ class SupplierPaymentController extends Controller
      */
     public function destroy(SupplierPayment $supplierPayment)
     {
-        $supplierPayment = SupplierPayment::find($supplierPayment->id);
         $supplierPayment->supplier->total_due += $supplierPayment->amount;
         $supplierPayment->push();
         $supplierPayment->delete();
 
         toastr()->warning('Record Deleted');
         return redirect('/supplier-payment');
+    }
+
+    public function restore($supplierPayment)
+    {
+        SupplierPayment::onlyTrashed()->find($supplierPayment)->restore();
+        $supplierPayment = SupplierPayment::find($supplierPayment);
+        $supplierPayment->supplier->total_due -= $supplierPayment->amount;
+        $supplierPayment->push();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($supplierPayment)
+    {
+        SupplierPayment::onlyTrashed()->find($supplierPayment)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

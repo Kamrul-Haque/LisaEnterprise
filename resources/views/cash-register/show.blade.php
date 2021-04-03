@@ -35,7 +35,7 @@
         <hr>
         <div class="card card-body bg-light">
             <div class="table-responsive-lg">
-                <table class="table table-striped table-hover pt-3" id="table" name="table">
+                <table class="table table-striped table-hover pt-3" id="table">
                     <tr>
                         <th>#</th>
                         <th>Type</th>
@@ -53,11 +53,13 @@
                             <td> {{$cashRegister->description}} </td>
                             <td>
                                 @auth('admin')
-                                <form action="{{ route('admin.cash-register.destroy', $cashRegister) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning btn-sm"><span data-feather="trash-2" style="width: 15px; height: auto; padding: 0"></span></button>
-                                </form>
+                                    <button class="btn btn-warning btn-sm" title="delete" data-toggle="modal" data-target="#delete{{$loop->index}}">
+                                        <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                    </button>
+                                    @component('layouts.components.delete-modal')
+                                        action="{{route('admin.cash-register.destroy', $cash)}}"
+                                        @slot('loop') {{$loop->index}} @endslot
+                                    @endcomponent
                                 @endauth
                             </td>
                         </tr>

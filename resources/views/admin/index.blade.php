@@ -48,13 +48,16 @@
                                 <td>
                                     <div class="row justify-content-center">
                                         <a href="{{route('admin.accounts.edit',$admin->id)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
+                                        <button class="btn btn-warning btn-sm" title="delete" data-toggle="modal" data-target="#delete{{$loop->index}}">
+                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                        </button>
+                                        @component('layouts.components.delete-modal')
+                                            action="{{route('admin.accounts.destroy', $admin)}}"
+                                            @slot('loop') {{$loop->index}} @endslot
+                                        @endcomponent
                                     </div>
                                 </td>
                             </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.accounts.destroy', $admin)}}"
-                            @endcomponent
                         @endforeach
                     </tbody>
                 </table>

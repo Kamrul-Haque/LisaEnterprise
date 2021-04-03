@@ -58,12 +58,12 @@ class ClientPayment extends Model implements Searchable
 
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class)->withTrashed();
     }
 
     public function invoice()
     {
-        return $this->hasOne(Invoice::class,'payment_id');
+        return $this->hasOne(Invoice::class,'payment_id')->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

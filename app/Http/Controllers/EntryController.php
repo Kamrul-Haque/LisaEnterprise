@@ -152,31 +152,7 @@ class EntryController extends Controller
      */
     public function show(Entry $entry)
     {
-        $entry = Entry::find($entry->id);
         return view('entry.show', compact('entry'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Entry  $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Entry $entry)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entry  $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Entry $entry)
-    {
-        //
     }
 
     /**
@@ -187,7 +163,6 @@ class EntryController extends Controller
      */
     public function destroy(Entry $entry)
     {
-        $entry = Entry::find($entry->id);
         $gid = $entry->godown_id;
         $pid = $entry->product_id;
 
@@ -226,5 +201,37 @@ class EntryController extends Controller
 
         toastr()->error('All Records Deleted!');
         return redirect('/entries');
+    }
+
+    public function restore($entry)
+    {
+        Entry::onlyTrashed()->find($entry)->restore();
+
+        $entry = Entry::find($entry);
+        $gid = $entry->godown_id;
+        $pid = $entry->product_id;
+        $quantity = $entry->quantity;
+
+        $godown = Godown::find($gid);
+        if ($godown->products->contains($pid)){
+            $quantity += $godown->products->find($pid)->pivot->quantity;
+            $godown->products()->syncWithoutDetaching([$pid => ['quantity'=>$quantity]]);
+            $entry->push();
+        }
+        else{
+            $godown->products()->syncWithoutDetaching([$pid => ['quantity'=>$quantity]]);
+            $entry->push();
+        }
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($entry)
+    {
+        Entry::onlyTrashed()->find($entry)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

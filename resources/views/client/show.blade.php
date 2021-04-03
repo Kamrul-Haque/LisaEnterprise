@@ -27,16 +27,12 @@
 @endsection
 @section('content')
     <div class="container-fluid pl-5 pr-5">
-        <div class="form-group row pb-0">
-            <div class="col-md-4">
+        <div class="pb-0">
+            <div>
                 <a class="btn btn-light float-left" href=" {{route('clients.index')}} ">Back</a>
             </div>
-            <div class="col-md-4 justify-content-center" style="padding-left: 100px">
+            <div class="text-center" style="padding-left: 100px">
                 <h2>Client History</h2>
-            </div>
-            <div class="col-sm-4">
-                <button id="payment" type="button" class="btn btn-light float-right">Payments</button>
-                <button id="invoice" type="button" class="btn btn-light float-right">Invoices</button>
             </div>
         </div>
         <hr>
@@ -45,6 +41,7 @@
         <h5>Address: {{ $client->address}}</h5>
         <h5>Email: {{ $client->email}}</h5>
         <br>
+        <h4>Invoices</h4>
         <div class="card card-body bg-light">
             <div class="table-responsive-lg">
                 <table class="table table-striped table-hover" id="invoiceTable">
@@ -79,6 +76,12 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <br>
+        <h4>Payments</h4>
+        <div class="card card-body bg-light">
+            <div class="table-responsive-lg">
                 <table class="table table-striped table-hover" id="paymentTable">
                     <tr>
                         <th>#</th>
@@ -113,25 +116,4 @@
             {{ $payments->links() }}
         </ul>
     </div>
-    <script type="text/javascript">
-        $(function () {
-            $('#paymentTable').hide();
-            $('#payLinks').hide();
-            window.onafterprint = function () {
-                window.location.replace("{{route('admin.dashboard')}}");
-            }
-        });
-        $(document).on('click', '#payment', function () {
-            $('#invoiceTable').hide();
-            $('#invLinks').hide();
-            $('#paymentTable').show();
-            $('#payLinks').show();
-        });
-        $(document).on('click', '#invoice', function () {
-            $('#paymentTable').hide();
-            $('#payLinks').hide();
-            $('#invoiceTable').show();
-            $('#invLinks').show();
-        });
-    </script>
 @endsection

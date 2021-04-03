@@ -163,12 +163,16 @@
                                     Employees
                                 </a>
                             </li>
-                        @endif
-                        @if(Auth::guard('admin')->check())
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('admin/accounts*') ? 'active' : '' }}" href="{{ route('admin.accounts.index') }}">
                                     <span data-feather="user"></span>
                                     Admins
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('admin/trash*') ? 'active' : '' }}" href="{{ route('admin.trash') }}">
+                                    <span data-feather="trash"></span>
+                                    Trash
                                 </a>
                             </li>
                         @endif

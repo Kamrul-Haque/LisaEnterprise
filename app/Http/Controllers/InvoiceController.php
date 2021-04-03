@@ -193,7 +193,6 @@ class InvoiceController extends Controller
 
     public function print(Invoice $invoice)
     {
-        $invoice = Invoice::find($invoice->id);
         return view('layouts.print-invoice', compact('invoice'));
     }
 
@@ -205,7 +204,6 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $invoice = Invoice::find($invoice->id);
         foreach ($invoice->invoiceProducts as $invoiceProduct)
         {
             $product = Product::find($invoiceProduct->product_id);
@@ -264,5 +262,42 @@ class InvoiceController extends Controller
         $clients = Client::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
         return view('layouts.print-quotation', compact('products','clients'));
+    }
+
+    public function restore($invoice)
+    {
+        Invoice::onlyTrashed()->find($invoice)->restore();
+
+        $invoice = Invoice::find($invoice);
+        foreach ($invoice->invoiceProducts as $invoiceProduct)
+        {
+            $product = Product::find($invoiceProduct);
+            $gquantity = $product->godowns->find($invoiceProduct->godown_id)->pivot->quantity - $invoiceProduct->quantity;
+            if ($gquantity)
+            {
+                $product->godowns()->updateExistingPivot($invoiceProduct->godown_id, ['quantity'=>$gquantity]);
+                $product->save();
+            }
+            else
+            {
+                $product->godowns()->detach($invoiceProduct->godown_id);
+                $product->save();
+            }
+        }
+        $tdue = $invoice->client->total_due + $invoice->due;
+        $tpurchase = $invoice->client->total_purchase + $invoice->grand_total;
+        $invoice->client->total_due = $tdue;
+        $invoice->client->total_purchase = $tpurchase;
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($invoice)
+    {
+        Invoice::onlyTrashed()->find($invoice)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

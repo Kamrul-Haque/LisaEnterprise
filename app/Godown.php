@@ -14,7 +14,7 @@ class Godown extends Model implements Searchable
     protected $guarded = [];
 
     // for cascading soft deletes
-    protected static $relations_to_cascade = ['entries','invoiceProducts','productTransfers'];
+    protected static $relations_to_cascade = ['entries','invoiceProducts'];
 
     public static function boot() {
         parent::boot();
@@ -39,7 +39,7 @@ class Godown extends Model implements Searchable
 
     public function entries()
     {
-        return $this->hasMany(Entry::class);
+        return $this->hasMany(Entry::class)->withTrashed();
     }
 
     public function products()
@@ -49,12 +49,12 @@ class Godown extends Model implements Searchable
 
     public function invoiceProducts()
     {
-        return $this->hasMany(InvoiceProduct::class);
+        return $this->hasMany(InvoiceProduct::class)->withTrashed();
     }
 
     public function productTransfers()
     {
-        return $this->hasMany(ProductTransfer::class);
+        return $this->hasMany(ProductTransfer::class)->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

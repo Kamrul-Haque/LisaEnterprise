@@ -33,47 +33,9 @@
         @if($productTransfers->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>Sl No.</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Godown From</th>
-                            <th>Godown To</th>
-                            <th>Date</th>
-                            <th>Entry by</th>
-                            @auth('admin')
-                            <th class="text-center">OPERATIONS</th>
-                            @endauth
-                        </tr>
-                        <tbody>
-                        @foreach ($productTransfers as $transfer)
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$transfer->sl_no}} </td>
-                                <td> {{$transfer->product->name}} </td>
-                                <td> {{$transfer->quantity}} </td>
-                                <td> {{$transfer->godownFrom->name}} </td>
-                                <td> {{$transfer->godownTo->name}} </td>
-                                <td> {{$transfer->date}} </td>
-                                <td> {{$transfer->entry_by}} </td>
-                                @auth('admin')
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                        </button>
-                                    </div>
-                                </td>
-                                @endauth
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.product-transfers.destroy', $transfer)}}"
-                            @endcomponent
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.product-transfer-table', ['productTransfers'=>$productTransfers])
+                        transfer
+                    @endcomponent
                 </div>
             </div>
         @else

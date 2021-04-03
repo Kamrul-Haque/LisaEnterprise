@@ -38,30 +38,25 @@ class Invoice extends Model implements Searchable
     }
     //
 
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
-
-    public function invoiceProducts()
-    {
-        return $this->hasMany(InvoiceProduct::class);
-    }
-
-    public function clientPayment()
-    {
-        return $this->belongsTo(ClientPayment::class,'payment_id');
-    }
-
     public function getDateAttribute($value)
     {
         $carbon = new Carbon($value);
         return $carbon->format('d/m/Y');
     }
 
-    public function clientName()
+    public function client()
     {
-        return $this->client->name;
+        return $this->belongsTo(Client::class)->withTrashed();
+    }
+
+    public function invoiceProducts()
+    {
+        return $this->hasMany(InvoiceProduct::class)->withTrashed();
+    }
+
+    public function clientPayment()
+    {
+        return $this->belongsTo(ClientPayment::class,'payment_id')->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

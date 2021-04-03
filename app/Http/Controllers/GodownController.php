@@ -64,7 +64,6 @@ class GodownController extends Controller
      */
     public function show(Godown $godown)
     {
-        $godown = Godown::find($godown->id);
         $products = $godown->products()->orderBy('name')->paginate(10);
         $entries = $godown->entries()->paginate(10);
 
@@ -79,15 +78,7 @@ class GodownController extends Controller
      */
     public function edit(Godown $godown)
     {
-        if (Auth::guard('admin')->check())
-        {
-            $godown = Godown::find($godown->id);
-            return view('godown.edit', compact('godown'));
-        }
-        else
-        {
-            return back();
-        }
+        return view('godown.edit', compact('godown'));
     }
 
     /**
@@ -105,7 +96,6 @@ class GodownController extends Controller
             'phone' => 'nullable|digits_between:7,10|unique:godowns,phone,'.$godown->id,
         ]);
 
-        $godown = Godown::find($godown->id);
         $godown->name = $request->input('name');
         $godown->location = $request->input('location');
         $godown->phone = $request->input('phone');
@@ -123,7 +113,6 @@ class GodownController extends Controller
      */
     public function destroy(Godown $godown)
     {
-        $godown = Godown::find($godown->id);
         $godown->delete();
 
         toastr()->warning("Entry Deleted!");
@@ -143,5 +132,21 @@ class GodownController extends Controller
 
         toastr()->error('All Records Deleted!');
         return redirect('/godowns');
+    }
+
+    public function restore($godown)
+    {
+        Godown::onlyTrashed()->find($godown)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($godown)
+    {
+        Godown::onlyTrashed()->find($godown)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

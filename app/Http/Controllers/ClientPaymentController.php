@@ -102,7 +102,6 @@ class ClientPaymentController extends Controller
      */
     public function show(ClientPayment $clientPayment)
     {
-        $payment = ClientPayment::find($clientPayment->id);
         return view('client-payment.show', compact('payment'));
     }
 
@@ -114,7 +113,6 @@ class ClientPaymentController extends Controller
      */
     public function edit(ClientPayment $clientPayment)
     {
-        $clientPayment = ClientPayment::find($clientPayment->id);
         return view('client-payment.edit', compact('clientPayment'));
     }
 
@@ -132,7 +130,6 @@ class ClientPaymentController extends Controller
             'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$clientPayment->getOriginal('date_of_issue'),
         ]);
 
-        $clientPayment = ClientPayment::find($clientPayment->id);
         $clientPayment->status = $request->status;
         if ($request->status == 'Drawn')
         {
@@ -153,12 +150,30 @@ class ClientPaymentController extends Controller
      */
     public function destroy(ClientPayment $clientPayment)
     {
-        $clientPayment = ClientPayment::find($clientPayment->id);
         $clientPayment->client->total_due += $clientPayment->amount;
         $clientPayment->push();
         $clientPayment->delete();
 
         toastr()->warning('Record Deleted');
         return redirect('/client-payment');
+    }
+
+    public function restore($clientPayment)
+    {
+        ClientPayment::onlyTrashed()->find($clientPayment)->restore();
+        $clientPayment = ClientPayment::find($clientPayment);
+        $clientPayment->client->total_due -= $clientPayment->amount;
+        $clientPayment->push();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($clientPayment)
+    {
+        ClientPayment::onlyTrashed()->find($clientPayment)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

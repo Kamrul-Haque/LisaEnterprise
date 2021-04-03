@@ -64,7 +64,7 @@ class BankWithdrawController extends Controller
         $bankWithdraw->push();
 
         toastr()->success('Created Successfully');
-        return redirect('/bank-account');
+        return redirect()->route('bank-account.show', $bankWithdraw->bankAccount);
     }
 
     /**
@@ -81,12 +81,31 @@ class BankWithdrawController extends Controller
         $bankWithdraw->delete();
 
         toastr()->warning('Record Deleted');
-        return redirect('/bank-account');
+        return redirect()->route('bank-account.show', $bankWithdraw->bankAccount);
+    }
+
+    public function restore($bankWithdraw)
+    {
+        BankWithdraw::onlyTrashed()->find($bankWithdraw)->restore();
+
+        $bankWithdraw = BankWithdraw::find($bankWithdraw);
+        $bankWithdraw->bankAccount->balance -= $bankWithdraw->amount;
+        $bankWithdraw->push();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($bankWithdraw)
+    {
+        BankWithdraw::onlyTrashed()->find($bankWithdraw)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 
     public function editStatus(BankWithdraw $bankWithdraw)
     {
-        $bankWithdraw = BankWithdraw::find($bankWithdraw->id);
         return view('bank-accounts.change-withdraw-status', compact('bankWithdraw'));
     }
 
@@ -97,7 +116,6 @@ class BankWithdrawController extends Controller
             'date'=>'nullable|required_if:status,Drawn|before_or_equal:today|after_or_equal:'.$bankWithdraw->getOriginal('date_of_issue'),
         ]);
 
-        $bankWithdraw = BankWithdraw::find($bankWithdraw->id);
         $bankWithdraw->status = $request->status;
         if ($request->status == 'Drawn')
         {

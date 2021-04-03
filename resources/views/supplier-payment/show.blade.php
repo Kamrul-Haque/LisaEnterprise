@@ -70,11 +70,13 @@
                                         <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{route('supplier-payment.edit', $payment)}}">Change Status</a>
                                     @endif
                                     @auth('admin')
-                                        <form class="pl-1" action="{{route('admin.supplier-payment.destroy', $payment)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        </form>
+                                        <button class="btn btn-warning btn-sm" title="delete" data-toggle="modal" data-target="#delete{{$loop->index}}">
+                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                        </button>
+                                        @component('layouts.components.delete-modal')
+                                            action="{{route('admin.supplier-payment.destroy', $payment)}}"
+                                            @slot('loop') {{$loop->index}} @endslot
+                                        @endcomponent
                                     @endauth
                                 </div>
                             </td>

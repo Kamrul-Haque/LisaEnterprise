@@ -36,39 +36,9 @@
         @if($cashs->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>OPERATIONS</th>
-                        </tr>
-                        <tbody>
-                        @foreach ($cashs as $cash)
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$cash->type}} </td>
-                                <td> {{number_format($cash->amount, 2)}} </td>
-                                <td> {{$cash->date}} </td>
-                                <td> {{$cash->title}} </td>
-                                <td> {{$cash->description}} </td>
-                                <td>
-                                    @auth('admin')
-                                    <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                        <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                    </button>
-                                    @endauth
-                                </td>
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.cash-register.destroy', $cash)}}"
-                            @endcomponent
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.cash-register-table', ['cashs'=>$cashs])
+                        cash
+                    @endcomponent
                 </div>
             </div>
         @else

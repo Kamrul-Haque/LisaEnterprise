@@ -19,15 +19,11 @@
         <h2 style="float: right">Godowns</h2>
         <hr>
         @if($godowns->count())
-            @foreach($godowns as $godown)
-            <div class="pb-1">
-                <div class="card card-body bg-light">
-                    <a href="{{route('godowns.show', $godown)}} "><h4>{{$godown->name}}</h4></a>
-                    <small>{{$godown->location}}</small>
-                    <small>{{$godown->phone}}</small>
-                </div>
+            <div class="card card-body bg-light">
+                @component('layouts.components.godown-table', ['godowns'=>$godowns])
+                    godowns
+                @endcomponent
             </div>
-            @endforeach
         @else
         <div class="card card-body bg-light text-center">
             <p class="display-4">No Records Found!</p>

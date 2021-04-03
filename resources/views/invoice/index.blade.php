@@ -12,21 +12,6 @@
             margin-left: 3px;
         }
     </style>
-    @if(Auth::guard('admin')->check())
-        <style>
-            th{
-                background-color: #23272b;
-                color: whitesmoke;
-            }
-        </style>
-    @else
-        <style>
-            th{
-                background-color: #3490dc;
-                color: whitesmoke;
-            }
-        </style>
-    @endif
 @endsection
 @section('content')
     <div class="container-fluid pr-5 pl-5">
@@ -36,58 +21,9 @@
         @if($invoices->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>SL NO.</th>
-                            <th>Date</th>
-                            <th>Client Name</th>
-                            <th>Labour Cost</th>
-                            <th>Transport Cost</th>
-                            <th>Subtotal</th>
-                            <th>Discount</th>
-                            <th>Grand Total</th>
-                            <th>Paid</th>
-                            <th>Due</th>
-                            <th>Sold By</th>
-                            <th class="text-center">OPERATIONS</th>
-                        </tr>
-                        <tbody>
-                        @foreach ($invoices as $invoice)
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$invoice->sl_no}} </td>
-                                <td> {{$invoice->date}} </td>
-                                <td> {{$invoice->client->name}} </td>
-                                <td> {{$invoice->labour_cost}} </td>
-                                <td> {{$invoice->transport_cost}} </td>
-                                <td> {{$invoice->subtotal}} </td>
-                                <td> {{$invoice->discount}}</td>
-                                <td> {{$invoice->grand_total}} </td>
-                                @if($invoice->clientPayment->status != 'N/A')
-                                <td> {{$invoice->paid}}({{$invoice->clientPayment->status}}) </td>
-                                @else
-                                <td>{{$invoice->paid}}</td>
-                                @endif
-                                <td> {{$invoice->due}} </td>
-                                <td> {{$invoice->sold_by}} </td>
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <a href="{{route('invoices.show',$invoice)}}" class="btn d-block btn-dark btn-sm" title="details"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        @auth('admin')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                        </button>
-                                        @endauth
-                                    </div>
-                                </td>
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.invoices.destroy', $invoice)}}"
-                            @endcomponent
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.invoice-table', ['invoices'=>$invoices])
+                        invoice
+                    @endcomponent
                 </div>
             </div>
         @else

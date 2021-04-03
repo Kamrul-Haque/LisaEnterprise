@@ -9,21 +9,6 @@
             margin: 0;
         }
     </style>
-    @if(Auth::guard('admin')->check())
-        <style>
-            th{
-                background-color: #23272b;
-                color: whitesmoke;
-            }
-        </style>
-    @else
-        <style>
-            th{
-                background-color: #3490dc;
-                color: whitesmoke;
-            }
-        </style>
-    @endif
 @endsection
 @section('content')
     <div class="container-fluid pl-5 pr-5">
@@ -33,45 +18,9 @@
         @if($clients->count())
             <div class="card card-body bg-light ">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>PHONE</th>
-                            <th>ADDRESS</th>
-                            <th>Total Due</th>
-                            <th>Total Purchase</th>
-                            <th class="text-center">OPERATIONS</th>
-                        </tr>
-                        <tbody>
-                        @foreach ($clients as $client)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td> {{$client->name}} </td>
-                                <td> {{$client->email}} </td>
-                                <td> {{$client->phone}} </td>
-                                <td> {{$client->address}} </td>
-                                <td> {{$client->total_due}} </td>
-                                <td> {{$client->total_purchase}} </td>
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <a href="{{route('clients.show',$client)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <div class="pl-1">
-                                            <a href="{{route('clients.edit',$client)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        </div>
-                                        @auth('admin')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                        @endauth
-                                    </div>
-                                </td>
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.clients.destroy', $client)}}"
-                            @endcomponent
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.client-table', ['clients'=>$clients])
+                        client
+                    @endcomponent
                 </div>
             </div>
         @else

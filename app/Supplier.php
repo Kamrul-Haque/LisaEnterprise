@@ -39,12 +39,12 @@ class Supplier extends Model implements Searchable
 
     public function entries()
     {
-        return $this->hasMany(Entry::class);
+        return $this->hasMany(Entry::class)->withTrashed();
     }
 
     public function supplierPayments()
     {
-        return $this->hasMany(SupplierPayment::class);
+        return $this->hasMany(SupplierPayment::class)->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

@@ -1,13 +1,6 @@
 @extends('layouts.app')
 @section('style')
     <style>
-        html, body, th {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            margin: 0;
-        }
         .container{
             width: 65%;
         }
@@ -15,21 +8,6 @@
             margin-left: 3px;
         }
     </style>
-    @if(Auth::guard('admin')->check())
-        <style>
-            th{
-                background-color: #23272b;
-                color: whitesmoke;
-            }
-        </style>
-    @else
-        <style>
-            th{
-                background-color: #3490dc;
-                color: whitesmoke;
-            }
-        </style>
-    @endif
 @endsection
 @section('content')
     <div class="container">
@@ -39,38 +17,9 @@
         @if($products->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <tr>
-                            <th>#</th>
-                            <th>NAME</th>
-                            <th>Quantity</th>
-                            <th>Unit</th>
-                            <th class="text-center">OPERATIONS</th>
-                        </tr>
-                        <tbody>
-                            @foreach ($products as $product)
-                                <tr>
-                                    <td> {{$loop->iteration}} </td>
-                                    <td> {{$product->name}} </td>
-                                    <td> {{$product->totalQuantity()}} </td>
-                                    <td> {{$product->unit}} </td>
-                                    <td>
-                                        <div class="row justify-content-center">
-                                            <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                            @auth('admin')
-                                            <button class="btn btn-warning btn-sm ml-1" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                                <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                            </button>
-                                            @endauth
-                                        </div>
-                                    </td>
-                                </tr>
-                                @component('layouts.components.delete-modal')
-                                    action="{{route('admin.products.destroy', $product)}}"
-                                @endcomponent
-                            @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.product-table', ['products'=>$products])
+                        product
+                    @endcomponent
                 </div>
             </div>
         @else

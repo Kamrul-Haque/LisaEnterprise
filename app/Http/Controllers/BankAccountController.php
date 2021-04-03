@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BankAccount;
+use App\BankDeposit;
+use App\BankWithdraw;
 use DB;
 use Illuminate\Http\Request;
 
@@ -63,8 +65,9 @@ class BankAccountController extends Controller
      */
     public function show(BankAccount $bankAccount)
     {
-        $bankAccount = BankAccount::find($bankAccount->id);
-        return view('bank-accounts.show', compact('bankAccount'));
+        $bankDeposits = BankDeposit::where('bank_account_id', $bankAccount->id)->get();
+        $bankWithdraws = BankWithdraw::where('bank_account_id', $bankAccount->id)->get();
+        return view('bank-accounts.show', compact('bankAccount', 'bankDeposits','bankWithdraws'));
     }
 
     /**
@@ -75,7 +78,6 @@ class BankAccountController extends Controller
      */
     public function edit(BankAccount $bankAccount)
     {
-        $bankAccount = BankAccount::find($bankAccount->id);
         return view('bank-accounts.edit', compact('bankAccount'));
     }
 
@@ -95,7 +97,6 @@ class BankAccountController extends Controller
             'balance'=>'nullable|numeric',
         ]);
 
-        $bankAccount = BankAccount::find($bankAccount->id);
         $bankAccount->bank_name = $request->bank;
         $bankAccount->branch = $request->branch;
         $bankAccount->account_no = $request->account_no;
@@ -114,7 +115,6 @@ class BankAccountController extends Controller
      */
     public function destroy(BankAccount $bankAccount)
     {
-        $bankAccount = BankAccount::find($bankAccount->id);
         $bankAccount->delete();
 
         toastr()->warning('Record Deleted');
@@ -127,5 +127,21 @@ class BankAccountController extends Controller
 
         toastr()->error('All Records Deleted');
         return redirect('/bank-account');
+    }
+
+    public function restore($bankAccount)
+    {
+        BankAccount::onlyTrashed()->find($bankAccount)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($bankAccount)
+    {
+        BankAccount::onlyTrashed()->find($bankAccount)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

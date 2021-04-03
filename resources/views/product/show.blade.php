@@ -59,11 +59,13 @@
                                 <div class="row justify-content-center">
                                     <a href="{{route('products.edit', $product)}} " class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
                                     @auth('admin')
-                                    <form class="pl-1" action="{{route('admin.products.destroy', $product)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                    </form>
+                                        <button class="btn btn-warning btn-sm" title="delete" data-toggle="modal" data-target="#delete{{$loop->index}}">
+                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                        </button>
+                                        @component('layouts.components.delete-modal')
+                                            action="{{route('admin.products.destroy', $product)}}"
+                                            @slot('loop') {{$loop->index}} @endslot
+                                        @endcomponent
                                     @endauth
                                 </div>
                             </td>

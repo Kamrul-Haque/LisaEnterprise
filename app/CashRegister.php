@@ -36,6 +36,6 @@ class CashRegister extends Model implements Searchable
 
     public function bankAccount()
     {
-        return $this->belongsTo(BankAccount::class);
+        return $this->belongsTo(BankAccount::class)->withTrashed();
     }
 }

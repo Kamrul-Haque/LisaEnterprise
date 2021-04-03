@@ -67,7 +67,6 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $client = Client::find($client->id);
         $invoices = $client->invoices()->paginate(7);
         $payments = $client->clientPayments()->paginate(7);
         return view('client.show', compact('client','invoices', 'payments'));
@@ -81,15 +80,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        if(Auth::guard('admin')->check())
-        {
-            $client = Client::find($client->id);
-            return view('client.edit', compact('client'));
-        }
-        else
-        {
-            return back();
-        }
+        return view('client.edit', compact('client'));
     }
 
     /**
@@ -108,7 +99,6 @@ class ClientController extends Controller
             'address' => 'required',
         ]);
 
-        $client = Client::find($client->id);
         $client->name = $request->input('name');
         $client->email = $request->input('email');
         $client->phone = $request->input('phone');
@@ -129,7 +119,6 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        $client = Client::find($client->id);
         $client->delete();
 
         toastr()->warning('Entry Deleted!');
@@ -142,5 +131,21 @@ class ClientController extends Controller
 
         toastr()->error('All Records Deleted');
         return redirect('/clients');
+    }
+
+    public function restore($client)
+    {
+        Client::onlyTrashed()->find($client)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($client)
+    {
+        Client::onlyTrashed()->find($client)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

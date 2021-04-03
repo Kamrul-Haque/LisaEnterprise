@@ -33,58 +33,9 @@
         @if($clientPayments->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                       <tr>
-                           <th>#</th>
-                           <th>SL No.</th>
-                           <th>Client Name</th>
-                           <th>Type</th>
-                           <th>Amount</th>
-                           <th>Payment Date</th>
-                           <th>Account No.</th>
-                           <th>Status</th>
-                           <th>Date of Draw</th>
-                           <th>Card No.</th>
-                           <th>Validity</th>
-                           <th>CVV</th>
-                           <th>Received By</th>
-                           <th>OPERATIONS</th>
-                       </tr>
-                        <tbody>
-                        @foreach ($clientPayments as $payment)
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$payment->sl_no}} </td>
-                                <td> {{$payment->client->name}} </td>
-                                <td> {{$payment->type}} </td>
-                                <td> {{$payment->amount}} </td>
-                                <td> {{$payment->date_of_issue}} </td>
-                                <td> {{$payment->acc_no}} </td>
-                                <td> {{$payment->status}} </td>
-                                <td> {{$payment->date_of_draw}} </td>
-                                <td> {{$payment->card_no}} </td>
-                                <td> {{$payment->validity}} </td>
-                                <td> {{$payment->cvv}} </td>
-                                <td> {{$payment->received_by}} </td>
-                                <td>
-                                    <div class="row justify-content-center">
-                                        @if($payment->status == 'Pending')
-                                        <a class="btn btn-outline-primary btn-sm d-inline-block" href="{{ route('client-payment.edit', $payment) }}">Change Status</a>
-                                        @endif
-                                        @auth('admin')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete" data-toggle="modal" data-target="#delete">
-                                            <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
-                                        </button>
-                                        @endauth
-                                    </div>
-                                </td>
-                            </tr>
-                            @component('layouts.components.delete-modal')
-                                action="{{route('admin.client-payment.destroy', $payment)}}"
-                            @endcomponent
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.client-payment-table', ['clientPayments'=>$clientPayments])
+                        clientPayment
+                    @endcomponent
                 </div>
             </div>
         @else

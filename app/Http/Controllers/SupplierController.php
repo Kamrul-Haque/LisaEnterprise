@@ -66,7 +66,6 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        $supplier = Supplier::find($supplier->id);
         return view('supplier.show', compact('supplier'));
     }
 
@@ -78,7 +77,6 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        $supplier = Supplier::find($supplier->id);
         return view('supplier.edit', compact('supplier'));
     }
 
@@ -99,7 +97,6 @@ class SupplierController extends Controller
             'paid'=>'nullable|numeric|between:0,999999999.99',
         ]);
 
-        $supplier = Supplier::find($supplier->id);
         $supplier->name = $request->name;
         $supplier->email = $request->email;
         $supplier->phone = $request->phone;
@@ -120,7 +117,6 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier = Supplier::find($supplier->id);
         $supplier->delete();
 
         toastr()->warning('Entry Deleted');
@@ -133,5 +129,21 @@ class SupplierController extends Controller
 
         toastr()->error('All Records Deleted');
         return redirect('/suppliers');
+    }
+
+    public function restore($supplier)
+    {
+        Supplier::onlyTrashed()->find($supplier)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($supplier)
+    {
+        Supplier::onlyTrashed()->find($supplier)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

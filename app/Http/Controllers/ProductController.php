@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
-use App\InvoiceProduct;
 use App\Product;
 use Auth;
 use Illuminate\Http\Request;
@@ -62,7 +60,6 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::find($product->id);
         return view('product.show',compact('product'));
     }
 
@@ -80,15 +77,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        if (Auth::guard('admin')->check())
-        {
-            $product = Product::find($product->id);
-            return view('product.edit', compact('product'));
-        }
-        else
-        {
-            return back();
-        }
+        return view('product.edit', compact('product'));
     }
 
     /**
@@ -122,7 +111,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product = Product::find($product->id);
         $product->delete();
 
         toastr()->warning('Entry Deleted!');
@@ -142,5 +130,21 @@ class ProductController extends Controller
 
         toastr()->error('All Records Deleted!');
         return redirect('/admin/products');
+    }
+
+    public function restore($product)
+    {
+        Product::onlyTrashed()->find($product)->restore();
+
+        toastr()->success('Entry Restored!');
+        return back();
+    }
+
+    public function forceDelete($product)
+    {
+        Product::onlyTrashed()->find($product)->forceDelete();
+
+        toastr()->error('Entry Permanently Deleted!');
+        return back();
     }
 }

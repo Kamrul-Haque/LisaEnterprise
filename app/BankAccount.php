@@ -37,16 +37,16 @@ class BankAccount extends Model
 
     public function bankDeposits()
     {
-        return $this->hasMany(BankDeposit::class);
+        return $this->hasMany(BankDeposit::class)->withTrashed();
     }
 
     public function bankWithdraws()
     {
-        return $this->hasMany(BankWithdraw::class);
+        return $this->hasMany(BankWithdraw::class)->withTrashed();
     }
 
     public function cashResister()
     {
-        return $this->hasOne(CashRegister::class);
+        return $this->hasOne(CashRegister::class)->withTrashed();
     }
 }

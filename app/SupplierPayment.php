@@ -34,7 +34,7 @@ class SupplierPayment extends Model implements Searchable
 
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Supplier::class)->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

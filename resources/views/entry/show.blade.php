@@ -63,11 +63,13 @@
                             @auth('admin')
                             <td>
                                 <div class="row justify-content-center">
-                                    <form class="pl-1" action="{{route('admin.entries.destroy', $entry->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-warning btn-sm" name="delete" title="delete"><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                    </form>
+                                    <button class="btn btn-warning btn-sm" title="delete" data-toggle="modal" data-target="#delete{{$loop->index}}">
+                                        <span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span>
+                                    </button>
+                                    @component('layouts.components.delete-modal')
+                                        action="{{route('admin.entries.destroy', $entry)}}"
+                                        @slot('loop') {{$loop->index}} @endslot
+                                    @endcomponent
                                 </div>
                             </td>
                             @endauth

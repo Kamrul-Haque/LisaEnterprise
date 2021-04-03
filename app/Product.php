@@ -59,7 +59,7 @@ class Product extends Model implements Searchable
 
     public function entries()
     {
-        return $this->hasMany(Entry::class);
+        return $this->hasMany(Entry::class)->withTrashed();
     }
 
     public function godowns()
@@ -69,12 +69,12 @@ class Product extends Model implements Searchable
 
     public function invoiceProducts()
     {
-        return $this->hasMany(InvoiceProduct::class);
+        return $this->hasMany(InvoiceProduct::class)->withTrashed();
     }
 
     public function productTransfers()
     {
-        return $this->hasMany(ProductTransfer::class);
+        return $this->hasMany(ProductTransfer::class)->withTrashed();
     }
 
     public function getSearchResult(): SearchResult

@@ -33,44 +33,9 @@
         @if($bankAccounts->count())
             <div class="card card-body bg-light">
                 <div class="table-responsive-lg">
-                    <table class="table table-striped table-hover pt-3" id="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Account No.</th>
-                                <th>Bank Name</th>
-                                <th>Branch</th>
-                                <th>Balance</th>
-                                <th class="text-center">Operations</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($bankAccounts as $bankAccount)
-                            <tr>
-                                <td> {{$loop->index + 1}} </td>
-                                <td> {{$bankAccount->account_no}} </td>
-                                <td> {{$bankAccount->bank_name}} </td>
-                                <td> {{$bankAccount->branch}} </td>
-                                <td> {{$bankAccount->balance}} </td>
-                                <td>
-                                    <div class="row justify-content-center">
-                                        <a href="{{route('bank-account.show',$bankAccount)}}" class="btn btn-dark btn-sm" title="client history"><span data-feather="eye" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        <div class="pl-1">
-                                            <a href="{{route('bank-account.edit',$bankAccount)}}" class="btn btn-primary btn-sm" title="edit"><span data-feather="edit" style="height: 15px; width: 15px; padding: 0"></span></a>
-                                        </div>
-
-                                            <form action="{{ route('admin.bank-account.destroy', $bankAccount) }}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-warning btn-sm ml-1" ><span data-feather="trash-2" style="height: 15px; width: 15px; padding: 0"></span></button>
-                                            </form>
-
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @component('layouts.components.bank-account-table', ['bankAccounts'=>$bankAccounts])
+                        bank
+                    @endcomponent
                 </div>
             </div>
         @else

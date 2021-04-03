@@ -12,11 +12,6 @@ class BankWithdraw extends Model
 
     protected $guarded = [];
 
-    public function bankAccount()
-    {
-        return $this->belongsTo(BankAccount::class);
-    }
-
     public function getDateOfIssueAttribute($value)
     {
         if ($value)
@@ -33,5 +28,10 @@ class BankWithdraw extends Model
             $carbon = new Carbon($value);
             return $carbon->format('d/m/Y');
         }
+    }
+
+    public function bankAccount()
+    {
+        return $this->belongsTo(BankAccount::class)->withTrashed();
     }
 }
